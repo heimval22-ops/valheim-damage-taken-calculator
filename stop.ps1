@@ -4,7 +4,9 @@ $Port = 8080
 
 Write-Host ">> Looking for server on port $Port..." -ForegroundColor Cyan
 
-$connection = Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue
+$connection = Get-NetTCPConnection -LocalPort $Port -ErrorAction SilentlyContinue |
+              Where-Object { $_.State -in @('Listen','Established','CloseWait') } |
+              Select-Object -First 1
 
 if (-not $connection) {
     Write-Host ">> No process is listening on port $Port. Server is already stopped." -ForegroundColor Yellow

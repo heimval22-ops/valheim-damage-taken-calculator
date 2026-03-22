@@ -50,12 +50,13 @@ class DamageCalculatorTest {
 
         ExpectedOutput exp = tc.expected;
         assertAll(
-                () -> assertEquals(exp.baseRawDamage,         mob.rawDamage(),                0.001, "baseRawDamage"),
-                () -> assertEquals(exp.effectiveRawDamage,    mob.getEffectiveRawDamage(difficulty), 0.001, "effectiveRawDamage"),
-                () -> assertEquals(exp.blockingReducedDamage, result.blockingReducedDamage(), 0.001, "blockingReducedDamage"),
-                () -> assertEquals(exp.finalReducedDamage,    result.finalReducedDamage(),    0.001, "finalReducedDamage"),
-                () -> assertEquals(exp.remainingHealth,       result.remainingHealth(),       0.001, "remainingHealth"),
-                () -> assertEquals(StaggerResult.valueOf(exp.stagger), result.stagger(),              "stagger")
+                () -> assertEquals(exp.baseRawDamage,           mob.rawDamage(),                        0.001, "baseRawDamage"),
+                () -> assertEquals(exp.effectiveRawDamage,      mob.getEffectiveRawDamage(difficulty),  0.001, "effectiveRawDamage"),
+                () -> assertEquals(exp.blockingReducedDamage,   result.blockingReducedDamage(),         0.001, "blockingReducedDamage"),
+                () -> assertEquals(exp.finalReducedDamage,      result.finalReducedDamage(),            0.001, "finalReducedDamage"),
+                () -> assertEquals(exp.remainingHealth,         result.remainingHealth(),               0.001, "remainingHealth"),
+                () -> assertEquals(StaggerResult.valueOf(exp.stagger), result.stagger(),                       "stagger"),
+                () -> assertEquals(exp.minHealthForNoStagger,   result.minHealthForNoStagger(),                "minHealthForNoStagger")
         );
     }
 
@@ -100,5 +101,6 @@ class DamageCalculatorTest {
         public double finalReducedDamage;
         public double remainingHealth;
         public String stagger;
+        public int minHealthForNoStagger;
     }
 }

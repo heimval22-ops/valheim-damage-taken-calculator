@@ -8,6 +8,7 @@ public record DamageResult(
         double blockingReducedDamage,
         double finalReducedDamage,
         double remainingHealth,
-        StaggerResult stagger
+        StaggerResult stagger,
+        int minHealthForNoStagger
 ) {}
 
