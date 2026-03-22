@@ -12,7 +12,8 @@
       "blockingReducedDamage": 60.0,
       "finalReducedDamage": 30.0,
       "remainingHealth": 70.0,
-      "stagger": "NONE"
+      "stagger": "NO",
+      "minHealthForNoStagger": 75
     }
   },
   {
@@ -28,7 +29,8 @@
       "blockingReducedDamage": 40.0,
       "finalReducedDamage": 13.333,
       "remainingHealth": 86.667,
-      "stagger": "NONE"
+      "stagger": "NO",
+      "minHealthForNoStagger": 100
     }
   },
   {
@@ -44,7 +46,8 @@
       "blockingReducedDamage": 47.841,
       "finalReducedDamage": 13.623,
       "remainingHealth": 106.377,
-      "stagger": "NONE"
+      "stagger": "NO",
+      "minHealthForNoStagger": 120
     }
   },
   {
@@ -60,7 +63,8 @@
       "blockingReducedDamage": 150.0,
       "finalReducedDamage": 130.0,
       "remainingHealth": -50.0,
-      "stagger": "ON_ARMOR"
+      "stagger": "YES",
+      "minHealthForNoStagger": 325
     }
   },
   {
@@ -76,7 +80,25 @@
       "blockingReducedDamage": 150.0,
       "finalReducedDamage": 125.0,
       "remainingHealth": -45.0,
-      "stagger": "ON_BLOCK"
+      "stagger": "YES",
+      "minHealthForNoStagger": 349
+    }
+  },
+  {
+    "name": "Normal / 0★ / no shield — zero raw damage (Immune)",
+    "mob":    { "rawDamage": 0.0, "starLevel": 0 },
+    "player": { "maxHealth": 100.0, "blockingSkill": 0.0, "blockingArmor": 0.0, "armor": 30.0, "parryBonus": "X1" },
+    "difficulty": "NORMAL",
+    "useShield": false,
+    "isParry": false,
+    "expected": {
+      "baseRawDamage": 0.0,
+      "effectiveRawDamage": 0.0,
+      "blockingReducedDamage": 0.0,
+      "finalReducedDamage": 0.0,
+      "remainingHealth": 100.0,
+      "stagger": "NO",
+      "minHealthForNoStagger": 0
     }
   }
 ]

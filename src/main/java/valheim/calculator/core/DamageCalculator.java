@@ -54,6 +54,10 @@ public class DamageCalculator {
         // --- Blocking phase ---
         double blockingReducedDamage = effectiveRawDamage; // default: no shield → no blocking reduction
         boolean staggeredOnBlock = false;
+        // bindingStaggerDamage: the damage value that governs stagger threshold.
+        // For shield scenarios afterBlock is the gate (armor can only reduce further).
+        // For no-shield, afterArmor is the sole stagger source — set below.
+        double bindingStaggerDamage = 0;
 
         if (useShield) {
             double parryMultiplier = isParry ? player.parryMultiplier() : 1.0;
@@ -61,6 +65,7 @@ public class DamageCalculator {
                     player.blockingSkill(), player.blockingArmor(), parryMultiplier);
 
             double afterBlock = applyArmorReduction(effectiveRawDamage, effectiveBlockArmor);
+            bindingStaggerDamage = afterBlock;
 
             if (afterBlock > staggerBar) {
                 // Player is staggered on block — no damage is reduced by blocking
@@ -73,16 +78,17 @@ public class DamageCalculator {
 
         // --- Armor phase ---
         double afterArmor = applyArmorReduction(blockingReducedDamage, player.armor());
+        if (!useShield) {
+            bindingStaggerDamage = afterArmor;
+        }
+
+        // Minimum max health for no stagger: ceil(bindingDamage / 0.4)
+        int minHealthForNoStagger = (int) Math.ceil(bindingStaggerDamage / 0.4);
 
         // Determine stagger: block-stagger gates armor-stagger (no double-stagger).
-        StaggerResult stagger;
-        if (staggeredOnBlock) {
-            stagger = StaggerResult.ON_BLOCK;
-        } else if (afterArmor > staggerBar) {
-            stagger = StaggerResult.ON_ARMOR;
-        } else {
-            stagger = StaggerResult.NONE;
-        }
+        StaggerResult stagger = (staggeredOnBlock || afterArmor > staggerBar)
+                ? StaggerResult.YES
+                : StaggerResult.NO;
 
         double remainingHealth = player.maxHealth() - afterArmor;
 
@@ -101,6 +107,7 @@ public class DamageCalculator {
                 .finalReducedDamage(afterArmor)
                 .remainingHealth(remainingHealth)
                 .stagger(stagger)
+                .minHealthForNoStagger(minHealthForNoStagger)
                 .build();
     }
 }

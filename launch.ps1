@@ -16,6 +16,22 @@ $JarPath     = Join-Path $ProjectRoot "target\$JarName"
 
 Set-Location $ProjectRoot
 
+# ── Kill any process already on port 8080 ────────────────────────────────────
+$existingConn = Get-NetTCPConnection -LocalPort 8080 -ErrorAction SilentlyContinue |
+                Where-Object { $_.State -in @('Listen','Established','CloseWait') } |
+                Select-Object -First 1
+
+if ($existingConn) {
+    $existingPid = $existingConn.OwningProcess
+    $existingProc = Get-Process -Id $existingPid -ErrorAction SilentlyContinue
+    if ($existingProc) {
+        Write-Host ">> Port 8080 is in use by '$($existingProc.Name)' (PID $existingPid). Stopping it..." -ForegroundColor Yellow
+        Stop-Process -Id $existingPid -Force
+        Start-Sleep -Milliseconds 800
+        Write-Host ">> Previous server stopped." -ForegroundColor Green
+    }
+}
+
 # ── Build ────────────────────────────────────────────────────────────────────
 if (-not $SkipBuild) {
     Write-Host ">> Building project..." -ForegroundColor Cyan
