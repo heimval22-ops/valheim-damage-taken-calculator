@@ -600,11 +600,11 @@
             </div>
             <div class="pipe-step">
                 <span class="pipe-num">2</span>
-                <span class="pipe-text">Effective damage is reduced by shield / block armor → <strong>Block-Reduced Damage</strong></span>
+                <span class="pipe-text">Effective damage is reduced by block armor → <strong>Block-Reduced Damage</strong></span>
             </div>
             <div class="pipe-step">
                 <span class="pipe-num">3</span>
-                <span class="pipe-text">Remaining damage is reduced by body armor → <strong>Final Damage</strong></span>
+                <span class="pipe-text">Block reduced damage is reduced by body armor → <strong>Final Damage</strong></span>
             </div>
             <div class="pipe-step">
                 <span class="pipe-num">4</span>
@@ -916,8 +916,8 @@
             : `Effective Damage = <span>${fmt(base)}</span>`;
 
         // Per-scenario rows
-        const BLOCK_TIP     = 'Remaining damage after the block-armor reduction is applied to the effective raw damage — before body armor is factored in.';
-        const FINAL_TIP     = 'The final damage after both the block and body-armor damage reductions have been applied to the raw damage.';
+        const BLOCK_TIP     = 'Remaining damage after the block armor reduction is applied to the effective raw damage — before body armor is factored in.';
+        const FINAL_TIP     = 'The final damage after the body armor damage reduction is applied to the block reduced damage.';
         const mkTip = txt => `<span class="tip-wrap"><i class="tip-icon">?</i><span class="tip-text">${txt}</span></span>`;
         const rows = [
             { label: `Block-Reduced Damage ${mkTip(BLOCK_TIP)}`,               fn: s => fmt(s.blockingReducedDamage) },
