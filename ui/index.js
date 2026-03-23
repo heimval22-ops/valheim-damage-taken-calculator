@@ -1,4 +1,4 @@
-import { calculate } from './damage-calculator.js?v=4';
+import { calculate } from './damage-calculator.js?v=5';
 
 /* ── Constants ── */
 const DEFAULTS = Object.freeze({
@@ -14,19 +14,14 @@ const DEFAULTS = Object.freeze({
     extraDamageEnabled: 'no',
 });
 const LS_FORM = 'valheim-form';
-const LS_HISTORY = 'valheim-history';
-const MAX_HISTORY = 10;
 const LEGACY_PARRY_MULTIPLIERS = { X1: 1, X1_5: 1.5, X2: 2, X2_5: 2.5, X4: 4, X6: 6 };
 const PARRY_MULTIPLIER_PRESETS = [1, 1.5, 2, 2.5, 4, 6];
 
 const form = document.getElementById('calcForm');
 const errBox = document.getElementById('error');
 const results = document.getElementById('results');
-const historyEl = document.getElementById('history');
-const historyListEl = document.getElementById('historyList');
 const formulaDetailsEl = document.getElementById('formulaDetails');
 const formulaEl = document.getElementById('formula');
-const entryLabelEl = document.getElementById('entryLabel');
 const rawSummaryEl = document.getElementById('rawSummary');
 const modifierLineEl = document.getElementById('modifierLine');
 const tbodyEl = document.getElementById('tbody');
@@ -49,8 +44,35 @@ const parryPresetEl = document.getElementById('parryMultiplierPreset');
 const parryCustomFieldEl = document.getElementById('customParryMultiplierField');
 const parryCustomInputEl = document.getElementById('parryMultiplier');
 const resetBtnEl = document.getElementById('resetBtn');
-const clearHistoryBtnEl = document.getElementById('clearHistoryBtn');
 const mobPresetEl = document.getElementById('mobPreset');
+
+/* ── Tab DOM refs ── */
+const tabSimulatorEl   = document.getElementById('tab-simulator');
+const tabCalculatorEl  = document.getElementById('tab-calculator');
+
+function switchTab(name) {
+    const isSimulator = name === 'simulator';
+    tabSimulatorEl.hidden  = !isSimulator;
+    tabCalculatorEl.hidden = isSimulator;
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        const active = btn.dataset.tab === name;
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+}
+
+/* ── Hit Simulator DOM refs ── */
+const hitSimulatorEl      = document.getElementById('hitSimulator');
+const simTakeHitBtnEl     = document.getElementById('simTakeHitBtn');
+const simResetBtnEl       = document.getElementById('simResetBtn');
+const simClearLogBtnEl    = document.getElementById('simClearLogBtn');
+const simBarFillEl        = document.getElementById('simBarFill');
+const simHpCurrentEl      = document.getElementById('simHpCurrent');
+const simHpMaxEl          = document.getElementById('simHpMax');
+const simDeathIconEl      = document.getElementById('simDeathIcon');
+const simErrorEl          = document.getElementById('simError');
+const simLogEl            = document.getElementById('simLog');
+const simScenarioRadios   = () => document.querySelectorAll('input[name="simScenario"]');
 
 function sanitizeExtraDamagePercent(value, fallback = DEFAULTS.extraDamagePercent) {
     const parsed = Number(value);
@@ -165,6 +187,72 @@ function collectFormState() {
     };
 }
 
+/* ── Hit Simulator state ── */
+let simState = null; // { maxHealth, currentHp, hitCount }
+
+function getSelectedSimScenario() {
+    for (const radio of simScenarioRadios()) {
+        if (radio.checked) return radio.value;
+    }
+    return 'noShield';
+}
+
+const SIM_SCENARIO_LABELS = { noShield: 'No Shield', block: 'Block', parry: 'Parry' };
+
+/**
+ * Initialise (or re-initialise) the simulator from the current form values.
+ * Does NOT require Calculate to have been run first.
+ */
+function initHitSimulator() {
+    const maxHp = parseFloat(maxHealthEl.value) || 0;
+    simState = { maxHealth: maxHp, currentHp: maxHp, hitCount: 0 };
+    simLogEl.innerHTML = '';
+    simErrorEl.hidden = true;
+    renderHitSimulator();
+}
+
+function renderHitSimulator() {
+    if (!simState) return;
+    const { maxHealth, currentHp } = simState;
+    const isDead = currentHp <= 0;
+    const pct = maxHealth > 0 ? Math.max(0, (currentHp / maxHealth) * 100) : 0;
+
+    simHpMaxEl.textContent = fmt(maxHealth);
+    simHpCurrentEl.textContent = isDead ? '0.000' : fmt(currentHp);
+    simDeathIconEl.hidden = !isDead;
+
+    simBarFillEl.style.width = pct + '%';
+    simBarFillEl.classList.remove('sim-bar-warning', 'sim-bar-critical', 'sim-bar-dead');
+    if (isDead) {
+        simBarFillEl.classList.add('sim-bar-dead');
+    } else if (pct <= 20) {
+        simBarFillEl.classList.add('sim-bar-critical');
+    } else if (pct <= 50) {
+        simBarFillEl.classList.add('sim-bar-warning');
+    }
+
+    simTakeHitBtnEl.disabled = isDead;
+}
+
+function appendSimLogEntry(hitNum, scenarioKey, damage, hpAfter, staggered, rawHpAfter) {
+    const isDead = hpAfter <= 0;
+    const hpText = isDead
+        ? `<span class="sim-log-hp sim-log-dead tip-wrap">0.000 💀<span class="tip-text">${fmt(rawHpAfter)}</span></span>`
+        : `<span class="sim-log-hp">${fmt(hpAfter)} HP</span>`;
+    const staggerBadge = staggered ? `<span class="sim-log-stagger">⚠ Staggered</span>` : '';
+    const scenarioLabel = SIM_SCENARIO_LABELS[scenarioKey] ?? scenarioKey;
+
+    const li = document.createElement('li');
+    li.className = 'sim-log-entry';
+    li.innerHTML = `<span class="sim-log-hit-num">Hit #${hitNum}</span>`
+        + `<span class="sim-log-scenario">[${scenarioLabel}]</span>`
+        + `<span class="sim-log-dmg">−${fmt(damage)}</span>`
+        + hpText
+        + staggerBadge;
+    simLogEl.appendChild(li);
+    simLogEl.scrollTop = simLogEl.scrollHeight;
+}
+
 /* ── Form persistence ── */
 function applyForm(values) {
     rawDamageEl.value = values.rawDamage ?? DEFAULTS.rawDamage;
@@ -189,12 +277,12 @@ function saveForm() {
 
 function resetForm() {
     applyForm(DEFAULTS);
-    entryLabelEl.value = '';
     localStorage.removeItem(LS_FORM);
     results.style.display = 'none';
     errBox.style.display = 'none';
     formulaDetailsEl.hidden = true;
     formulaDetailsEl.open = false;
+    initHitSimulator();
 }
 
 function loadSavedForm(fallback = DEFAULTS) {
@@ -236,97 +324,12 @@ form.addEventListener('submit', async (event) => {
     try {
         const data = await calculate(requestInputs);
         render(data, formState);
-        const customLabel = entryLabelEl.value.trim();
-        pushHistory({
-            inputs: formState,
-            results: data,
-            label: customLabel || compressLabel(formState),
-            timestamp: Date.now(),
-        });
-        entryLabelEl.value = '';
-        renderHistory();
     } catch (error) {
         errBox.textContent = 'Error: ' + error.message;
         errBox.style.display = 'block';
         results.style.display = 'none';
     }
 });
-
-/* ── History ── */
-function loadHistory() {
-    try {
-        return JSON.parse(localStorage.getItem(LS_HISTORY)) ?? [];
-    } catch {
-        return [];
-    }
-}
-
-function pushHistory(entry) {
-    const history = loadHistory();
-    history.unshift(entry);
-    localStorage.setItem(LS_HISTORY, JSON.stringify(history.slice(0, MAX_HISTORY)));
-}
-
-function deleteHistory(index) {
-    const history = loadHistory();
-    history.splice(index, 1);
-    localStorage.setItem(LS_HISTORY, JSON.stringify(history));
-    renderHistory();
-}
-
-function compressLabel(inputs) {
-    const diffMap = { NORMAL: 'Normal', HARD: 'Hard', VERY_HARD: 'Very Hard' };
-    const extraDamagePercent = resolveExtraDamagePercentValue(inputs);
-    return [
-        `${inputs.rawDamage} dmg`,
-        `${inputs.starLevel}★`,
-        extraDamagePercent > 0 ? `Extra +${formatPercent(extraDamagePercent)}%` : null,
-        diffMap[inputs.difficulty] ?? inputs.difficulty,
-        `HP ${inputs.maxHealth}`,
-        `Armor ${inputs.armor}`,
-        `Block ${inputs.blockArmor} / Skill ${inputs.blockingSkill}`,
-        `Parry ${formatParryMultiplier(resolveParryMultiplierValue(inputs))}`,
-    ].filter(Boolean).join(' · ');
-}
-
-function renderHistory() {
-    const history = loadHistory();
-    if (!history.length) {
-        historyEl.style.display = 'none';
-        return;
-    }
-
-    historyEl.style.display = 'block';
-    historyListEl.innerHTML = history.map((entry, index) => `
-        <div class="history-entry">
-            <span class="history-label">${entry.label ?? compressLabel(entry.inputs)}</span>
-            <span class="history-meta">${new Date(entry.timestamp).toLocaleString()}</span>
-            <button class="load-btn" data-index="${index}">Load</button>
-            <button class="delete-btn" data-index="${index}" title="Delete entry">×</button>
-        </div>
-    `).join('');
-
-    historyListEl.querySelectorAll('.load-btn').forEach(button => {
-        button.addEventListener('click', () => {
-            const entry = loadHistory()[parseInt(button.dataset.index, 10)];
-            if (entry) {
-                loadEntry(entry);
-            }
-        });
-    });
-
-    historyListEl.querySelectorAll('.delete-btn').forEach(button => {
-        button.addEventListener('click', () => deleteHistory(parseInt(button.dataset.index, 10)));
-    });
-}
-
-function loadEntry(entry) {
-    applyForm(entry.inputs);
-    localStorage.setItem(LS_FORM, JSON.stringify(entry.inputs));
-    render(entry.results, entry.inputs);
-    errBox.style.display = 'none';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
 
 /* ── Rendering ── */
 function fmt(n) {
@@ -418,6 +421,7 @@ function render(data, inputs) {
 
     results.style.display = 'block';
     renderFormula(data, inputs);
+    initHitSimulator();
 }
 
 /* ── Formula breakdown ── */
@@ -637,7 +641,7 @@ function renderFormula(data, inputs) {
 async function initialize() {
     let presets = [];
     try {
-        const resp = await fetch('./mob-presets.json?v=2');
+        const resp = await fetch('./mob-presets.json?v=5');
         if (resp.ok) presets = await resp.json();
         populateMobPresets(presets);
     } catch (e) {
@@ -651,6 +655,8 @@ async function initialize() {
     loadSavedForm(firstVisitDefaults);
 
     form.addEventListener('input', saveForm);
+    form.addEventListener('input', initHitSimulator);
+    form.addEventListener('change', initHitSimulator);
     resetBtnEl.addEventListener('click', resetForm);
     extraDamageToggleEl.addEventListener('change', () => {
         if (extraDamageToggleEl.value === 'yes') {
@@ -694,12 +700,44 @@ async function initialize() {
         }
         mobPresetEl.value = '';
     });
-    clearHistoryBtnEl.addEventListener('click', () => {
-        localStorage.removeItem(LS_HISTORY);
-        renderHistory();
+
+    simTakeHitBtnEl.addEventListener('click', () => {
+        if (!simState || simState.currentHp <= 0) return;
+        simErrorEl.hidden = true;
+        try {
+            const data = calculate(collectInputs());
+            const key = getSelectedSimScenario();
+            const scenarioData = data[key];
+            const damage = scenarioData.finalReducedDamage;
+            const staggered = scenarioData.stagger === 'YES';
+            const rawHpAfter = simState.currentHp - damage;
+            simState.currentHp = Math.max(0, rawHpAfter);
+            simState.hitCount += 1;
+            appendSimLogEntry(simState.hitCount, key, damage, simState.currentHp, staggered, rawHpAfter);
+            renderHitSimulator();
+        } catch (e) {
+            simErrorEl.textContent = 'Error: ' + e.message;
+            simErrorEl.hidden = false;
+        }
     });
 
-    renderHistory();
+    simResetBtnEl.addEventListener('click', () => {
+        initHitSimulator();
+    });
+
+    simClearLogBtnEl.addEventListener('click', () => {
+        simLogEl.innerHTML = '';
+    });
+
+    simScenarioRadios().forEach(radio => {
+        radio.addEventListener('change', () => renderHitSimulator());
+    });
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+    });
+
+    initHitSimulator();
 }
 
 initialize();
