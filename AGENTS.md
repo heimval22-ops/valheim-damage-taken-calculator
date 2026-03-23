@@ -13,11 +13,11 @@ Pure static-site application — all calculation logic runs client-side in vanil
 ui/
 ├── index.html                  # Single-page UI
 ├── index.css                   # Styles
-├── index.js                    # UI logic — form handling, rendering, history
+├── index.js                    # UI logic — form handling, rendering, tab navigation, hit simulator
 ├── damage-calculator.js        # All game math — single source of truth
 ├── damage-calculator.test.js   # Zero-dependency Node.js test runner
 └── test-cases.json             # Data-driven test fixtures
-serve.ps1                       # Static file server (Node.js, port 3000)
+serve.ps1                       # Static file server (Node.js, port 3001) — kills existing process on port before starting
 package.json                    # npm test / npm run serve
 AGENTS.md                       # This file
 README.md                       # Project documentation
@@ -43,6 +43,17 @@ node ui/damage-calculator.test.js
 ```
 
 > `serve.ps1` must be run from the project root — it resolves `ui/` relative to the script directory.
+> `serve.ps1` automatically kills any process already listening on the target port before starting.
+
+## ⚠️ UI Verification After Every Change
+
+After completing **any** code change that affects the UI (HTML, CSS, JS), run the dev server so the user can verify the result visually:
+
+```powershell
+.\serve.ps1
+```
+
+This must be done **before** considering the task complete.
 
 ## Damage Pipeline
 

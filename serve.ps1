@@ -33,7 +33,7 @@ try {
 }
 
 # Write the server script to a temp file to avoid multiline quoting issues on Windows
-$TempScript = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "valheim-serve-$Port.mjs")
+$TempScript = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "valheim-serve-$Port-$(New-Guid).mjs")
 
 $ServerScript = @'
 import http from 'node:http';
@@ -86,6 +86,15 @@ server.listen(PORT, () => {
 '@
 
 Set-Content -Path $TempScript -Value $ServerScript -Encoding UTF8
+
+# Kill any process already listening on the target port
+$occupant = Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue |
+            Select-Object -First 1 -ExpandProperty OwningProcess
+if ($occupant) {
+    Write-Host ">> Port $Port in use by PID $occupant - stopping it..." -ForegroundColor Yellow
+    Stop-Process -Id $occupant -Force -ErrorAction SilentlyContinue
+    Start-Sleep -Milliseconds 400
+}
 
 Write-Host ">> Starting static file server on http://localhost:$Port ..." -ForegroundColor Cyan
 

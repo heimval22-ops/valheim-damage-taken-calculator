@@ -14,19 +14,14 @@ const DEFAULTS = Object.freeze({
     extraDamageEnabled: 'no',
 });
 const LS_FORM = 'valheim-form';
-const LS_HISTORY = 'valheim-history';
-const MAX_HISTORY = 10;
 const LEGACY_PARRY_MULTIPLIERS = { X1: 1, X1_5: 1.5, X2: 2, X2_5: 2.5, X4: 4, X6: 6 };
 const PARRY_MULTIPLIER_PRESETS = [1, 1.5, 2, 2.5, 4, 6];
 
 const form = document.getElementById('calcForm');
 const errBox = document.getElementById('error');
 const results = document.getElementById('results');
-const historyEl = document.getElementById('history');
-const historyListEl = document.getElementById('historyList');
 const formulaDetailsEl = document.getElementById('formulaDetails');
 const formulaEl = document.getElementById('formula');
-const entryLabelEl = document.getElementById('entryLabel');
 const rawSummaryEl = document.getElementById('rawSummary');
 const modifierLineEl = document.getElementById('modifierLine');
 const tbodyEl = document.getElementById('tbody');
@@ -49,7 +44,6 @@ const parryPresetEl = document.getElementById('parryMultiplierPreset');
 const parryCustomFieldEl = document.getElementById('customParryMultiplierField');
 const parryCustomInputEl = document.getElementById('parryMultiplier');
 const resetBtnEl = document.getElementById('resetBtn');
-const clearHistoryBtnEl = document.getElementById('clearHistoryBtn');
 const mobPresetEl = document.getElementById('mobPreset');
 
 /* ── Tab DOM refs ── */
@@ -283,7 +277,6 @@ function saveForm() {
 
 function resetForm() {
     applyForm(DEFAULTS);
-    entryLabelEl.value = '';
     localStorage.removeItem(LS_FORM);
     results.style.display = 'none';
     errBox.style.display = 'none';
@@ -331,97 +324,12 @@ form.addEventListener('submit', async (event) => {
     try {
         const data = await calculate(requestInputs);
         render(data, formState);
-        const customLabel = entryLabelEl.value.trim();
-        pushHistory({
-            inputs: formState,
-            results: data,
-            label: customLabel || compressLabel(formState),
-            timestamp: Date.now(),
-        });
-        entryLabelEl.value = '';
-        renderHistory();
     } catch (error) {
         errBox.textContent = 'Error: ' + error.message;
         errBox.style.display = 'block';
         results.style.display = 'none';
     }
 });
-
-/* ── History ── */
-function loadHistory() {
-    try {
-        return JSON.parse(localStorage.getItem(LS_HISTORY)) ?? [];
-    } catch {
-        return [];
-    }
-}
-
-function pushHistory(entry) {
-    const history = loadHistory();
-    history.unshift(entry);
-    localStorage.setItem(LS_HISTORY, JSON.stringify(history.slice(0, MAX_HISTORY)));
-}
-
-function deleteHistory(index) {
-    const history = loadHistory();
-    history.splice(index, 1);
-    localStorage.setItem(LS_HISTORY, JSON.stringify(history));
-    renderHistory();
-}
-
-function compressLabel(inputs) {
-    const diffMap = { NORMAL: 'Normal', HARD: 'Hard', VERY_HARD: 'Very Hard' };
-    const extraDamagePercent = resolveExtraDamagePercentValue(inputs);
-    return [
-        `${inputs.rawDamage} dmg`,
-        `${inputs.starLevel}★`,
-        extraDamagePercent > 0 ? `Extra +${formatPercent(extraDamagePercent)}%` : null,
-        diffMap[inputs.difficulty] ?? inputs.difficulty,
-        `HP ${inputs.maxHealth}`,
-        `Armor ${inputs.armor}`,
-        `Block ${inputs.blockArmor} / Skill ${inputs.blockingSkill}`,
-        `Parry ${formatParryMultiplier(resolveParryMultiplierValue(inputs))}`,
-    ].filter(Boolean).join(' · ');
-}
-
-function renderHistory() {
-    const history = loadHistory();
-    if (!history.length) {
-        historyEl.style.display = 'none';
-        return;
-    }
-
-    historyEl.style.display = 'block';
-    historyListEl.innerHTML = history.map((entry, index) => `
-        <div class="history-entry">
-            <span class="history-label">${entry.label ?? compressLabel(entry.inputs)}</span>
-            <span class="history-meta">${new Date(entry.timestamp).toLocaleString()}</span>
-            <button class="load-btn" data-index="${index}">Load</button>
-            <button class="delete-btn" data-index="${index}" title="Delete entry">×</button>
-        </div>
-    `).join('');
-
-    historyListEl.querySelectorAll('.load-btn').forEach(button => {
-        button.addEventListener('click', () => {
-            const entry = loadHistory()[parseInt(button.dataset.index, 10)];
-            if (entry) {
-                loadEntry(entry);
-            }
-        });
-    });
-
-    historyListEl.querySelectorAll('.delete-btn').forEach(button => {
-        button.addEventListener('click', () => deleteHistory(parseInt(button.dataset.index, 10)));
-    });
-}
-
-function loadEntry(entry) {
-    applyForm(entry.inputs);
-    localStorage.setItem(LS_FORM, JSON.stringify(entry.inputs));
-    render(entry.results, entry.inputs);
-    errBox.style.display = 'none';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
 
 /* ── Rendering ── */
 function fmt(n) {
@@ -792,10 +700,6 @@ async function initialize() {
         }
         mobPresetEl.value = '';
     });
-    clearHistoryBtnEl.addEventListener('click', () => {
-        localStorage.removeItem(LS_HISTORY);
-        renderHistory();
-    });
 
     simTakeHitBtnEl.addEventListener('click', () => {
         if (!simState || simState.currentHp <= 0) return;
@@ -833,7 +737,6 @@ async function initialize() {
         btn.addEventListener('click', () => switchTab(btn.dataset.tab));
     });
 
-    renderHistory();
     initHitSimulator();
 }
 
