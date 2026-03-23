@@ -1,4 +1,4 @@
-import { calculate } from './damage-calculator.js?v=4';
+import { calculate } from './damage-calculator.js?v=5';
 
 /* ── Constants ── */
 const DEFAULTS = Object.freeze({
@@ -641,7 +641,7 @@ function renderFormula(data, inputs) {
 async function initialize() {
     let presets = [];
     try {
-        const resp = await fetch('./mob-presets.json?v=3');
+        const resp = await fetch('./mob-presets.json?v=5');
         if (resp.ok) presets = await resp.json();
         populateMobPresets(presets);
     } catch (e) {

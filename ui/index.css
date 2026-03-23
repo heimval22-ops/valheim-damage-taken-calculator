@@ -255,7 +255,8 @@ tbody tr:nth-child(even) td { background: #24211a; }
     font-style: italic;
     border-left: 2px solid #c8a850;
     padding-left: 0.5rem;
-    margin-bottom: 0.9rem;
+    margin-top: 0.6rem;
+    margin-bottom: 1.2rem;
 }
 
 .tip-underlined { text-decoration: underline; }
