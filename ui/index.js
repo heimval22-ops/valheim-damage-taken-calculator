@@ -1,4 +1,5 @@
-import { calculate } from './damage-calculator.js?v=5';
+import { calculate } from './damage-calculator.js?v=6';
+import { initTooltipClamping } from './mobile.js?v=6';
 
 /* ── Constants ── */
 const DEFAULTS = Object.freeze({
@@ -381,7 +382,7 @@ function render(data, inputs) {
         ? `Effective Damage = ${fmt(base)} → <span>${fmt(effective)}</span>`
         : `Effective Damage = <span>${fmt(base)}</span>`;
 
-    const BLOCK_TIP = 'Remaining damage after the block armor DMG reduction is applied to the effective raw damage — before body armor is factored in.';
+    const BLOCK_TIP = 'Remaining damage after the block armor damage reduction is applied to the effective raw damage — before body armor is factored in.';
     const FINAL_TIP = 'The final damage after the body armor damage reduction is applied to the block reduced damage.';
     const mkTip = text => `<span class="tip-wrap"><i class="tip-icon">?</i><span class="tip-text">${text}</span></span>`;
     const rows = [
@@ -639,9 +640,11 @@ function renderFormula(data, inputs) {
 }
 
 async function initialize() {
+    initTooltipClamping();
+
     let presets = [];
     try {
-        const resp = await fetch('./mob-presets.json?v=5');
+        const resp = await fetch('./mob-presets.json?v=6');
         if (resp.ok) presets = await resp.json();
         populateMobPresets(presets);
     } catch (e) {
