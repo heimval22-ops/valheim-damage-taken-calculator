@@ -185,8 +185,8 @@
             <button type="submit" form="calcForm">⚔ Hit</button>
             <button type="button" id="resetBtn">Reset</button>
             <div class="btn-row-option">
-                <label class="btn-row-option-label" for="percentileInput">Percentile % <span class="tip-wrap"><i class="tip-icon">?</i><span class="tip-text">Confidence level (1–100). At 100% you see base damage. At 95% you see damage that 95% of hits will stay below.</span></span></label>
-                <input type="number" id="percentileInput" value="100" min="1" max="100" step="1">
+                <label class="btn-row-option-label" for="percentileInput">Percentile % <span class="tip-wrap"><i class="tip-icon">?</i><span class="tip-text">Confidence level (1.0–100). At 100% you see base damage. At 95% you see damage that 95% of hits will stay below.</span></span></label>
+                <input type="number" id="percentileInput" value="100" min="1" max="100" step="0.1">
             </div>
         </div>
 

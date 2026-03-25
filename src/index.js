@@ -299,8 +299,9 @@ function collectInputs() {
 }
 
 function getPercentile() {
-    const inputValue = parseInt(percentileInputEl.value, 10);
-    return Number.isFinite(inputValue) && inputValue >= 1 && inputValue <= 100 ? inputValue : DEFAULTS.percentile;
+    const inputValue = parseFloat(percentileInputEl.value);
+    if (!Number.isFinite(inputValue) || inputValue < 1 || inputValue > 100) return DEFAULTS.percentile;
+    return Math.round(inputValue * 10) / 10;
 }
 
 function getPercentileRngOpts() {
