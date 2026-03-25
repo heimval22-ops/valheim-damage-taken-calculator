@@ -16,6 +16,7 @@ const PATH_REWRITES = {
     './src/index.js?v=12':                 './index.js',
     './damage-calculator.js?v=9':          './damage-calculator.js',
     './src/data/mob-presets.json?v=9':     './mob-presets.json',
+    'src/assets/images/':                  './',
 };
 
 function applyPathRewrites(content) {
@@ -37,6 +38,12 @@ const DEPLOY_FILES = [
     { src: 'src/mobile.js',                 out: 'mobile.js' },
     { src: 'src/damage-calculator.js',      out: 'damage-calculator.js' },
     { src: 'src/data/mob-presets.json',     out: 'mob-presets.json' },
+    { src: 'src/assets/images/greydwarf.png',      out: 'greydwarf.png' },
+    { src: 'src/assets/images/viking.png',         out: 'viking.png' },
+    { src: 'src/assets/images/projectile.png',     out: 'projectile.png' },
+    { src: 'src/assets/images/blue-shield.png',    out: 'blue-shield.png' },
+    { src: 'src/assets/images/yellow-shield.png',  out: 'yellow-shield.png' },
+    { src: 'src/assets/images/red-shield.png',     out: 'red-shield.png' },
 ];
 
 await mkdir(OUTPUT_DIR, { recursive: true });
