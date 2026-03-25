@@ -259,17 +259,17 @@ function renderHitSimulator() {
 function appendSimLogEntry(hitNumber, scenarioKey, damage, remainingHealth, staggered, exactRemainingHealth, rngFactor = null) {
     const isDead = remainingHealth <= 0;
     const healthText = isDead
-        ? `<span class="sim-log-hp sim-log-dead tip-wrap">0.000 💀<span class="tip-text">${formatNumber(exactRemainingHealth)}</span></span>`
+        ? `<span class="sim-log-hp sim-log-dead tip-wrap">💀<span class="tip-text">${formatNumber(exactRemainingHealth)}</span></span>`
         : `<span class="sim-log-hp">${formatNumber(remainingHealth)} HP</span>`;
-    const staggerBadge = staggered ? `<span class="sim-log-stagger">⚠ Staggered</span>` : '';
+    const staggerBadge = staggered ? `<span class="sim-log-stagger">⚠<span class="sim-log-stagger-text"> Staggered</span></span>` : '';
     const scenarioLabel = SIM_SCENARIO_LABELS[scenarioKey] ?? scenarioKey;
     const factorBadge = rngFactor !== null
         ? `<span class="sim-log-factor" title="RNG factor: ×${formatNumber(rngFactor)} (rng=${formatNumber(rngFactor * rngFactor)})">×${formatNumber(rngFactor)}</span>`
-        : '';
+        : `<span class="sim-log-factor"></span>`;
 
     const li = document.createElement('li');
     li.className = 'sim-log-entry';
-    li.innerHTML = `<span class="sim-log-hit-num">Hit #${hitNumber}</span>`
+    li.innerHTML = `<span class="sim-log-hit-num"><span class="sim-log-hit-prefix">Hit </span>#${hitNumber}</span>`
         + `<span class="sim-log-scenario">[${scenarioLabel}]</span>`
         + `<span class="sim-log-dmg">−${formatNumber(damage)}</span>`
         + factorBadge
@@ -785,7 +785,7 @@ async function initialize() {
         if (!simState || simState.currentHealth <= 0) return;
         simErrorEl.hidden = true;
         try {
-            const rngOptions = useRng ? { rng: sampleRng() } : getPercentileRngOpts();
+            const rngOptions = useRng ? { rng: sampleRng() } : {};
             const data = calculate(collectInputs(), rngOptions);
             const key = getSelectedSimScenario();
             const scenarioData = data[key];

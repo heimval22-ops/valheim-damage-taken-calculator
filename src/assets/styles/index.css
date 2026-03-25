@@ -814,9 +814,9 @@ tbody tr:nth-child(even) td { background: #24211a; }
 .sim-log-entry:last-child { border-bottom: none; }
 
 .sim-log-hit-num  { color: #786450; flex-shrink: 0; min-width: 3.5rem; }
-.sim-log-scenario { color: #c8a850; flex-shrink: 0; font-size: 0.72rem; }
-.sim-log-dmg      { color: #e06060; flex-shrink: 0; }
-.sim-log-hp       { color: #d0c090; flex: 1; }
+.sim-log-scenario { color: #c8a850; flex-shrink: 0; font-size: 0.72rem; min-width: 5rem; }
+.sim-log-dmg      { color: #e06060; flex-shrink: 0; min-width: 4.5rem; }
+.sim-log-hp       { color: #d0c090; flex-shrink: 0; min-width: 5.5rem; }
 .sim-log-hp.sim-log-dead { color: #e06060; }
 .sim-log-stagger  { color: #c87840; font-size: 0.74rem; flex-shrink: 0; }
 
@@ -825,6 +825,7 @@ tbody tr:nth-child(even) td { background: #24211a; }
     color: #7898c8;
     font-size: 0.74rem;
     flex-shrink: 0;
+    min-width: 3rem;
     cursor: help;
 }
 
