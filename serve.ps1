@@ -1,10 +1,10 @@
 <#
 .SYNOPSIS
-    Serves the ui/ folder as a local static site using Node.js.
+    Serves the project root as a local static site using Node.js.
 
 .DESCRIPTION
-    Starts a zero-dependency Node.js HTTP server that serves the ui/ directory
-    on http://localhost:3000 and opens the browser automatically.
+    Starts a zero-dependency Node.js HTTP server that serves the project root
+    on http://localhost:3001 and opens the browser automatically.
     Press Ctrl+C to stop.
 
 .EXAMPLE
@@ -17,10 +17,10 @@ param(
 )
 
 $ProjectRoot = $PSScriptRoot
-$UiDir       = Join-Path $ProjectRoot "ui"
+$ServeDir    = $ProjectRoot
 
-if (-not (Test-Path $UiDir)) {
-    Write-Error "ui/ directory not found at '$UiDir'."
+if (-not (Test-Path (Join-Path $ServeDir "index.html"))) {
+    Write-Error "index.html not found at '$ServeDir'."
     exit 1
 }
 
@@ -42,7 +42,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const PORT   = parseInt(process.argv[2], 10);
-const UI_DIR = process.argv[3];
+const SERVE_DIR = process.argv[3];
 
 const MIME = {
     '.html': 'text/html; charset=utf-8',
@@ -59,7 +59,7 @@ const server = http.createServer((req, res) => {
 
     // Resolve to a file path, defaulting '/' to index.html
     const relative = urlPath === '/' ? 'index.html' : urlPath.replace(/\.\./g, '');
-    let filePath = path.join(UI_DIR, ...relative.split('/'));
+    let filePath = path.join(SERVE_DIR, ...relative.split('/'));
 
     fs.stat(filePath, (err, stats) => {
         if (!err && stats.isDirectory()) {
@@ -81,7 +81,7 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
-    console.log('Serving ui/ at http://localhost:' + PORT);
+    console.log('Serving at http://localhost:' + PORT);
 });
 '@
 
@@ -106,7 +106,7 @@ Start-Job -ScriptBlock {
 } -ArgumentList "http://localhost:$Port" | Out-Null
 
 try {
-    & node $TempScript $Port $UiDir
+    & node $TempScript $Port $ServeDir
 } finally {
     Remove-Item -Force $TempScript -ErrorAction SilentlyContinue
     Write-Host "`n>> Server stopped." -ForegroundColor Yellow

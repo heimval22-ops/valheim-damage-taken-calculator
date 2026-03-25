@@ -8,7 +8,7 @@
  *    or:  node ui/damage-calculator.test.js          (Node 22+)
  */
 
-import { calculate } from './damage-calculator.js';
+import { calculate } from '../src/damage-calculator.js';
 import { readFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -33,7 +33,7 @@ for (const testCase of cases) {
 
     // Build inputs in the same shape the UI sends
     const inputs = {
-        rawDamage:          testCase.mob.rawDamage,
+        baseDamage:          testCase.mob.baseDamage,
         starLevel:          testCase.mob.starLevel,
         extraDamagePercent: testCase.mob.extraDamagePercent ?? 0,
         difficulty:         testCase.difficulty,
@@ -67,8 +67,8 @@ for (const testCase of cases) {
 
     // Assertions
     const checks = [
-        approxEqual(data.baseRawDamage,             expected.baseRawDamage,           'baseRawDamage'),
-        approxEqual(data.effectiveRawDamage,         expected.effectiveRawDamage,      'effectiveRawDamage'),
+        approxEqual(data.baseDamage,             expected.baseDamage,           'baseDamage'),
+        approxEqual(data.effectiveDamage,         expected.effectiveDamage,      'effectiveDamage'),
         approxEqual(result.blockReducedDamage,    expected.blockReducedDamage,   'blockReducedDamage'),
         approxEqual(result.finalReducedDamage,       expected.finalReducedDamage,      'finalReducedDamage'),
         approxEqual(result.remainingHealth,           expected.remainingHealth,         'remainingHealth'),

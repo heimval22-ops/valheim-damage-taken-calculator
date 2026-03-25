@@ -2,26 +2,26 @@
   {
     "id": "troll-log-vertical",
     "label": "Troll — Log Slam (Vertical)",
-    "rawDamage": 70
+    "baseDamage": 70
   },
   {
     "id": "troll-log-horizontal",
     "label": "Troll — Log Swing (Horizontal)",
-    "rawDamage": 60
+    "baseDamage": 60
   },
   {
     "id": "abomination-swing",
     "label": "Abomination — Swing (60 Blunt)",
-    "rawDamage": 60
+    "baseDamage": 60
   },
   {
     "id": "abomination-slam",
     "label": "Abomination — Slam (80 Blunt)",
-    "rawDamage": 80
+    "baseDamage": 80
   },
   {
     "id": "abomination-ground-slam",
     "label": "Abomination — Ground Slam (80 Blunt)",
-    "rawDamage": 80
+    "baseDamage": 80
   }
 ]

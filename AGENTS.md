@@ -4,23 +4,31 @@
 
 Pure static-site application — all calculation logic runs client-side in vanilla JavaScript ES modules. No backend required.
 
-- **Frontend** (`ui/`): `index.html`, `damage-calculator.js`, `index.js`, `index.css`. Served as static files by any HTTP server (e.g., `serve.ps1` via Node.js).
-- All calculation logic lives in `ui/damage-calculator.js`. The UI (`index.js`) is a thin wrapper that collects form values and renders results.
+- **Frontend**: `index.html` at the project root, source code in `src/`. Served as static files by any HTTP server (e.g., `serve.ps1` via Node.js).
+- All calculation logic lives in `src/damage-calculator.js`. The UI (`src/index.js`) is a thin wrapper that collects form values and renders results.
 
 ## File Structure
 
 ```
-ui/
-├── index.html                  # Single-page UI
-├── index.css                   # Styles
-├── index.js                    # UI logic — form handling, rendering, tab navigation, hit simulator
-├── damage-calculator.js        # All game math — single source of truth
-├── damage-calculator.test.js   # Zero-dependency Node.js test runner
-└── test-cases.json             # Data-driven test fixtures
-serve.ps1                       # Static file server (Node.js, port 3001) — kills existing process on port before starting
-package.json                    # npm test / npm run serve
-AGENTS.md                       # This file
-README.md                       # Project documentation
+index.html                              # Single-page UI (web root entry point)
+src/
+├── assets/
+│   └── styles/
+│       ├── index.css                   # Styles
+│       └── mobile.css                  # Mobile-specific styles
+├── data/
+│   └── mob-presets.json                # Mob preset data
+├── damage-calculator.js                # All game math — single source of truth
+├── index.js                            # UI logic — form handling, rendering, tab navigation, hit simulator
+└── mobile.js                           # Mobile UI helpers
+tests/
+├── damage-calculator.test.js           # Zero-dependency Node.js test runner
+└── test-cases.json                     # Data-driven test fixtures
+build.js                                # Production build script (minifies to dist/)
+serve.ps1                               # Static file server (Node.js, port 3001) — kills existing process on port before starting
+package.json                            # npm test / npm run serve / npm run build
+AGENTS.md                               # This file
+README.md                               # Project documentation
 ```
 
 - `damage-calculator.js` is a pure ES module with no DOM dependency — importable from both the browser and Node.js tests.
@@ -39,10 +47,10 @@ README.md                       # Project documentation
 npm test
 
 # Or directly
-node ui/damage-calculator.test.js
+node tests/damage-calculator.test.js
 ```
 
-> `serve.ps1` must be run from the project root — it resolves `ui/` relative to the script directory.
+> `serve.ps1` must be run from the project root — it serves the project root directory.
 > `serve.ps1` automatically kills any process already listening on the target port before starting.
 
 
@@ -51,7 +59,7 @@ node ui/damage-calculator.test.js
 Every calculation produces **three scenarios in one call**: No Shield, Block, Parry (see `damage-calculator.js → calculate()`).
 
 ```
-effectiveRawDamage = rawDamage × (1 + difficultyBonus + starLevel × 0.5 + extraDamagePercent / 100)
+effectiveDamage = baseDamage × (1 + difficultyBonus + starLevel × 0.5 + extraDamagePercent / 100)
                      ← bonuses are ADDITIVE, not multiplicative
 ```
 
@@ -83,12 +91,12 @@ When in doubt, prefer a longer descriptive name over a shorter ambiguous one.
 
 ## Testing
 
-Tests are data-driven via `ui/test-cases.json`. To add a new scenario, add a JSON object to that file — no code changes needed. Tolerance is `±0.001` for floating-point assertions.
+Tests are data-driven via `tests/test-cases.json`. To add a new scenario, add a JSON object to that file — no code changes needed. Tolerance is `±0.001` for floating-point assertions.
 
 ```json
 {
   "name": "descriptive label shown in test output",
-  "mob":    { "rawDamage": 60.0, "starLevel": 1 },
+  "mob":    { "baseDamage": 60.0, "starLevel": 1 },
   "player": { "maxHealth": 100.0, "blockingSkill": 0.0, "blockArmor": 20.0, "armor": 30.0, "parryMultiplier": 1.5 },
   "difficulty": "HARD",
   "useShield": true,
@@ -101,11 +109,12 @@ Tests are data-driven via `ui/test-cases.json`. To add a new scenario, add a JSO
 
 | File | Purpose |
 |---|---|
-| `ui/damage-calculator.js` | All game math — single source of truth |
-| `ui/index.js` | UI logic — form state, rendering, calculation history |
-| `ui/index.html` | Single-page HTML |
-| `ui/index.css` | Styles |
-| `ui/damage-calculator.test.js` | Zero-dependency Node.js test runner |
-| `ui/test-cases.json` | All test fixtures — extend here first |
+| `src/damage-calculator.js` | All game math — single source of truth |
+| `src/index.js` | UI logic — form state, rendering, calculation history |
+| `index.html` | Single-page HTML |
+| `src/assets/styles/index.css` | Styles |
+| `tests/damage-calculator.test.js` | Zero-dependency Node.js test runner |
+| `tests/test-cases.json` | All test fixtures — extend here first |
 | `serve.ps1` | Static file server (Node.js) |
-| `package.json` | npm scripts for test and serve |
+| `build.js` | Production build — minifies to dist/ |
+| `package.json` | npm scripts for test, serve, and build |

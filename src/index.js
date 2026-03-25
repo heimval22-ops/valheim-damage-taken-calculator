@@ -3,7 +3,7 @@ import { initTooltipClamping } from './mobile.js?v=9';
 
 /* ── Constants ── */
 const DEFAULTS = Object.freeze({
-    rawDamage: 60,
+    baseDamage: 60,
     starLevel: 0,
     difficulty: 'NORMAL',
     maxHealth: 120,
@@ -24,7 +24,7 @@ const errBox = document.getElementById('error');
 const results = document.getElementById('results');
 const formulaDetailsEl = document.getElementById('formulaDetails');
 const formulaEl = document.getElementById('formula');
-const rawSummaryEl = document.getElementById('rawSummary');
+const damageSummaryEl = document.getElementById('damageSummary');
 const modifierLineEl = document.getElementById('modifierLine');
 const tbodyEl = document.getElementById('tbody');
 const columnEls = [
@@ -32,7 +32,7 @@ const columnEls = [
     document.getElementById('col1'),
     document.getElementById('col2'),
 ];
-const rawDamageEl = document.getElementById('rawDamage');
+const baseDamageEl = document.getElementById('baseDamage');
 const starLevelEl = document.getElementById('starLevel');
 const difficultyEl = document.getElementById('difficulty');
 const maxHealthEl = document.getElementById('maxHealth');
@@ -177,7 +177,7 @@ function getParryMultiplierFromUi() {
 
 function collectFormState() {
     return {
-        rawDamage: parseFloat(rawDamageEl.value),
+        baseDamage: parseFloat(baseDamageEl.value),
         starLevel: parseInt(starLevelEl.value, 10),
         extraDamagePercent: getExtraDamagePercentFromUi(),
         extraDamageEnabled: extraDamageToggleEl.value,
@@ -256,11 +256,11 @@ function renderHitSimulator() {
     simRandomHitBtnEl.disabled = isDead;
 }
 
-function appendSimLogEntry(hitNumber, scenarioKey, damage, healthAfter, staggered, rawHealthAfter, rngFactor = null) {
-    const isDead = healthAfter <= 0;
+function appendSimLogEntry(hitNumber, scenarioKey, damage, remainingHealth, staggered, exactRemainingHealth, rngFactor = null) {
+    const isDead = remainingHealth <= 0;
     const healthText = isDead
-        ? `<span class="sim-log-hp sim-log-dead tip-wrap">0.000 💀<span class="tip-text">${formatNumber(rawHealthAfter)}</span></span>`
-        : `<span class="sim-log-hp">${formatNumber(healthAfter)} HP</span>`;
+        ? `<span class="sim-log-hp sim-log-dead tip-wrap">0.000 💀<span class="tip-text">${formatNumber(exactRemainingHealth)}</span></span>`
+        : `<span class="sim-log-hp">${formatNumber(remainingHealth)} HP</span>`;
     const staggerBadge = staggered ? `<span class="sim-log-stagger">⚠ Staggered</span>` : '';
     const scenarioLabel = SIM_SCENARIO_LABELS[scenarioKey] ?? scenarioKey;
     const factorBadge = rngFactor !== null
@@ -281,7 +281,7 @@ function appendSimLogEntry(hitNumber, scenarioKey, damage, healthAfter, staggere
 
 /* ── Form persistence ── */
 function applyForm(values) {
-    rawDamageEl.value = values.rawDamage ?? DEFAULTS.rawDamage;
+    baseDamageEl.value = values.baseDamage ?? DEFAULTS.baseDamage;
     starLevelEl.value = values.starLevel ?? DEFAULTS.starLevel;
     syncExtraDamageUi(values);
     difficultyEl.value = values.difficulty ?? DEFAULTS.difficulty;
@@ -299,8 +299,8 @@ function collectInputs() {
 }
 
 function getPercentile() {
-    const rawValue = parseInt(percentileInputEl.value, 10);
-    return Number.isFinite(rawValue) && rawValue >= 1 && rawValue <= 100 ? rawValue : DEFAULTS.percentile;
+    const inputValue = parseInt(percentileInputEl.value, 10);
+    return Number.isFinite(inputValue) && inputValue >= 1 && inputValue <= 100 ? inputValue : DEFAULTS.percentile;
 }
 
 function getPercentileRngOpts() {
@@ -335,7 +335,7 @@ function loadSavedForm(fallback = DEFAULTS) {
 /* ── Mob presets ── */
 function extractMobFields(preset) {
     return {
-        rawDamage: preset.rawDamage,
+        baseDamage: preset.baseDamage,
     };
 }
 
@@ -388,9 +388,9 @@ function render(data, inputs) {
     columnEls[1].textContent = data.block.scenarioName;
     columnEls[2].textContent = data.parry.scenarioName;
 
-    const baseRawDamage = data.baseRawDamage;
-    const effectiveRawDamage = data.effectiveRawDamage;
-    const scaledEffectiveRawDamage = data.scaledEffectiveRawDamage;
+    const baseDamage = data.baseDamage;
+    const effectiveDamage = data.effectiveDamage;
+    const scaledEffectiveDamage = data.scaledEffectiveDamage;
     const percentile = getPercentile();
     const hasPercentile = percentile < 100;
 
@@ -410,7 +410,7 @@ function render(data, inputs) {
         parts.push(`Extra +${formatPercent(extraDamagePercent)}%`);
     }
 
-    rawSummaryEl.innerHTML = parts.length
+    damageSummaryEl.innerHTML = parts.length
         ? `Damage modifier: <span>${parts.join(' | ')}  (+${totalBonus}% total)</span>`
         : 'No damage modifier';
 
@@ -419,16 +419,18 @@ function render(data, inputs) {
         : '';
 
     if (hasPercentile) {
-        modifierLineEl.innerHTML = effectiveRawDamage !== baseRawDamage
-            ? `Effective Damage = ${formatNumber(baseRawDamage)} → ${formatNumber(effectiveRawDamage)} → <span>${formatNumber(scaledEffectiveRawDamage)}</span>${percentileBadge}`
-            : `Effective Damage = ${formatNumber(baseRawDamage)} → <span>${formatNumber(scaledEffectiveRawDamage)}</span>${percentileBadge}`;
+        modifierLineEl.innerHTML = effectiveDamage !== baseDamage
+            ? `Scaled Effective Damage = ${formatNumber(baseDamage)} → ${formatNumber(effectiveDamage)} → <span>${formatNumber(scaledEffectiveDamage)}</span>${percentileBadge}`
+            : `Scaled Effective Damage = ${formatNumber(baseDamage)} → <span>${formatNumber(scaledEffectiveDamage)}</span>${percentileBadge}`;
     } else {
-        modifierLineEl.innerHTML = effectiveRawDamage !== baseRawDamage
-            ? `Effective Damage = ${formatNumber(baseRawDamage)} → <span>${formatNumber(effectiveRawDamage)}</span>`
-            : `Effective Damage = <span>${formatNumber(baseRawDamage)}</span>`;
+        modifierLineEl.innerHTML = effectiveDamage !== baseDamage
+            ? `Effective Damage = ${formatNumber(baseDamage)} → <span>${formatNumber(effectiveDamage)}</span>`
+            : `Effective Damage = <span>${formatNumber(baseDamage)}</span>`;
     }
 
-    const BLOCK_TIP = 'Remaining damage after the block armor damage reduction is applied to the effective raw damage — before body armor is factored in.';
+    const BLOCK_TIP = hasPercentile
+        ? 'Remaining damage after the block armor damage reduction is applied to the scaled effective damage — before body armor is factored in.'
+        : 'Remaining damage after the block armor damage reduction is applied to the effective damage — before body armor is factored in.';
     const FINAL_TIP = 'The final damage after the body armor damage reduction is applied to the block reduced damage.';
     const makeTooltipLabel = (label, text) => `${label} <span class="tip-wrap"><i class="tip-icon">?</i><span class="tip-text">${text}</span></span>`;
     const rows = [
@@ -473,8 +475,8 @@ function render(data, inputs) {
 
 /* ── Formula breakdown ── */
 function renderFormula(data, inputs) {
-    const baseRawDamage = data.baseRawDamage;
-    const effectiveRawDamage = data.effectiveRawDamage;
+    const baseDamage = data.baseDamage;
+    const effectiveDamage = data.effectiveDamage;
     const diffBonus = { NORMAL: 0, HARD: 0.5, VERY_HARD: 1.0 }[inputs.difficulty] ?? 0;
     const starBonus = inputs.starLevel * 0.5;
     const extraDamagePercent = resolveExtraDamagePercentValue(inputs);
@@ -533,30 +535,32 @@ function renderFormula(data, inputs) {
     const hasPercentile = percentile < 100;
     const rngValue = hasPercentile ? getPercentileRng(percentile / 100) : null;
     const rngFactor = rngValue !== null ? Math.sqrt(rngValue) : null;
-    const scaledEffectiveDamage = hasPercentile ? data.scaledEffectiveRawDamage : effectiveRawDamage;
+    const scaledEffectiveDamage = hasPercentile ? data.scaledEffectiveDamage : effectiveDamage;
+
+    const effectiveDamageLabel = hasPercentile ? 'Scaled Effective Damage' : 'Effective Damage';
 
     let step1Html;
     if (hasPercentile) {
         step1Html = `
-        <div class="f-shared-label">${stepLabelContent('1 — ', 'Effective Damage')}
+        <div class="f-shared-label">${stepLabelContent('1 — ', effectiveDamageLabel)}
             <span class="f-shared-note">(all scenarios)</span>
         </div>
-        <div class="f-eq">${formatNumber(baseRawDamage)} × (${bonusExpression}) = ${formatNumber(baseRawDamage)} × ${formatNumber(totalMultiplier)} = ${hoverResult(
-            formatNumber(effectiveRawDamage),
-            `effectiveDamage = rawDamage × (1 + difficultyBonus + starLevel × 0.5 + extraDamagePercent ÷ 100)<br>${formatNumber(baseRawDamage)} × (1 + ${diffBonus} + ${starBonus} + (${formatNumber(extraDamagePercent)} ÷ 100)) = ${formatNumber(baseRawDamage)} × ${formatNumber(totalMultiplier)} = ${formatNumber(effectiveRawDamage)}`
+        <div class="f-eq">${formatNumber(baseDamage)} × (${bonusExpression}) = ${formatNumber(baseDamage)} × ${formatNumber(totalMultiplier)} = ${hoverResult(
+            formatNumber(effectiveDamage),
+            `effectiveDamage = baseDamage × (1 + difficultyBonus + starLevel × 0.5 + extraDamagePercent ÷ 100)<br>${formatNumber(baseDamage)} × (1 + ${diffBonus} + ${starBonus} + (${formatNumber(extraDamagePercent)} ÷ 100)) = ${formatNumber(baseDamage)} × ${formatNumber(totalMultiplier)} = ${formatNumber(effectiveDamage)}`
         )}</div>
-        <div class="f-eq">${formatNumber(effectiveRawDamage)} × √${formatNumber(rngValue)} = ${formatNumber(effectiveRawDamage)} × ${formatNumber(rngFactor)} = ${hoverResult(
+        <div class="f-eq">${formatNumber(effectiveDamage)} × √${formatNumber(rngValue)} = ${formatNumber(effectiveDamage)} × ${formatNumber(rngFactor)} = ${hoverResult(
             formatNumber(scaledEffectiveDamage),
-            `${percentile}th percentile: scaledEffective = effective × √rng<br>rng = 0.75 + 0.25 × ${percentile / 100} = ${formatNumber(rngValue)}<br>${formatNumber(effectiveRawDamage)} × √${formatNumber(rngValue)} = ${formatNumber(effectiveRawDamage)} × ${formatNumber(rngFactor)} = ${formatNumber(scaledEffectiveDamage)}`
+            `${percentile}th percentile: scaledEffectiveDamage = effectiveDamage × √rng<br>rng = 0.75 + 0.25 × ${percentile / 100} = ${formatNumber(rngValue)}<br>${formatNumber(effectiveDamage)} × √${formatNumber(rngValue)} = ${formatNumber(effectiveDamage)} × ${formatNumber(rngFactor)} = ${formatNumber(scaledEffectiveDamage)}`
         )} <span class="percentile-badge">${percentile}th pctl</span></div>`;
     } else {
         step1Html = `
-        <div class="f-shared-label">${stepLabelContent('1 — ', 'Effective Damage')}
+        <div class="f-shared-label">${stepLabelContent('1 — ', effectiveDamageLabel)}
             <span class="f-shared-note">(all scenarios)</span>
         </div>
-        <div class="f-eq">${formatNumber(baseRawDamage)} × (${bonusExpression}) = ${formatNumber(baseRawDamage)} × ${formatNumber(totalMultiplier)} = ${hoverResult(
-            formatNumber(effectiveRawDamage),
-            `effectiveDamage = rawDamage × (1 + difficultyBonus + starLevel × 0.5 + extraDamagePercent ÷ 100)<br>${formatNumber(baseRawDamage)} × (1 + ${diffBonus} + ${starBonus} + (${formatNumber(extraDamagePercent)} ÷ 100)) = ${formatNumber(baseRawDamage)} × ${formatNumber(totalMultiplier)} = ${formatNumber(effectiveRawDamage)}`
+        <div class="f-eq">${formatNumber(baseDamage)} × (${bonusExpression}) = ${formatNumber(baseDamage)} × ${formatNumber(totalMultiplier)} = ${hoverResult(
+            formatNumber(effectiveDamage),
+            `effectiveDamage = baseDamage × (1 + difficultyBonus + starLevel × 0.5 + extraDamagePercent ÷ 100)<br>${formatNumber(baseDamage)} × (1 + ${diffBonus} + ${starBonus} + (${formatNumber(extraDamagePercent)} ÷ 100)) = ${formatNumber(baseDamage)} × ${formatNumber(totalMultiplier)} = ${formatNumber(effectiveDamage)}`
         )}</div>`;
     }
 
@@ -597,46 +601,47 @@ function renderFormula(data, inputs) {
                 <div class="f-skipped">No shield — step skipped</div>
             </div>`;
         } else {
-            const { isLinear: isBlockLinear, result: afterBlock } = armorBranch(effectiveRawDamage, effectiveBlockArmor);
-            const halfEffectiveDamage = effectiveRawDamage / 2;
+            const { isLinear: isBlockLinear, result: afterBlock } = armorBranch(scaledEffectiveDamage, effectiveBlockArmor);
+            const halfEffectiveDamage = scaledEffectiveDamage / 2;
             const yesNo = effectiveBlockArmor < halfEffectiveDamage ? 'YES' : 'NO';
             const branch = isBlockLinear ? 'linear' : 'quadratic';
             const staggeredOnBlock = afterBlock > staggerBar;
+            const damageVarName = hasPercentile ? 'scaledEffectiveDamage' : 'effectiveDamage';
 
             let body;
-            const check = `<div class="f-branch-check">${formatNumber(effectiveBlockArmor)} &lt; ${formatNumber(effectiveRawDamage)} ÷ 2 (= ${formatNumber(halfEffectiveDamage)})? ${hoverDecision(
+            const check = `<div class="f-branch-check">${formatNumber(effectiveBlockArmor)} &lt; ${formatNumber(scaledEffectiveDamage)} ÷ 2 (= ${formatNumber(halfEffectiveDamage)})? ${hoverDecision(
                 `${yesNo} → ${branch}`,
-                thresholdTooltip('effectiveBlockArmor', 'effectiveDamage', effectiveBlockArmor, effectiveRawDamage, isBlockLinear)
+                thresholdTooltip('effectiveBlockArmor', damageVarName, effectiveBlockArmor, scaledEffectiveDamage, isBlockLinear)
             )}</div>`;
 
             if (staggeredOnBlock) {
                 const compared = isBlockLinear
-                    ? `${formatNumber(effectiveRawDamage)} − ${formatNumber(effectiveBlockArmor)} = ${hoverResult(
+                    ? `${formatNumber(scaledEffectiveDamage)} − ${formatNumber(effectiveBlockArmor)} = ${hoverResult(
                         formatNumber(afterBlock),
-                        `blockReducedDamage = effectiveDamage − effectiveBlockArmor<br>${formatNumber(effectiveRawDamage)} − ${formatNumber(effectiveBlockArmor)} = ${formatNumber(afterBlock)}`
+                        `blockReducedDamage = ${damageVarName} − effectiveBlockArmor<br>${formatNumber(scaledEffectiveDamage)} − ${formatNumber(effectiveBlockArmor)} = ${formatNumber(afterBlock)}`
                     )}`
-                    : `${formatNumber(effectiveRawDamage)}² ÷ (${formatNumber(effectiveBlockArmor)} × 4) = ${hoverResult(
+                    : `${formatNumber(scaledEffectiveDamage)}² ÷ (${formatNumber(effectiveBlockArmor)} × 4) = ${hoverResult(
                         formatNumber(afterBlock),
-                        `blockReducedDamage = effectiveDamage² ÷ (effectiveBlockArmor × 4)<br>${formatNumber(effectiveRawDamage)}² ÷ (${formatNumber(effectiveBlockArmor)} × 4) = ${formatNumber(afterBlock)}`
+                        `blockReducedDamage = ${damageVarName}² ÷ (effectiveBlockArmor × 4)<br>${formatNumber(scaledEffectiveDamage)}² ÷ (${formatNumber(effectiveBlockArmor)} × 4) = ${formatNumber(afterBlock)}`
                     )}`;
                 body = `${check}
                     <div class="f-eq">${compared}</div>
-                    ${staggerWarning(`Compared to stagger threshold: block-reduced damage ${formatNumber(afterBlock)} &gt; ${formatNumber(staggerBar)} (= 40% of ${formatNumber(inputs.maxHealth)} max health) → block bypassed.`)}
+                    ${staggerWarning(`Block-reduced damage compared to stagger threshold: ${formatNumber(afterBlock)} &gt; ${formatNumber(staggerBar)} (= 40% of ${formatNumber(inputs.maxHealth)} max health) → block bypassed.`)}
                     <div class="f-eq">After Block → ${hoverResult(
                         formatNumber(scenarioData.blockReducedDamage),
                         'The player was staggered, so block armor damage reduction was not applied.'
                     )}</div>`;
             } else if (isBlockLinear) {
                 body = `${check}
-                    <div class="f-eq">${formatNumber(effectiveRawDamage)} − ${formatNumber(effectiveBlockArmor)} = ${hoverResult(
+                    <div class="f-eq">${formatNumber(scaledEffectiveDamage)} − ${formatNumber(effectiveBlockArmor)} = ${hoverResult(
                         formatNumber(afterBlock),
-                        `blockReducedDamage = effectiveDamage − effectiveBlockArmor<br>${formatNumber(effectiveRawDamage)} − ${formatNumber(effectiveBlockArmor)} = ${formatNumber(afterBlock)}`
+                        `blockReducedDamage = ${damageVarName} − effectiveBlockArmor<br>${formatNumber(scaledEffectiveDamage)} − ${formatNumber(effectiveBlockArmor)} = ${formatNumber(afterBlock)}`
                     )}</div>`;
             } else {
                 body = `${check}
-                    <div class="f-eq">${formatNumber(effectiveRawDamage)}² ÷ (${formatNumber(effectiveBlockArmor)} × 4) = ${hoverResult(
+                    <div class="f-eq">${formatNumber(scaledEffectiveDamage)}² ÷ (${formatNumber(effectiveBlockArmor)} × 4) = ${hoverResult(
                         formatNumber(afterBlock),
-                        `blockReducedDamage = effectiveDamage² ÷ (effectiveBlockArmor × 4)<br>${formatNumber(effectiveRawDamage)}² ÷ (${formatNumber(effectiveBlockArmor)} × 4) = ${formatNumber(afterBlock)}`
+                        `blockReducedDamage = ${damageVarName}² ÷ (effectiveBlockArmor × 4)<br>${formatNumber(scaledEffectiveDamage)}² ÷ (${formatNumber(effectiveBlockArmor)} × 4) = ${formatNumber(afterBlock)}`
                     )}</div>`;
             }
 
@@ -672,7 +677,7 @@ function renderFormula(data, inputs) {
 
         if (!isShield && scenarioData.stagger === 'YES') {
             armorBody += `
-                ${staggerWarning(`Compared to stagger threshold: final damage ${formatNumber(scenarioData.finalReducedDamage)} &gt; ${formatNumber(staggerBar)} (= 40% of ${formatNumber(inputs.maxHealth)} max health).`)}`;
+                ${staggerWarning(`Final damage compared to stagger threshold: ${formatNumber(scenarioData.finalReducedDamage)} &gt; ${formatNumber(staggerBar)} (= 40% of ${formatNumber(inputs.maxHealth)} max health).`)}`;
         }
 
         const step4 = `<div class="f-step">
@@ -712,7 +717,7 @@ async function initialize() {
 
     let presets = [];
     try {
-        const response = await fetch('./mob-presets.json?v=7');
+        const response = await fetch('./src/data/mob-presets.json?v=9');
         if (response.ok) presets = await response.json();
         populateMobPresets(presets);
     } catch (error) {
@@ -780,17 +785,17 @@ async function initialize() {
         if (!simState || simState.currentHealth <= 0) return;
         simErrorEl.hidden = true;
         try {
-            const rng = useRng ? sampleRng() : null;
-            const data = calculate(collectInputs(), rng !== null ? { rng } : {});
+            const rngOptions = useRng ? { rng: sampleRng() } : getPercentileRngOpts();
+            const data = calculate(collectInputs(), rngOptions);
             const key = getSelectedSimScenario();
             const scenarioData = data[key];
             const damage = scenarioData.finalReducedDamage;
             const staggered = scenarioData.stagger === 'YES';
-            const rawHealthAfter = simState.currentHealth - damage;
-            simState.currentHealth = Math.max(0, rawHealthAfter);
+            const exactRemainingHealth = simState.currentHealth - damage;
+            simState.currentHealth = Math.max(0, exactRemainingHealth);
             simState.hitCount += 1;
-            const rngFactor = rng !== null ? Math.sqrt(rng) : null;
-            appendSimLogEntry(simState.hitCount, key, damage, simState.currentHealth, staggered, rawHealthAfter, rngFactor);
+            const rngFactor = rngOptions.rng !== undefined ? Math.sqrt(rngOptions.rng) : null;
+            appendSimLogEntry(simState.hitCount, key, damage, simState.currentHealth, staggered, exactRemainingHealth, rngFactor);
             renderHitSimulator();
         } catch (error) {
             simErrorEl.textContent = 'Error: ' + error.message;

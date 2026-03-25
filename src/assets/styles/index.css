@@ -159,6 +159,7 @@ button[type="submit"]:hover { background: #463c24; }
 }
 
 .modifier-line span { color: #c8a850; }
+.modifier-line .percentile-badge { color: #7898c8; }
 
 table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
 
@@ -321,15 +322,15 @@ tbody tr:nth-child(even) td { background: #24211a; }
 
 .pipe-text strong { color: #d0c090; }
 
-/* ── Raw damage summary ── */
-.raw-summary {
+/* ── Damage summary ── */
+.damage-summary {
     font-size: 0.82rem;
     color: #a89872;
     text-align: center;
     margin-bottom: 0.5rem;
 }
 
-.raw-summary span { color: #c8a850; }
+.damage-summary span { color: #c8a850; }
 
 
 /* ── Inline tooltip ── */

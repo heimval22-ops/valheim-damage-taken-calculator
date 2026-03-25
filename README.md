@@ -22,7 +22,7 @@ Runs entirely in the browser as a static site — no backend required.
 
 | Step | What happens |
 |------|-------------|
-| **1** | Raw damage is scaled by difficulty, star & extra damage bonuses → **Effective Damage** |
+ **1**  Base damage is scaled by difficulty, star & extra damage bonuses → **Effective Damage**
 | **2** | Effective damage is reduced by shield / block armor → **Block-Reduced Damage** |
 | **3** | Remaining damage is reduced by body armor → **Final/Armor-Reduced Damage** |
 | **4** | Final damage is subtracted from Max Health → **Remaining Health** |
