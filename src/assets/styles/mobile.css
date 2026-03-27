@@ -48,10 +48,7 @@
         flex-wrap: wrap;
     }
 
-    /* Stack paired field rows vertically */
-    .field-row {
-        grid-template-columns: 1fr;
-    }
+    /* Keep paired field rows side-by-side — inputs are narrow enough */
 
     .custom-parry-field,
     .custom-extra-damage-field {
