@@ -8,7 +8,7 @@ const DAMAGE_TYPE_CLASSES = { Blunt: 'dt-blunt', Slash: 'dt-slash', Pierce: 'dt-
 const DOT_CSS_CLASSES = { fire: 'sim-dot-fire', poison: 'sim-dot-poison', spirit: 'sim-dot-spirit' };
 
 const DEFAULTS = Object.freeze({
-    mobPreset: '',
+    mobPreset: 'troll_groundslam',
     damageTypes: { Blunt: 70 },
     starLevel: 0,
     difficulty: 'NORMAL',
