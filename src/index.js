@@ -1249,7 +1249,7 @@ function render(data, inputs) {
 
     if (hasDoT) {
         rows.push({
-            label: makeTooltipLabel('Instant Damage', 'Physical + Frost + Lightning damage applied immediately to health.'),
+            label: makeTooltipLabel('Instant Damage', 'Physical, Frost and Lightning damage applied immediately to health.'),
             fn: scenario => formatNumber(scenario.instantDamage),
         });
 
@@ -1499,19 +1499,33 @@ function renderFormula(data, inputs) {
         let nextStepNumber = 4;
         if (hasResistance) {
             const resistanceParts = [];
+            const beforeResistanceMap = isShield && scenarioData.damageBreakdown.afterBlock
+                ? scenarioData.damageBreakdown.afterBlock
+                : inputDamageMap;
+            const afterResistanceMap = scenarioData.damageBreakdown.afterResistance;
+            const beforeLabel = isShield ? 'blockReduced' : (hasPercentile ? 'scaledEffective' : 'effective');
+
             for (const [typeName, multiplier] of Object.entries(inputs.resistanceModifiers)) {
                 const percent = Math.round(multiplier * 100);
                 const icon = DAMAGE_TYPE_ICONS[typeName] || '';
-                resistanceParts.push(`<div class="f-eq f-resistance-line">${icon} ${typeName}: ×${formatNumber(multiplier)} (${percent}%)</div>`);
+                const beforeValue = beforeResistanceMap[typeName] || 0;
+                const afterValue = afterResistanceMap[typeName] || 0;
+                if (beforeValue > 0.001) {
+                    const typeNameLower = typeName.charAt(0).toLowerCase() + typeName.slice(1);
+                    const formula = `resistanceReduced${typeName}Damage = ${beforeLabel}${typeName}Damage × ${typeNameLower}ResistanceMultiplier`;
+                    const equation = `${formatNumber(beforeValue)} × ${formatNumber(multiplier)} = ${formatNumber(afterValue)}`;
+                    const tooltip = `${formula}<br>${equation}`;
+                    resistanceParts.push(`<div class="f-eq">${icon} ${formatNumber(beforeValue)} → ${hoverResult(formatNumber(afterValue), tooltip)}</div>`);
+                } else {
+                    resistanceParts.push(`<div class="f-eq f-resistance-line">${icon} ${typeName}: ×${formatNumber(multiplier)} (${percent}%) — no damage</div>`);
+                }
             }
 
-            // Build per-type formula for the tooltip
-            const formulaLines = [];
-            for (const [typeName, multiplier] of Object.entries(inputs.resistanceModifiers)) {
-                const typeNameLower = typeName.charAt(0).toLowerCase() + typeName.slice(1);
-                formulaLines.push(`resistanceReduced${typeName}Damage = blockReduced${typeName}Damage × ${typeNameLower}ResistanceMultiplier`);
-            }
-            const resistanceTooltip = formulaLines.join('<br>');
+            // Build summation tooltip for the total "After Resistance" line
+            const activeResistanceTypes = DAMAGE_TYPE_NAMES.filter(typeName => (afterResistanceMap[typeName] || 0) > 0.001);
+            const formulaTerms = activeResistanceTypes.map(typeName => `resistanceReduced${typeName}Damage`);
+            const valueTerms = activeResistanceTypes.map(typeName => formatNumber(afterResistanceMap[typeName] || 0));
+            const resistanceTooltip = `resistanceReducedDamage = ${formulaTerms.join(' + ')}<br>${valueTerms.join(' + ')} = ${formatNumber(scenarioData.resistanceReducedDamage)}`;
 
             stepResistance = `<div class="f-step">
                 ${stepLabel('4 — ', 'Resistance Reduced Damage')}
