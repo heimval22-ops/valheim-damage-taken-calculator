@@ -1662,6 +1662,7 @@ tbody tr:nth-child(even) td { background: #24211a; }
 
 .dot-speed-slider {
     flex: 1;
+    min-width: 0;
     -webkit-appearance: none;
     appearance: none;
     height: 6px;
