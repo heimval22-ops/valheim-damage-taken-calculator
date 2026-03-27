@@ -184,6 +184,11 @@
     }
 
     /* Smaller sim hit buttons on mobile */
+    .sim-hit-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
     .sim-take-hit-btn {
         padding: 0.5rem 0.4rem;
         font-size: 0.72rem;

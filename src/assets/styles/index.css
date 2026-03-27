@@ -332,6 +332,8 @@ tbody tr:nth-child(even) td { background: #24211a; }
     cursor: pointer;
     border-radius: 4px;
     transition: background 0.15s;
+    width: 100%;
+    margin-bottom: 0.7rem;
 }
 
 #resetBtn:hover { background: #362222; }
@@ -703,7 +705,7 @@ tbody tr:nth-child(even) td { background: #24211a; }
     background: none;
     border: 1px solid #c8a850;
     color: #c8a850;
-    padding: 0.2rem 0.6rem;
+    padding: 0.3rem 0.6rem;
     font-size: 0.75rem;
     font-family: inherit;
     letter-spacing: 1px;
@@ -711,6 +713,8 @@ tbody tr:nth-child(even) td { background: #24211a; }
     cursor: pointer;
     border-radius: 3px;
     transition: background 0.15s;
+    width: 100%;
+    margin-bottom: 0.7rem;
 }
 
 #simResetBtn:hover { background: #362c18; }
