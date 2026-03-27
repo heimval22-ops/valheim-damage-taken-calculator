@@ -249,7 +249,7 @@
     }
 
     #resetBtn {
-        flex: 0 0 auto;
+        width: 100%;
         padding: 0.65rem 1rem;
         font-size: 0.85rem;
     }
