@@ -1229,18 +1229,4 @@
       ]
     }
   ],
-  "Passive": [
-    {
-      "mob_name": "Hen",
-      "prefab": "Hen",
-      "icon_file": "icons/mobs/Hen.png",
-      "attacks": [
-        {
-          "attack_name": "Peck",
-          "attack_type": "boar_base_attack",
-          "Blunt": 10.0
-        }
-      ]
-    }
-  ]
 }
