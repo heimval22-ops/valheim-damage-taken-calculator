@@ -239,43 +239,75 @@ button[type="submit"]:hover { background: #463c24; }
 .modifier-line span { color: #c8a850; }
 .modifier-line .risk-factor-badge { color: #7898c8; }
 
+/* Card wrapper */
+.table-scroll {
+    border: 1px solid #544828;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 1.4rem;
+}
+
 table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
 
 thead th {
-    background: #362c18;
+    background: #271f0e;
     color: #c8a850;
-    padding: 0.55rem 1rem;
+    padding: 0.62rem 1rem;
     text-align: left;
     font-weight: normal;
-    letter-spacing: 1px;
-    border-bottom: 1px solid #544828;
+    font-size: 0.77rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #5a4820;
 }
 
-thead th:first-child { width: 38%; }
-
-tbody td {
-    padding: 0.48rem 1rem;
-    border-bottom: 1px solid #2d2a1e;
-    color: #d0c090;
+thead th:first-child {
+    width: 40%;
+    border-right: 1px solid #3a3018;
 }
 
-/* suppress the row border immediately before a divider to avoid double-line */
-tbody tr:has(+ .divider) td {
-    border-bottom: none;
+thead th:not(:first-child) {
+    text-align: center;
+    border-left: 1px solid #3a3018;
 }
 
-tbody tr:nth-child(even) td { background: #24211a; }
+/* Label column — always a distinct darker anchor */
+tbody td:first-child {
+    background: #201d14;
+    color: #a89872;
+    font-size: 0.83rem;
+    padding: 0.52rem 1rem;
+    border-bottom: 1px solid #282318;
+    border-right: 1px solid #3a3018;
+}
+
+/* Data columns */
+tbody td:not(:first-child) {
+    padding: 0.52rem 1rem;
+    text-align: center;
+    border-bottom: 1px solid #282318;
+    border-left: 1px solid #252018;
+    color: #e0d4a8;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+
+tbody tr:nth-child(even) td:first-child  { background: #1c1a11; }
+tbody tr:nth-child(even) td:not(:first-child) { background: #242018; }
+
+/* suppress border before divider */
+tbody tr:has(+ .divider) td { border-bottom: none; }
 
 .divider td {
     padding: 0;
-    height: 1px;
-    background: #544828;
-    border-bottom: none;
+    height: 2px;
+    background: linear-gradient(90deg, #201d14 0%, #5a4820 20%, #5a4820 80%, #201d14 100%);
+    border: none;
 }
 
 .stagger-yes  { color: #e06060; }
 .stagger-no   { color: #60a060; }
-.health-safe { color: #60a060; }
+.health-safe  { color: #60a060; }
 .health-warning { color: #c8a850; }
 
 /* ── Button row ── */
