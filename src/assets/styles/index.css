@@ -1571,7 +1571,7 @@ tbody tr:nth-child(even) td { background: #24211a; }
     background: #1a1712;
     border: 1px solid #544828;
     color: #e0d0b0;
-    padding: 0.38rem 0.6rem;
+    padding: 0 0.6rem;
     border-radius: 4px;
     font-size: 0.88rem;
     font-family: inherit;
@@ -1586,8 +1586,8 @@ tbody tr:nth-child(even) td { background: #24211a; }
 }
 
 .shield-preset-trigger-icon {
-    width: 24px;
-    height: 24px;
+    width: 36px;
+    height: 36px;
     object-fit: contain;
     border-radius: 2px;
     flex-shrink: 0;
@@ -1641,8 +1641,8 @@ tbody tr:nth-child(even) td { background: #24211a; }
 }
 
 .shield-preset-option-icon {
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     object-fit: contain;
     border-radius: 2px;
     flex-shrink: 0;
@@ -1811,7 +1811,7 @@ tbody tr:nth-child(even) td { background: #24211a; }
     background: #1a1712;
     border: 1px solid #544828;
     color: #e0d0b0;
-    padding: 0.38rem 0.6rem;
+    padding: 0 0.6rem;
     border-radius: 4px;
     font-size: 0.88rem;
     font-family: inherit;
@@ -1826,8 +1826,8 @@ tbody tr:nth-child(even) td { background: #24211a; }
 }
 
 .mob-preset-trigger-icon {
-    width: 24px;
-    height: 24px;
+    width: 36px;
+    height: 36px;
     object-fit: contain;
     border-radius: 2px;
     flex-shrink: 0;
@@ -1921,8 +1921,8 @@ tbody tr:nth-child(even) td { background: #24211a; }
 }
 
 .mob-preset-mob-icon {
-    width: 24px;
-    height: 24px;
+    width: 36px;
+    height: 36px;
     object-fit: contain;
     border-radius: 2px;
     flex-shrink: 0;
@@ -1948,8 +1948,8 @@ tbody tr:nth-child(even) td { background: #24211a; }
 }
 
 .mob-preset-option-icon {
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     object-fit: contain;
     border-radius: 2px;
     flex-shrink: 0;

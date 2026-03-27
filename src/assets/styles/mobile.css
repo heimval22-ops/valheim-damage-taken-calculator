@@ -409,61 +409,39 @@
     /* ── Mob preset dropdown on mobile ── */
     .mob-preset-trigger {
         font-size: 0.78rem;
-        padding: 0.32rem 0.5rem;
+        padding: 0 0.5rem;
     }
 
     .mob-preset-trigger-icon {
-        width: 20px;
-        height: 20px;
+        width: 28px;
+        height: 28px;
     }
 
-    .mob-preset-panel {
-        max-height: 280px;
-    }
-
-    .mob-preset-option {
-        font-size: 0.72rem;
-        padding: 0.25rem 0.5rem 0.25rem 1.2rem;
-    }
-
-    .mob-preset-mob-header {
-        font-size: 0.7rem;
-        padding: 0.25rem 0.5rem 0.15rem 0.6rem;
-    }
+    // ...existing code...
 
     .mob-preset-mob-icon {
-        width: 20px;
-        height: 20px;
+        width: 28px;
+        height: 28px;
     }
 
     /* ── Shield preset dropdown on mobile ── */
-    .shield-preset-row {
-        flex-wrap: wrap;
-    }
-
-    .shield-preset-dropdown {
-        flex: 1 1 100%;
-        min-width: 0;
-    }
+    // ...existing code...
 
     .shield-preset-trigger {
         font-size: 0.78rem;
-        padding: 0.32rem 0.5rem;
+        padding: 0 0.5rem;
     }
 
     .shield-preset-trigger-icon {
-        width: 20px;
-        height: 20px;
+        width: 28px;
+        height: 28px;
     }
 
-    .shield-preset-option {
-        font-size: 0.75rem;
-        padding: 0.3rem 0.5rem;
-    }
+    // ...existing code...
 
     .shield-preset-option-icon {
-        width: 22px;
-        height: 22px;
+        width: 28px;
+        height: 28px;
     }
 
     /* ── Shield quality toggles on mobile ── */
