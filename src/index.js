@@ -1803,7 +1803,7 @@ async function initialize() {
     arenaMobIconEl.addEventListener('click', cycleArenaMobImage);
 
     // Viking skal
-    arenaPlayerIconEl.addEventListener('click', triggerVikingSkal);
+    arenaPlayerEl.addEventListener('click', triggerVikingSkal);
 
     // Load mob attacks
     let mobData = {};

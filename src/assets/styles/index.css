@@ -1002,16 +1002,19 @@ tbody tr:nth-child(even) td { background: #24211a; }
     transition: transform 0.15s ease;
 }
 
+.arena-player {
+    cursor: pointer;
+}
+
 .arena-player-icon {
     width: 5rem;
     height: 5rem;
     object-fit: contain;
     filter: drop-shadow(0 0 6px rgba(80, 140, 200, 0.3));
     transition: filter 0.3s, opacity 0.3s, transform 0.15s;
-    cursor: pointer;
 }
 
-.arena-player-icon:hover {
+.arena-player:hover .arena-player-icon {
     filter: drop-shadow(0 0 10px rgba(80, 140, 200, 0.6));
     transform: scale(1.08);
 }
