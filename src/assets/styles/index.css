@@ -928,7 +928,7 @@ tbody tr:nth-child(even) td { background: #24211a; }
     border: 1px solid #3a3420;
     border-radius: 6px;
     margin-bottom: 0.8rem;
-    overflow: hidden;
+    overflow: visible;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1027,6 +1027,16 @@ tbody tr:nth-child(even) td { background: #24211a; }
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    z-index: 10;
+}
+
+.arena-viking-skal-icon {
+    width: 1.2rem;
+    height: 1.2rem;
+    object-fit: contain;
 }
 
 .arena-player.skal .arena-viking-skal {
