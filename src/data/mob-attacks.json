@@ -3,6 +3,7 @@
     {
       "mob_name": "Bonemass",
       "prefab": "Bonemass",
+      "icon_file": "src/assets/images/presets/creatures/Bonemass_Definitive.png",
       "attacks": [
         {
           "attack_name": "Area Of Effect",
@@ -22,6 +23,7 @@
     {
       "mob_name": "Eikthyr",
       "prefab": "Eikthyr",
+      "icon_file": "src/assets/images/presets/creatures/Eikthyr_Definitive.png",
       "attacks": [
         {
           "attack_name": "Antler",
@@ -45,6 +47,7 @@
     {
       "mob_name": "Fader",
       "prefab": "Fader",
+      "icon_file": "src/assets/images/presets/creatures/Fader.png",
       "attacks": [
         {
           "attack_name": "Fissure",
@@ -101,6 +104,7 @@
     {
       "mob_name": "Moder",
       "prefab": "Dragon",
+      "icon_file": "src/assets/images/presets/creatures/Moder.png",
       "attacks": [
         {
           "attack_name": "Claw",
@@ -134,6 +138,7 @@
     {
       "mob_name": "The Elder",
       "prefab": "gd_king",
+      "icon_file": "src/assets/images/presets/creatures/The_Elder.png",
       "attacks": [
         {
           "attack_name": "Shoot",
@@ -154,6 +159,7 @@
     {
       "mob_name": "The Queen",
       "prefab": "SeekerQueen",
+      "icon_file": "src/assets/images/presets/creatures/The_Queen.png",
       "attacks": [
         {
           "attack_name": "Rush",
@@ -197,6 +203,7 @@
     {
       "mob_name": "Yagluth",
       "prefab": "GoblinKing",
+      "icon_file": "src/assets/images/presets/creatures/Yagluth_Definitive.png",
       "attacks": [
         {
           "attack_name": "Beam",
@@ -227,6 +234,7 @@
     {
       "mob_name": "Brenna",
       "prefab": "Charred_Twitcher",
+      "icon_file": "src/assets/images/presets/creatures/Brenna.png",
       "attacks": [
         {
           "attack_name": "Sword",
@@ -244,6 +252,7 @@
     {
       "mob_name": "Geirrhafa",
       "prefab": "Fenring_Cultist_Hildir",
+      "icon_file": "src/assets/images/presets/creatures/Geirrhafa.png",
       "attacks": [
         {
           "attack_name": "Ice Claw Double",
@@ -272,6 +281,7 @@
     {
       "mob_name": "Lord Reto",
       "prefab": "Skeleton_Hildir",
+      "icon_file": "src/assets/images/presets/creatures/Lord_Reto.png",
       "attacks": [
         {
           "attack_name": "Swing",
@@ -298,6 +308,7 @@
     {
       "mob_name": "Zil & Thungr",
       "prefab": "GoblinBruteBros",
+      "icon_file": "src/assets/images/presets/creatures/Zil_&_Thungr.png",
       "attacks": [
         {
           "attack_name": "Attack",
@@ -335,6 +346,7 @@
     {
       "mob_name": "Boar",
       "prefab": "Boar",
+      "icon_file": "src/assets/images/presets/creatures/Boar.png",
       "attacks": [
         {
           "attack_name": "Attack",
@@ -346,6 +358,7 @@
     {
       "mob_name": "Greyling",
       "prefab": "Greyling",
+      "icon_file": "src/assets/images/presets/creatures/Greyling_0S.png",
       "attacks": [
         {
           "attack_name": "Attack",
@@ -357,6 +370,7 @@
     {
       "mob_name": "Neck",
       "prefab": "Neck",
+      "icon_file": "src/assets/images/presets/creatures/Neck_0star.png",
       "attacks": [
         {
           "attack_name": "Bite",
@@ -370,6 +384,7 @@
     {
       "mob_name": "Bear",
       "prefab": "Bjorn",
+      "icon_file": "src/assets/images/presets/creatures/Bear.png",
       "attacks": [
         {
           "attack_name": "Bite",
@@ -400,6 +415,7 @@
     {
       "mob_name": "Ghost",
       "prefab": "Ghost",
+      "icon_file": "src/assets/images/presets/creatures/Ghost.png",
       "attacks": [
         {
           "attack_name": "Attack",
@@ -411,6 +427,7 @@
     {
       "mob_name": "Greydwarf",
       "prefab": "Greydwarf",
+      "icon_file": "src/assets/images/presets/creatures/Greydwarf_0S.png",
       "attacks": [
         {
           "attack_name": "Attack",
@@ -427,6 +444,7 @@
     {
       "mob_name": "Greydwarf Brute",
       "prefab": "Greydwarf_Elite",
+      "icon_file": "src/assets/images/presets/creatures/Greydwarf_Brute_0star.png",
       "attacks": [
         {
           "attack_name": "Attack",
@@ -438,6 +456,7 @@
     {
       "mob_name": "Greydwarf Shaman",
       "prefab": "Greydwarf_Shaman",
+      "icon_file": "src/assets/images/presets/creatures/Greydwarf_Shaman_0star.png",
       "attacks": [
         {
           "attack_name": "Magic Attack",
@@ -454,6 +473,7 @@
     {
       "mob_name": "Rancid Remains",
       "prefab": "Skeleton_Poison",
+      "icon_file": "src/assets/images/presets/creatures/Rancid_Remains_0star.png",
       "attacks": [
         {
           "attack_name": "Mace",
@@ -466,6 +486,7 @@
     {
       "mob_name": "Skeleton",
       "prefab": "Skeleton",
+      "icon_file": "src/assets/images/presets/creatures/Skeleton_0S.png",
       "attacks": [
         {
           "attack_name": "Sword",
@@ -482,6 +503,7 @@
     {
       "mob_name": "Troll",
       "prefab": "Troll",
+      "icon_file": "src/assets/images/presets/creatures/Troll_0S.png",
       "attacks": [
         {
           "attack_name": "Punch",
@@ -525,6 +547,7 @@
     {
       "mob_name": "Serpent",
       "prefab": "Serpent",
+      "icon_file": "src/assets/images/presets/creatures/Serpent.png",
       "attacks": [
         {
           "attack_name": "Attack",
@@ -538,6 +561,7 @@
     {
       "mob_name": "Abomination",
       "prefab": "Abomination",
+      "icon_file": "src/assets/images/presets/creatures/Abomination.png",
       "attacks": [
         {
           "attack_name": "Swing",
@@ -565,6 +589,7 @@
     {
       "mob_name": "Blob",
       "prefab": "Blob",
+      "icon_file": "src/assets/images/presets/creatures/Blob.png",
       "attacks": [
         {
           "attack_name": "Area Of Effect",
@@ -576,6 +601,7 @@
     {
       "mob_name": "Draugr",
       "prefab": "Draugr",
+      "icon_file": "src/assets/images/presets/creatures/Draugr_0S.png",
       "attacks": [
         {
           "attack_name": "Axe",
@@ -592,6 +618,7 @@
     {
       "mob_name": "Draugr Elite",
       "prefab": "Draugr_Elite",
+      "icon_file": "src/assets/images/presets/creatures/Draugr_Elite_0S.png",
       "attacks": [
         {
           "attack_name": "Sword",
@@ -603,6 +630,7 @@
     {
       "mob_name": "Kvastur",
       "prefab": "BogWitchKvastur",
+      "icon_file": "src/assets/images/presets/creatures/Kvastur.png",
       "attacks": [
         {
           "attack_name": "Attack",
@@ -614,6 +642,7 @@
     {
       "mob_name": "Leech",
       "prefab": "Leech",
+      "icon_file": "src/assets/images/presets/creatures/Leech_0star.png",
       "attacks": [
         {
           "attack_name": "Bite",
@@ -626,6 +655,7 @@
     {
       "mob_name": "Oozer",
       "prefab": "BlobElite",
+      "icon_file": "src/assets/images/presets/creatures/Oozer.png",
       "attacks": [
         {
           "attack_name": "Area Of Effect",
@@ -637,6 +667,7 @@
     {
       "mob_name": "Root",
       "prefab": "TentaRoot",
+      "icon_file": "src/assets/images/presets/creatures/Roots_summoned_by_The_Elder.png",
       "attacks": [
         {
           "attack_name": "Attack",
@@ -650,6 +681,7 @@
     {
       "mob_name": "Surtling",
       "prefab": "Surtling",
+      "icon_file": "src/assets/images/presets/creatures/Surtling.png",
       "attacks": [
         {
           "attack_name": "Fireball",
@@ -662,6 +694,7 @@
     {
       "mob_name": "Wraith",
       "prefab": "Wraith",
+      "icon_file": "src/assets/images/presets/creatures/Wraith_0star.png",
       "attacks": [
         {
           "attack_name": "Melee",
@@ -675,6 +708,7 @@
     {
       "mob_name": "Bat",
       "prefab": "Bat",
+      "icon_file": "src/assets/images/presets/creatures/Bat.png",
       "attacks": [
         {
           "attack_name": "Melee",
@@ -686,6 +720,7 @@
     {
       "mob_name": "Cultist",
       "prefab": "Fenring_Cultist",
+      "icon_file": "src/assets/images/presets/creatures/Cultist.png",
       "attacks": [
         {
           "attack_name": "Fireclaw Double",
@@ -709,6 +744,7 @@
     {
       "mob_name": "Drake",
       "prefab": "Hatchling",
+      "icon_file": "src/assets/images/presets/creatures/Drake_Definitive.png",
       "attacks": [
         {
           "attack_name": "Spit Cold",
@@ -720,6 +756,7 @@
     {
       "mob_name": "Fenring",
       "prefab": "Fenring",
+      "icon_file": "src/assets/images/presets/creatures/Fenring_0S.png",
       "attacks": [
         {
           "attack_name": "Claw",
@@ -736,6 +773,7 @@
     {
       "mob_name": "Stone Golem",
       "prefab": "StoneGolem",
+      "icon_file": "src/assets/images/presets/creatures/Stone_Golem_Definitive.png",
       "attacks": [
         {
           "attack_name": "Spike",
@@ -766,6 +804,7 @@
     {
       "mob_name": "Ulv",
       "prefab": "Ulv",
+      "icon_file": "src/assets/images/presets/creatures/Ulv.png",
       "attacks": [
         {
           "attack_name": "Slash",
@@ -782,6 +821,7 @@
     {
       "mob_name": "Wolf",
       "prefab": "Wolf",
+      "icon_file": "src/assets/images/presets/creatures/Wolf_0star.png",
       "attacks": [
         {
           "attack_name": "Attack",
@@ -795,6 +835,7 @@
     {
       "mob_name": "Deathsquito",
       "prefab": "Deathsquito",
+      "icon_file": "src/assets/images/presets/creatures/Deathsquito_Definitive.png",
       "attacks": [
         {
           "attack_name": "Sting",
@@ -806,6 +847,7 @@
     {
       "mob_name": "Fuling",
       "prefab": "Goblin",
+      "icon_file": "src/assets/images/presets/creatures/Fuling_0star.png",
       "attacks": [
         {
           "attack_name": "Club",
@@ -833,6 +875,7 @@
     {
       "mob_name": "Fuling Berserker",
       "prefab": "GoblinBrute",
+      "icon_file": "src/assets/images/presets/creatures/Fuling_Berserker_0star.png",
       "attacks": [
         {
           "attack_name": "Attack",
@@ -853,6 +896,7 @@
     {
       "mob_name": "Fuling Shaman",
       "prefab": "GoblinShaman",
+      "icon_file": "src/assets/images/presets/creatures/Fuling_Shaman_Definitive.png",
       "attacks": [
         {
           "attack_name": "Poke",
@@ -870,6 +914,7 @@
     {
       "mob_name": "Lox",
       "prefab": "Lox",
+      "icon_file": "src/assets/images/presets/creatures/Lox.png",
       "attacks": [
         {
           "attack_name": "Bite",
@@ -888,6 +933,7 @@
     {
       "mob_name": "Vile",
       "prefab": "Unbjorn",
+      "icon_file": "src/assets/images/presets/creatures/Vile.png",
       "attacks": [
         {
           "attack_name": "Bite",
@@ -927,6 +973,7 @@
     {
       "mob_name": "Dvergr Mage",
       "prefab": "DvergerMage",
+      "icon_file": "src/assets/images/presets/creatures/Dvergr_mage.png",
       "attacks": [
         {
           "attack_name": "Melee",
@@ -958,6 +1005,7 @@
     {
       "mob_name": "Dvergr Rogue",
       "prefab": "Dverger",
+      "icon_file": "src/assets/images/presets/creatures/Dvergr_rogue.png",
       "attacks": [
         {
           "attack_name": "Shoot",
@@ -974,6 +1022,7 @@
     {
       "mob_name": "Gjall",
       "prefab": "Gjall",
+      "icon_file": "src/assets/images/presets/creatures/Gjall.png",
       "attacks": [
         {
           "attack_name": "Spit",
@@ -991,6 +1040,7 @@
     {
       "mob_name": "Seeker",
       "prefab": "Seeker",
+      "icon_file": "src/assets/images/presets/creatures/Seeker.png",
       "attacks": [
         {
           "attack_name": "Pincers",
@@ -1012,6 +1062,7 @@
     {
       "mob_name": "Seeker Brood",
       "prefab": "SeekerBrood",
+      "icon_file": "src/assets/images/presets/creatures/Seeker_Brood.png",
       "attacks": [
         {
           "attack_name": "Attack",
@@ -1023,6 +1074,7 @@
     {
       "mob_name": "Seeker Soldier",
       "prefab": "SeekerBrute",
+      "icon_file": "src/assets/images/presets/creatures/Seeker_soldier.png",
       "attacks": [
         {
           "attack_name": "Ram",
@@ -1048,6 +1100,7 @@
     {
       "mob_name": "Tick",
       "prefab": "Tick",
+      "icon_file": "src/assets/images/presets/creatures/Tick.png",
       "attacks": [
         {
           "attack_name": "Attach",
@@ -1061,6 +1114,7 @@
     {
       "mob_name": "Asksvin",
       "prefab": "Asksvin",
+      "icon_file": "src/assets/images/presets/creatures/Asksvin.png",
       "attacks": [
         {
           "attack_name": "Bite",
@@ -1089,6 +1143,7 @@
     {
       "mob_name": "Bonemaw",
       "prefab": "BonemawSerpent",
+      "icon_file": "src/assets/images/presets/creatures/Bonemaw.png",
       "attacks": [
         {
           "attack_name": "Spit",
@@ -1113,6 +1168,7 @@
     {
       "mob_name": "Charred Marksman",
       "prefab": "Charred_Archer",
+      "icon_file": "src/assets/images/presets/creatures/Charred_Marksman.png",
       "attacks": [
         {
           "attack_name": "Bow",
@@ -1129,6 +1185,7 @@
     {
       "mob_name": "Charred Twitcher",
       "prefab": "Charred_Twitcher",
+      "icon_file": "src/assets/images/presets/creatures/Charred_Twitcher.png",
       "attacks": [
         {
           "attack_name": "Scratch",
@@ -1145,6 +1202,7 @@
     {
       "mob_name": "Charred Warlock",
       "prefab": "Charred_Mage",
+      "icon_file": "src/assets/images/presets/creatures/Charred_Warlock.png",
       "attacks": [
         {
           "attack_name": "Staff Fire",
@@ -1166,6 +1224,7 @@
     {
       "mob_name": "Charred Warrior",
       "prefab": "Charred_Melee",
+      "icon_file": "src/assets/images/presets/creatures/Charred_Warrior.png",
       "attacks": [
         {
           "attack_name": "Swing",
@@ -1192,6 +1251,7 @@
     {
       "mob_name": "Fallen Valkyrie",
       "prefab": "FallenValkyrie",
+      "icon_file": "src/assets/images/presets/creatures/Fallen_Valkyrie.png",
       "attacks": [
         {
           "attack_name": "Claws",
@@ -1218,6 +1278,7 @@
     {
       "mob_name": "Growth",
       "prefab": "BlobTar",
+      "icon_file": "src/assets/images/presets/creatures/Growth.png",
       "attacks": [
         {
           "attack_name": "Attack",
@@ -1230,6 +1291,7 @@
     {
       "mob_name": "Morgen",
       "prefab": "Morgen",
+      "icon_file": "src/assets/images/presets/creatures/Morgen.png",
       "attacks": [
         {
           "attack_name": "Bite",
@@ -1262,6 +1324,7 @@
     {
       "mob_name": "Skugg",
       "prefab": "Mistile",
+      "icon_file": "src/assets/images/presets/creatures/Skugg.png",
       "attacks": [
         {
           "attack_name": "Shoot",
@@ -1273,6 +1336,7 @@
     {
       "mob_name": "Volture",
       "prefab": "Volture",
+      "icon_file": "src/assets/images/presets/creatures/Volture.png",
       "attacks": [
         {
           "attack_name": "Talons",

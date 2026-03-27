@@ -827,7 +827,7 @@ function applyForm(values) {
             triggerIcon.className = 'mob-preset-trigger-icon';
             mobPresetTriggerEl.insertBefore(triggerIcon, mobPresetTriggerTextEl);
         }
-        triggerIcon.src = `src/assets/images/presets/mobs/${savedMobPreset._mobPrefab}.png`;
+        triggerIcon.src = savedMobPreset._mobIconFile;
         triggerIcon.hidden = false;
     } else if (savedMobPresetId === '') {
         mobPresetTriggerTextEl.textContent = 'Custom';
@@ -966,7 +966,7 @@ function populateMobPresets(data) {
 
             const mobIconImg = document.createElement('img');
             mobIconImg.className = 'mob-preset-mob-icon';
-            mobIconImg.src = `src/assets/images/presets/mobs/${mob.prefab}.png`;
+            mobIconImg.src = mob.icon_file;
             mobIconImg.alt = mob.mob_name;
             mobIconImg.loading = 'lazy';
 
@@ -1070,7 +1070,7 @@ function selectMobPreset(attackId) {
             triggerIcon.className = 'mob-preset-trigger-icon';
             mobPresetTriggerEl.insertBefore(triggerIcon, mobPresetTriggerTextEl);
         }
-        triggerIcon.src = `src/assets/images/presets/mobs/${preset._mobPrefab}.png`;
+        triggerIcon.src = preset._mobIconFile;
         triggerIcon.alt = '';
         triggerIcon.hidden = false;
     } else {
