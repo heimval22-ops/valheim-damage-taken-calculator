@@ -76,7 +76,6 @@
     /* --- Results table --- */
     .table-scroll {
         border-radius: 4px;
-        overflow-x: auto;
     }
 
     table {
@@ -85,15 +84,11 @@
     }
 
     thead th {
-        padding: 0.45rem 0.5rem;
-        font-size: 0.7rem;
-        letter-spacing: 1px;
+        padding: 0.4rem 0.5rem;
     }
 
-    tbody td:first-child,
-    tbody td:not(:first-child) {
-        padding: 0.38rem 0.5rem;
-        font-size: 0.78rem;
+    tbody td {
+        padding: 0.35rem 0.5rem;
     }
 
     /* --- Formula section --- */
@@ -408,13 +403,11 @@
 
     thead th {
         padding: 0.35rem 0.35rem;
-        font-size: 0.68rem;
+        font-size: 0.72rem;
     }
 
-    tbody td:first-child,
-    tbody td:not(:first-child) {
+    tbody td {
         padding: 0.3rem 0.35rem;
-        font-size: 0.72rem;
     }
 
     .tab-btn {
