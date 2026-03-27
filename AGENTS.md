@@ -17,7 +17,7 @@ src/
 │       ├── index.css                   # Styles
 │       └── mobile.css                  # Mobile-specific styles
 ├── data/
-│   └── mob-presets.json                # Mob preset data
+│   └── mob-attacks.json                # Mob attack data (synced from output/valheim_mob_damage.json)
 ├── damage-calculator.js                # All game math — single source of truth
 ├── index.js                            # UI logic — form handling, rendering, tab navigation, hit simulator
 └── mobile.js                           # Mobile UI helpers

@@ -29,11 +29,6 @@
           "Pierce": 20.0
         },
         {
-          "attack_name": "Charge",
-          "attack_type": "Eikthyr_charge",
-          "Lightning": 15.0
-        },
-        {
           "attack_name": "Stomp",
           "attack_type": "Eikthyr_stomp",
           "Lightning": 15.0
@@ -73,13 +68,13 @@
         {
           "attack_name": "Flame Breath",
           "attack_type": "Fader_Flamebreath",
-          "Fire": 60.0,
-          "Spirit": 60.0
+          "Fire": 60.0
         },
         {
           "attack_name": "Wall Of Fire",
           "attack_type": "Fader_WallOfFire",
-          "Pierce": 120.0
+          "Fire": 120.0,
+          "Blunt": 40.0
         },
         {
           "attack_name": "Fissure Intense",
@@ -94,18 +89,8 @@
       "icon_file": "icons/mobs/Dragon.png",
       "attacks": [
         {
-          "attack_name": "Bite",
-          "attack_type": "dragon_bite",
-          "Pierce": 120.0
-        },
-        {
-          "attack_name": "Claw Left",
+          "attack_name": "Claw",
           "attack_type": "dragon_claw_left",
-          "Slash": 110.0
-        },
-        {
-          "attack_name": "Claw Right",
-          "attack_type": "dragon_claw_right",
           "Slash": 110.0
         },
         {
@@ -144,11 +129,6 @@
       "icon_file": "icons/mobs/SeekerQueen.png",
       "attacks": [
         {
-          "attack_name": "Teleport",
-          "attack_type": "SeekerQueen_Teleport",
-          "Slash": 80.0
-        },
-        {
           "attack_name": "Rush",
           "attack_type": "SeekerQueen_Rush",
           "Slash": 100.0
@@ -158,11 +138,6 @@
           "attack_type": "SeekerQueen_Bite",
           "Pierce": 140.0,
           "Poison": 100.0
-        },
-        {
-          "attack_name": "Call",
-          "attack_type": "SeekerQueen_Call",
-          "Slash": 80.0
         },
         {
           "attack_name": "Spit",
@@ -198,6 +173,17 @@
           "attack_type": "GoblinKing_Nova",
           "Fire": 65.0,
           "Lightning": 65.0
+        },
+        {
+          "attack_name": "Meteor",
+          "attack_type": "_manual_meteor",
+          "Fire": 100.0
+        },
+        {
+          "attack_name": "Fist Slam",
+          "attack_type": "_manual_fist_slam",
+          "Blunt": 40.0,
+          "Fire": 120.0
         }
       ]
     }
@@ -209,19 +195,15 @@
       "icon_file": "icons/mobs/Charred_Twitcher.png",
       "attacks": [
         {
-          "attack_name": "Twitcher Scratch L",
-          "attack_type": "charred_twitcher_scratch_l",
-          "Slash": 100.0
+          "attack_name": "Sword",
+          "attack_type": "_brenna_sword",
+          "Slash": 60.0,
+          "Fire": 20.0
         },
         {
-          "attack_name": "Twitcher Scratch R",
-          "attack_type": "charred_twitcher_scratch_r",
-          "Slash": 100.0
-        },
-        {
-          "attack_name": "Twitcher Throw",
-          "attack_type": "charred_twitcher_throw",
-          "Pierce": 75.0
+          "attack_name": "Fire Nova",
+          "attack_type": "_brenna_fire_nova",
+          "Fire": 75.0
         }
       ]
     },
@@ -231,26 +213,26 @@
       "icon_file": "icons/mobs/Fenring_Cultist_Hildir.png",
       "attacks": [
         {
-          "attack_name": "Ice Claw Double",
+          "attack_name": "Double Claw",
           "attack_type": "Fenring_attack_iceclaw_double",
           "Slash": 60.0,
           "Frost": 70.0
         },
         {
-          "attack_name": "Ice Claw",
+          "attack_name": "Claw",
           "attack_type": "Fenring_attack_iceclaw",
           "Slash": 40.0,
-          "Frost": 60.0
+          "Frost": 70.0
         },
         {
-          "attack_name": "Frost",
+          "attack_name": "Frost Cone",
           "attack_type": "Fenring_attack_frost",
           "Frost": 100.0
         },
         {
-          "attack_name": "Ice Nova",
+          "attack_name": "Frost Rings",
           "attack_type": "Fenring_attack_IceNova",
-          "Frost": 20.0
+          "Frost": 90.0
         }
       ]
     },
@@ -262,13 +244,22 @@
         {
           "attack_name": "Sword",
           "attack_type": "skeleton_sword_hildir",
-          "Slash": 60.0,
-          "Fire": 20.0
+          "Slash": 480.0
         },
         {
           "attack_name": "Fire Nova",
           "attack_type": "skeleton_hildir_firenova",
-          "Fire": 75.0
+          "Pierce": 460.0
+        },
+        {
+          "attack_name": "Power Attack",
+          "attack_type": "_manual_power_attack",
+          "Slash": 500.0
+        },
+        {
+          "attack_name": "Secondary",
+          "attack_type": "_manual_secondary",
+          "Pierce": 420.0
         }
       ]
     },
@@ -288,15 +279,19 @@
           "Blunt": 130.0
         },
         {
-          "attack_name": "Taunt",
-          "attack_type": "GoblinBrute_Taunt",
-          "Slash": 80.0
-        },
-        {
           "attack_name": "Fireball",
           "attack_type": "GoblinShaman_attack_fireball_hildir",
-          "Blunt": 20.0,
-          "Fire": 100.0
+          "Fire": 20.0
+        },
+        {
+          "attack_name": "Thungr Normal",
+          "attack_type": "_manual_thungr_normal",
+          "Blunt": 120.0
+        },
+        {
+          "attack_name": "Zil Melee",
+          "attack_type": "_manual_zil_melee",
+          "Blunt": 100.0
         }
       ]
     }
@@ -308,7 +303,7 @@
       "icon_file": "icons/mobs/Boar.png",
       "attacks": [
         {
-          "attack_name": "Base Attack",
+          "attack_name": "Charge",
           "attack_type": "boar_base_attack",
           "Blunt": 10.0
         }
@@ -332,7 +327,7 @@
       "icon_file": "icons/mobs/Neck.png",
       "attacks": [
         {
-          "attack_name": "Bite Attack",
+          "attack_name": "Bite",
           "attack_type": "Neck_BiteAttack",
           "Slash": 6.0
         }
@@ -353,27 +348,20 @@
         {
           "attack_name": "Claws",
           "attack_type": "bjorn_claws",
-          "Slash": 50.0
+          "Slash": 50.0,
+          "Chop": 40.0
         },
         {
-          "attack_name": "Swipe L",
+          "attack_name": "Swipe",
           "attack_type": "bjorn_swipe_l",
-          "Slash": 25.0
-        },
-        {
-          "attack_name": "Swipe R",
-          "attack_type": "bjorn_swipe_r",
-          "Slash": 25.0
-        },
-        {
-          "attack_name": "Swipe Combo",
-          "attack_type": "bjorn_swipe_combo",
-          "Slash": 25.0
+          "Slash": 25.0,
+          "Chop": 40.0
         },
         {
           "attack_name": "Slam",
           "attack_type": "bjorn_slam",
-          "Blunt": 50.0
+          "Blunt": 50.0,
+          "Chop": 40.0
         }
       ]
     },
@@ -412,7 +400,7 @@
       "icon_file": "icons/mobs/Greydwarf_Elite.png",
       "attacks": [
         {
-          "attack_name": "Elite Attack",
+          "attack_name": "Attack",
           "attack_type": "Greydwarf_elite_attack",
           "Slash": 30.0
         }
@@ -424,7 +412,7 @@
       "icon_file": "icons/mobs/Greydwarf_Shaman.png",
       "attacks": [
         {
-          "attack_name": "Shaman Attack",
+          "attack_name": "Poison",
           "attack_type": "Greydwarf_shaman_attack",
           "Poison": 30.0
         },
@@ -459,24 +447,9 @@
           "Slash": 25.0
         },
         {
-          "attack_name": "Sword",
-          "attack_type": "skeleton_sword",
-          "Slash": 25.0
-        },
-        {
           "attack_name": "Bow",
           "attack_type": "skeleton_bow",
           "Pierce": 20.0
-        },
-        {
-          "attack_name": "Sword",
-          "attack_type": "skeleton_sword",
-          "Slash": 25.0
-        },
-        {
-          "attack_name": "Sword",
-          "attack_type": "skeleton_sword",
-          "Slash": 25.0
         }
       ]
     },
@@ -499,16 +472,6 @@
           "attack_name": "Throw",
           "attack_type": "troll_throw",
           "Blunt": 50.0
-        },
-        {
-          "attack_name": "Log Swing V",
-          "attack_type": "troll_log_swing_v",
-          "Blunt": 70.0
-        },
-        {
-          "attack_name": "Log Swing H",
-          "attack_type": "troll_log_swing_h",
-          "Blunt": 60.0
         }
       ]
     }
@@ -523,12 +486,6 @@
           "attack_name": "Attack",
           "attack_type": "Serpent_attack",
           "Slash": 70.0
-        },
-        {
-          "attack_name": "Taunt",
-          "attack_type": "Serpent_taunt",
-          "Slash": 40.0,
-          "Poison": 5.0
         }
       ]
     }
@@ -540,17 +497,17 @@
       "icon_file": "icons/mobs/Abomination.png",
       "attacks": [
         {
-          "attack_name": "1",
+          "attack_name": "Attack 1",
           "attack_type": "Abomination_attack1",
           "Blunt": 60.0
         },
         {
-          "attack_name": "2",
+          "attack_name": "Attack 2",
           "attack_type": "Abomination_attack2",
           "Blunt": 80.0
         },
         {
-          "attack_name": "3",
+          "attack_name": "Attack 3",
           "attack_type": "Abomination_attack3",
           "Blunt": 80.0
         }
@@ -573,16 +530,6 @@
       "prefab": "Draugr",
       "icon_file": "icons/mobs/Draugr.png",
       "attacks": [
-        {
-          "attack_name": "Axe",
-          "attack_type": "draugr_axe",
-          "Slash": 48.0
-        },
-        {
-          "attack_name": "Axe",
-          "attack_type": "draugr_axe",
-          "Slash": 48.0
-        },
         {
           "attack_name": "Axe",
           "attack_type": "draugr_axe",
@@ -625,7 +572,7 @@
       "icon_file": "icons/mobs/Leech.png",
       "attacks": [
         {
-          "attack_name": "Bite Attack",
+          "attack_name": "Bite",
           "attack_type": "Leech_BiteAttack",
           "Pierce": 20.0,
           "Poison": 70.0
@@ -662,7 +609,7 @@
       "icon_file": "icons/mobs/Surtling.png",
       "attacks": [
         {
-          "attack_name": "Fireball Attack",
+          "attack_name": "Fireball",
           "attack_type": "imp_fireball_attack",
           "Blunt": 10.0,
           "Fire": 40.0
@@ -701,13 +648,13 @@
       "icon_file": "icons/mobs/Fenring_Cultist.png",
       "attacks": [
         {
-          "attack_name": "Fireclaw Double",
+          "attack_name": "Double Claw",
           "attack_type": "Fenring_attack_fireclaw_double",
           "Slash": 35.0,
           "Fire": 40.0
         },
         {
-          "attack_name": "Fireclaw",
+          "attack_name": "Claw",
           "attack_type": "Fenring_attack_fireclaw",
           "Slash": 35.0,
           "Fire": 40.0
@@ -754,23 +701,13 @@
       "icon_file": "icons/mobs/StoneGolem.png",
       "attacks": [
         {
-          "attack_name": "1 Spike",
+          "attack_name": "Spike",
           "attack_type": "stonegolem_attack1_spike",
           "Pierce": 110.0
         },
         {
-          "attack_name": "3 Spike Sweep",
+          "attack_name": "Spike Sweep",
           "attack_type": "stonegolem_attack3_spikesweep",
-          "Blunt": 110.0
-        },
-        {
-          "attack_name": "2 Left Ground Slam",
-          "attack_type": "stonegolem_attack2_left_groundslam",
-          "Blunt": 110.0
-        },
-        {
-          "attack_name": "Double Smash",
-          "attack_type": "stonegolem_attack_doublesmash",
           "Blunt": 110.0
         }
       ]
@@ -781,12 +718,7 @@
       "icon_file": "icons/mobs/Ulv.png",
       "attacks": [
         {
-          "attack_name": "1 Bite",
-          "attack_type": "Ulv_attack1_bite",
-          "Slash": 80.0
-        },
-        {
-          "attack_name": "2 Slash",
+          "attack_name": "Slash",
           "attack_type": "Ulv_attack2_slash",
           "Slash": 70.0
         }
@@ -798,18 +730,8 @@
       "icon_file": "icons/mobs/Wolf.png",
       "attacks": [
         {
-          "attack_name": "Attack1",
+          "attack_name": "Attack",
           "attack_type": "Wolf_Attack1",
-          "Slash": 70.0
-        },
-        {
-          "attack_name": "Attack2",
-          "attack_type": "Wolf_Attack2",
-          "Slash": 70.0
-        },
-        {
-          "attack_name": "Attack3",
-          "attack_type": "Wolf_Attack3",
           "Slash": 70.0
         }
       ]
@@ -839,19 +761,9 @@
           "Blunt": 85.0
         },
         {
-          "attack_name": "Club",
-          "attack_type": "GoblinClub",
-          "Blunt": 85.0
-        },
-        {
           "attack_name": "Spear",
           "attack_type": "GoblinSpear",
           "Pierce": 85.0
-        },
-        {
-          "attack_name": "Sword",
-          "attack_type": "GoblinSword",
-          "Slash": 85.0
         },
         {
           "attack_name": "Sword",
@@ -875,16 +787,6 @@
           "attack_name": "Attack",
           "attack_type": "GoblinBrute_Attack",
           "Blunt": 130.0
-        },
-        {
-          "attack_name": "Rage Attack",
-          "attack_type": "GoblinBrute_RageAttack",
-          "Blunt": 130.0
-        },
-        {
-          "attack_name": "Taunt",
-          "attack_type": "GoblinBrute_Taunt",
-          "Slash": 80.0
         }
       ]
     },
@@ -903,26 +805,6 @@
           "attack_type": "GoblinShaman_attack_fireball",
           "Blunt": 20.0,
           "Fire": 100.0
-        },
-        {
-          "attack_name": "Staff Bones",
-          "attack_type": "GoblinShaman_Staff_Bones",
-          "Blunt": 80.0
-        },
-        {
-          "attack_name": "Headdress Antlers",
-          "attack_type": "GoblinShaman_Headdress_antlers",
-          "Blunt": 80.0
-        },
-        {
-          "attack_name": "Staff Feathers",
-          "attack_type": "GoblinShaman_Staff_Feathers",
-          "Blunt": 80.0
-        },
-        {
-          "attack_name": "Headdress Feathers",
-          "attack_type": "GoblinShaman_Headdress_feathers",
-          "Blunt": 80.0
         }
       ]
     },
@@ -957,27 +839,27 @@
         {
           "attack_name": "Claws",
           "attack_type": "unbjorn_claws",
-          "Slash": 130.0
+          "Slash": 130.0,
+          "Chop": 40.0
         },
         {
-          "attack_name": "Swipe L",
+          "attack_name": "Swipe",
           "attack_type": "unbjorn_swipe_l",
-          "Slash": 120.0
-        },
-        {
-          "attack_name": "Swipe R",
-          "attack_type": "unbjorn_swipe_r",
-          "Slash": 120.0
+          "Slash": 120.0,
+          "Chop": 40.0
         },
         {
           "attack_name": "Swipe Combo",
           "attack_type": "unbjorn_swipe_combo",
-          "Slash": 60.0
+          "Slash": 60.0,
+          "Chop": 40.0
         },
         {
           "attack_name": "Slam",
           "attack_type": "unbjorn_slam",
-          "Blunt": 150.0
+          "Blunt": 150.0,
+          "Chop": 40.0,
+          "Pickaxe": 40.0
         }
       ]
     }
@@ -994,14 +876,9 @@
           "Blunt": 70.0
         },
         {
-          "attack_name": "Staff Fire Fireball",
+          "attack_name": "Staff Fire",
           "attack_type": "DvergerStaffFire_fireball",
           "Fire": 130.0
-        },
-        {
-          "attack_name": "Staff Fire",
-          "attack_type": "DvergerStaffFire",
-          "Fire": 120.0
         },
         {
           "attack_name": "Staff Fire Cluster Bomb",
@@ -1009,19 +886,14 @@
           "Fire": 100.0
         },
         {
-          "attack_name": "Staff Ice Ice Bolt",
+          "attack_name": "Staff Ice Bolt",
           "attack_type": "DvergerStaffIce_icebolt",
           "Frost": 200.0
         },
         {
           "attack_name": "Staff Ice",
           "attack_type": "DvergerStaffIce",
-          "Frost": 120.0
-        },
-        {
-          "attack_name": "Staff Nova",
-          "attack_type": "DvergerStaffNova",
-          "Frost": 100.0
+          "Frost": 150.0
         }
       ]
     },
@@ -1032,11 +904,6 @@
       "attacks": [
         {
           "attack_name": "Arbalest",
-          "attack_type": "DvergerArbalest",
-          "Pierce": 160.0
-        },
-        {
-          "attack_name": "Arbalest Shoot",
           "attack_type": "DvergerArbalest_shoot",
           "Pierce": 110.0
         },
@@ -1071,40 +938,18 @@
       "icon_file": "icons/mobs/Seeker.png",
       "attacks": [
         {
-          "attack_name": "Takeoff",
-          "attack_type": "seeker_takeoff",
-          "Pierce": 30.0,
-          "Frost": 200.0
-        },
-        {
-          "attack_name": "Land",
-          "attack_type": "seeker_land",
-          "Pierce": 30.0,
-          "Frost": 200.0
-        },
-        {
           "attack_name": "Pincers",
           "attack_type": "seeker_pincers",
           "Pierce": 90.0
         },
         {
-          "attack_name": "Claw Left",
+          "attack_name": "Claw",
           "attack_type": "seeker_claw_left",
-          "Pierce": 120.0
-        },
-        {
-          "attack_name": "Claw Right",
-          "attack_type": "seeker_claw_right",
           "Pierce": 120.0
         },
         {
           "attack_name": "Ground Slam",
           "attack_type": "seeker_groundslam",
-          "Blunt": 100.0
-        },
-        {
-          "attack_name": "Ground Slam Flying",
-          "attack_type": "seeker_groundslam_flying",
           "Blunt": 100.0
         }
       ]
@@ -1126,11 +971,6 @@
       "prefab": "SeekerBrute",
       "icon_file": "icons/mobs/SeekerBrute.png",
       "attacks": [
-        {
-          "attack_name": "Taunt",
-          "attack_type": "SeekerBrute_Taunt",
-          "Slash": 80.0
-        },
         {
           "attack_name": "Ram",
           "attack_type": "SeekerBrute_ram",
@@ -1171,17 +1011,23 @@
           "attack_name": "Bite",
           "attack_type": "Asksvin_Bite",
           "Blunt": 75.0,
-          "Slash": 75.0
+          "Slash": 75.0,
+          "Chop": 50.0,
+          "Pickaxe": 50.0
         },
         {
           "attack_name": "Headbutt",
           "attack_type": "Asksvin_Headbutt",
-          "Blunt": 120.0
+          "Blunt": 120.0,
+          "Chop": 100.0,
+          "Pickaxe": 100.0
         },
         {
           "attack_name": "Pounce",
           "attack_type": "Asksvin_Pounce",
-          "Blunt": 150.0
+          "Blunt": 150.0,
+          "Chop": 50.0,
+          "Pickaxe": 100.0
         }
       ]
     },
@@ -1233,17 +1079,12 @@
       "icon_file": "icons/mobs/Charred_Twitcher.png",
       "attacks": [
         {
-          "attack_name": "Twitcher Scratch L",
+          "attack_name": "Scratch",
           "attack_type": "charred_twitcher_scratch_l",
           "Slash": 100.0
         },
         {
-          "attack_name": "Twitcher Scratch R",
-          "attack_type": "charred_twitcher_scratch_r",
-          "Slash": 100.0
-        },
-        {
-          "attack_name": "Twitcher Throw",
+          "attack_name": "Throw",
           "attack_type": "charred_twitcher_throw",
           "Pierce": 75.0
         }
@@ -1255,14 +1096,19 @@
       "icon_file": "icons/mobs/Charred_Mage.png",
       "attacks": [
         {
-          "attack_name": "Magestaff Fire",
+          "attack_name": "Staff Fire",
           "attack_type": "charred_magestaff_fire",
           "Pierce": 100.0
         },
         {
-          "attack_name": "Magestaff Summon",
-          "attack_type": "charred_magestaff_summon",
-          "Pierce": 100.0
+          "attack_name": "Melee",
+          "attack_type": "_manual_melee",
+          "Blunt": 20.0
+        },
+        {
+          "attack_name": "Fire",
+          "attack_type": "_manual_fire",
+          "Fire": 70.0
         }
       ]
     },
@@ -1311,10 +1157,10 @@
           "Pierce": 140.0
         },
         {
-          "attack_name": "Taunt",
-          "attack_type": "fallenvalkyrie_taunt",
-          "Slash": 20.0,
-          "Pierce": 20.0
+          "attack_name": "Volley",
+          "attack_type": "_manual_volley",
+          "Fire": 80.0,
+          "Poison": 18.0
         }
       ]
     },
@@ -1342,33 +1188,13 @@
           "Pierce": 160.0
         },
         {
-          "attack_name": "Roll Right",
+          "attack_name": "Roll",
           "attack_type": "Morgen_roll_right",
           "Blunt": 50.0
         },
         {
-          "attack_name": "Roll Left",
-          "attack_type": "Morgen_roll_left",
-          "Blunt": 50.0
-        },
-        {
-          "attack_name": "Swipe 1",
+          "attack_name": "Swipe",
           "attack_type": "Morgen_swipe_1",
-          "Pierce": 160.0
-        },
-        {
-          "attack_name": "Swipe 2",
-          "attack_type": "Morgen_swipe_2",
-          "Pierce": 160.0
-        },
-        {
-          "attack_name": "Swipe 3",
-          "attack_type": "Morgen_swipe_3",
-          "Pierce": 160.0
-        },
-        {
-          "attack_name": "Swipe 4",
-          "attack_type": "Morgen_swipe_4",
           "Pierce": 160.0
         },
         {
@@ -1386,7 +1212,7 @@
         {
           "attack_name": "Kamikaze",
           "attack_type": "Mistile_kamikaze",
-          "Blunt": 150.0
+          "Pierce": 120.0
         }
       ]
     },
@@ -1410,7 +1236,7 @@
       "icon_file": "icons/mobs/Hen.png",
       "attacks": [
         {
-          "attack_name": "Base Attack",
+          "attack_name": "Peck",
           "attack_type": "boar_base_attack",
           "Blunt": 10.0
         }
