@@ -1007,7 +1007,37 @@ tbody tr:nth-child(even) td { background: #24211a; }
     height: 5rem;
     object-fit: contain;
     filter: drop-shadow(0 0 6px rgba(80, 140, 200, 0.3));
-    transition: filter 0.3s, opacity 0.3s;
+    transition: filter 0.3s, opacity 0.3s, transform 0.15s;
+    cursor: pointer;
+}
+
+.arena-player-icon:hover {
+    filter: drop-shadow(0 0 10px rgba(80, 140, 200, 0.6));
+    transform: scale(1.08);
+}
+
+.arena-viking-skal {
+    position: absolute;
+    top: -0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #f0c060;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.arena-player.skal .arena-viking-skal {
+    animation: vikingSkalFloat 1.8s ease-out forwards;
+}
+
+@keyframes vikingSkalFloat {
+    0%   { opacity: 0; transform: translateX(-50%) translateY(0);      }
+    12%  { opacity: 1; transform: translateX(-50%) translateY(-0.3rem); }
+    70%  { opacity: 1; transform: translateX(-50%) translateY(-1.4rem); }
+    100% { opacity: 0; transform: translateX(-50%) translateY(-2rem);   }
 }
 
 .arena-player-axe {

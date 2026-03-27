@@ -112,6 +112,8 @@ const arenaProjectileEl   = document.getElementById('arenaProjectile');
 const arenaPlayerEl       = document.getElementById('arenaPlayer');
 const arenaPlayerShieldEl = document.getElementById('arenaPlayerShield');
 const arenaMobIconEl      = document.getElementById('arenaMobIcon');
+const arenaPlayerIconEl   = document.getElementById('arenaPlayerIcon');
+const arenaVikingSkalEl   = document.getElementById('arenaVikingSkal');
 
 const SHIELD_IMAGE_BLOCK = 'src/assets/images/animations/blue-shield.png';
 const SHIELD_IMAGE_PARRY = 'src/assets/images/animations/yellow-shield.png';
@@ -730,6 +732,20 @@ function cycleArenaMobImage() {
     const { src, alt } = ARENA_MOB_IMAGES[currentArenaMobImageIndex];
     arenaMobIconEl.src = src;
     arenaMobIconEl.alt = alt;
+}
+
+let vikingSkalTimer = null;
+function triggerVikingSkal() {
+    if (vikingSkalTimer) {
+        clearTimeout(vikingSkalTimer);
+        arenaPlayerEl.classList.remove('skal');
+        void arenaVikingSkalEl.offsetWidth; // force reflow to restart animation
+    }
+    arenaPlayerEl.classList.add('skal');
+    vikingSkalTimer = setTimeout(() => {
+        arenaPlayerEl.classList.remove('skal');
+        vikingSkalTimer = null;
+    }, 1800);
 }
 
 const ARENA_ANIMATION_CLASSES = Object.freeze([
@@ -1785,6 +1801,9 @@ async function initialize() {
 
     // Arena mob icon cycle
     arenaMobIconEl.addEventListener('click', cycleArenaMobImage);
+
+    // Viking skal
+    arenaPlayerIconEl.addEventListener('click', triggerVikingSkal);
 
     // Load mob attacks
     let mobData = {};
