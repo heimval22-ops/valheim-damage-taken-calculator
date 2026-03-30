@@ -1,5 +1,23 @@
 @use '../../../../styles/variables' as *;
 
+// ── Skull tooltip ────────────────────────────────────────────────────────────
+
+.skull-wrap {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  .tip-text { bottom: 140%; left: 50%; transform: translateX(-50%); }
+}
+
+.skull-icon { font-size: 1.1rem; cursor: help; line-height: 1; }
+
+// ── Status text colours ──────────────────────────────────────────────────────
+
+.stagger-yes    { color: #e06060; }
+.stagger-no     { color: #60a060; }
+.health-safe    { color: #60a060; }
+.health-warning { color: $color-gold; }
+
 // ── Damage summary & modifier line ──────────────────────────────────────────
 
 .damage-summary {

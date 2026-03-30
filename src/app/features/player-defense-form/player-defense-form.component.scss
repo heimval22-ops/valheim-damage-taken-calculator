@@ -69,6 +69,17 @@
   }
 }
 
+// ── Field row ────────────────────────────────────────────────────────────────
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
+
+  .field { margin-bottom: 0; }
+}
+
 // ── Shield preset row ───────────────────────────────────────────────────────
 
 .shield-preset-row {

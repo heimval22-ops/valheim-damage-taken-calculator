@@ -1,18 +1,5 @@
 @use 'variables' as *;
 
-// ── Form grid ────────────────────────────────────────────────────────────────
-
-.form-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 1.2rem;
-  margin-bottom: 1.4rem;
-}
-
-.form-reset-row {
-  text-align: right;
-  margin-bottom: 0.6rem;
-}
 
 // ── Section card ─────────────────────────────────────────────────────────────
 
@@ -45,19 +32,9 @@
 .field { margin-bottom: 0.8rem; }
 .field:last-child { margin-bottom: 0; }
 
-.field-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.8rem;
-  margin-bottom: 0.8rem;
-
-  .field { margin-bottom: 0; }
-}
-
 // ── Responsive ───────────────────────────────────────────────────────────────
 
 @media (max-width: $bp-mobile) {
-  .form-grid { grid-template-columns: 1fr; }
   .section { padding: 0.8rem 0.7rem; }
 }
 
