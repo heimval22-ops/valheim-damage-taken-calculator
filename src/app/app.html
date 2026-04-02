@@ -2,7 +2,9 @@
   <h1>⚔ Valheim Hit Simulator and Analyzer</h1>
 </div>
 <!-- ── Dev: Test Case Loader (dev mode only) ── -->
-<app-dev-test-case-loader />
+@if (isDevMode) {
+  <app-dev-test-case-loader />
+}
 <!-- ── Input Forms ── -->
 <div class="form-grid">
   <app-mob-attack-form />

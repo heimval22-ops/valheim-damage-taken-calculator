@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "valheim-hit-simulator-and-analyzer": {
+    "hit-analyzer": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -75,10 +75,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "valheim-hit-simulator-and-analyzer:build:production"
+              "buildTarget": "hit-analyzer:build:production"
             },
             "development": {
-              "buildTarget": "valheim-hit-simulator-and-analyzer:build:development"
+              "buildTarget": "hit-analyzer:build:development"
             }
           },
           "defaultConfiguration": "development"

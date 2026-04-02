@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, effect } from '@angular/core';
+import { Component, OnInit, inject, signal, effect, isDevMode } from '@angular/core';
 
 import { FormStateService } from './core/form-state.service';
 import { DamageCalculatorService } from './core/damage-calculator.service';
@@ -33,6 +33,7 @@ export class App implements OnInit {
   private readonly damageCalculatorService = inject(DamageCalculatorService);
   private readonly hitSimulatorService = inject(HitSimulatorService);
 
+  readonly isDevMode = isDevMode();
   readonly activeTab = signal<ActiveTab>('simulator');
   readonly calculationResult = signal<CalculationResult | null>(null);
   readonly calculationFormState = signal<FormState | null>(null);

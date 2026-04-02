@@ -1,7 +1,7 @@
 {
-  "name": "valheim-hit-simulator-and-analyzer",
+  "name": "hit-analyzer",
   "version": "2.3.0",
-  "description": "Valheim Hit Simulator and Analyzer — Angular application",
+  "description": "Valheim Hit Analyzer — Angular application",
   "type": "module",
   "scripts": {
     "ng": "ng",
