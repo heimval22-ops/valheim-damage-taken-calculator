@@ -56,7 +56,7 @@
       <div class="f-eq">
         Stagger buildup:
         <span class="tip-wrap f-hover-wrap" tabindex="0">
-          <strong class="f-hover-result">{{ data().blockStaggerDamage | formatNumber }} ({{ staggerBuildupPercentage() | number:'1.0-1' }}%)</strong>
+          <strong class="f-hover-result">{{ data().blockStaggerDamage | formatNumber }} (@if (isStaggerBuildupOverThreshold()) {&gt; 100%} @else {{{ staggerBuildupPercentage() | number:'1.0-1' }}%})</strong>
           <span class="tip-text">
             blockStaggerDamage =
             @if (data().blockStaggerTerms.length > 0) {

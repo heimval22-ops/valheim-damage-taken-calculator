@@ -16,7 +16,14 @@ export class StepBlockReducedDamageComponent {
   readonly staggerBuildupPercentage = computed<number>(() => {
     const blockReducedDamageStepAnalysis = this.data();
     if (blockReducedDamageStepAnalysis.staggerThreshold <= 0) return 0;
-    return (blockReducedDamageStepAnalysis.blockStaggerDamage / blockReducedDamageStepAnalysis.staggerThreshold) * 100;
+    const rawPercentage = (blockReducedDamageStepAnalysis.blockStaggerDamage / blockReducedDamageStepAnalysis.staggerThreshold) * 100;
+    return Math.min(rawPercentage, 100);
+  });
+
+  readonly isStaggerBuildupOverThreshold = computed<boolean>(() => {
+    const blockReducedDamageStepAnalysis = this.data();
+    if (blockReducedDamageStepAnalysis.staggerThreshold <= 0) return false;
+    return blockReducedDamageStepAnalysis.blockStaggerDamage > blockReducedDamageStepAnalysis.staggerThreshold;
   });
 }
 

@@ -49,51 +49,59 @@
 
   <div class="f-step-divider" aria-hidden="true"></div>
 
-  <div class="f-step-group f-step-group-stagger">
-    <div class="f-eq">
-      Stagger buildup:
-      <span class="tip-wrap f-hover-wrap" tabindex="0">
-        <strong class="f-hover-result">{{ data().staggerBuildupValue | formatNumber }} ({{ staggerBuildupPercentage() | number:'1.0-1' }}%)</strong>
-        <span class="tip-text">
-          @if (data().isBlockBypassed) {
-            armorStaggerDamage =
-            @if (data().armorStaggerTerms.length > 0) {
-              @for (staggerTerm of data().armorStaggerTerms; track staggerTerm.variableName; let isLast = $last) {
-                {{ staggerTerm.variableName }}@if (!isLast) { + }
+  @if (data().isBlockBypassed) {
+    <div class="f-step-group f-step-group-stagger">
+      <div class="f-eq f-skipped">
+        Stagger already occurred at block — no additional stagger check at armor.
+      </div>
+    </div>
+  } @else {
+    <div class="f-step-group f-step-group-stagger">
+      <div class="f-eq">
+        Stagger buildup:
+        <span class="tip-wrap f-hover-wrap" tabindex="0">
+          <strong class="f-hover-result">{{ data().staggerBuildupValue | formatNumber }} (@if (isStaggerBuildupOverThreshold()) {&gt; 100%} @else {{{ staggerBuildupPercentage() | number:'1.0-1' }}%})</strong>
+          <span class="tip-text">
+            @if (data().isBlockBypassed) {
+              armorStaggerDamage =
+              @if (data().armorStaggerTerms.length > 0) {
+                @for (staggerTerm of data().armorStaggerTerms; track staggerTerm.variableName; let isLast = $last) {
+                  {{ staggerTerm.variableName }}@if (!isLast) { + }
+                }
+                <br>
+                @for (staggerTerm of data().armorStaggerTerms; track staggerTerm.variableName; let isLast = $last) {
+                  {{ staggerTerm.value | formatNumber }}@if (!isLast) { + }
+                }
+                = {{ data().staggerBuildupValue | formatNumber }}
+              } @else {
+                0<br>
+                0 = {{ data().staggerBuildupValue | formatNumber }}
+              }
+            } @else {
+              totalStaggerAccumulation = blockStaggerDamage
+              @for (staggerTerm of data().armorStaggerTerms; track staggerTerm.variableName) {
+                + {{ staggerTerm.variableName }}
               }
               <br>
-              @for (staggerTerm of data().armorStaggerTerms; track staggerTerm.variableName; let isLast = $last) {
-                {{ staggerTerm.value | formatNumber }}@if (!isLast) { + }
+              {{ data().blockStaggerDamage | formatNumber }}
+              @for (staggerTerm of data().armorStaggerTerms; track staggerTerm.variableName) {
+                + {{ staggerTerm.value | formatNumber }}
               }
               = {{ data().staggerBuildupValue | formatNumber }}
-            } @else {
-              0<br>
-              0 = {{ data().staggerBuildupValue | formatNumber }}
             }
-          } @else {
-            totalStaggerAccumulation = blockStaggerDamage
-            @for (staggerTerm of data().armorStaggerTerms; track staggerTerm.variableName) {
-              + {{ staggerTerm.variableName }}
-            }
-            <br>
-            {{ data().blockStaggerDamage | formatNumber }}
-            @for (staggerTerm of data().armorStaggerTerms; track staggerTerm.variableName) {
-              + {{ staggerTerm.value | formatNumber }}
-            }
-            = {{ data().staggerBuildupValue | formatNumber }}
-          }
+          </span>
         </span>
-      </span>
+      </div>
+      <div class="f-branch-check">
+        {{ data().totalStaggerAccumulation | formatNumber }} &ge; {{ data().staggerThreshold | formatNumber }} (= 40% of {{ data().maxHealth | formatNumber }} max health)?
+        @if (data().totalStaggerAccumulation >= data().staggerThreshold) {
+          <br>
+          <span class="f-stagger-warn">YES → 🌀 Staggered</span>
+        } @else {
+          <br>NO → Not Staggered
+        }
+      </div>
     </div>
-    <div class="f-branch-check">
-      {{ data().totalStaggerAccumulation | formatNumber }} &ge; {{ data().staggerThreshold | formatNumber }} (= 40% of {{ data().maxHealth | formatNumber }} max health)?
-      @if (data().totalStaggerAccumulation >= data().staggerThreshold) {
-        <br>
-        <span class="f-stagger-warn">YES → 🌀 Staggered</span>
-      } @else {
-        <br>NO → Not Staggered
-      }
-    </div>
-  </div>
+  }
 </div>
 

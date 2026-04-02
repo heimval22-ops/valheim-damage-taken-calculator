@@ -15,7 +15,14 @@ export class StepArmorReducedDamageComponent {
   readonly staggerBuildupPercentage = computed<number>(() => {
     const armorReducedDamageStepAnalysis = this.data();
     if (armorReducedDamageStepAnalysis.staggerThreshold <= 0) return 0;
-    return (armorReducedDamageStepAnalysis.staggerBuildupValue / armorReducedDamageStepAnalysis.staggerThreshold) * 100;
+    const rawPercentage = (armorReducedDamageStepAnalysis.staggerBuildupValue / armorReducedDamageStepAnalysis.staggerThreshold) * 100;
+    return Math.min(rawPercentage, 100);
+  });
+
+  readonly isStaggerBuildupOverThreshold = computed<boolean>(() => {
+    const armorReducedDamageStepAnalysis = this.data();
+    if (armorReducedDamageStepAnalysis.staggerThreshold <= 0) return false;
+    return armorReducedDamageStepAnalysis.staggerBuildupValue > armorReducedDamageStepAnalysis.staggerThreshold;
   });
 }
 
