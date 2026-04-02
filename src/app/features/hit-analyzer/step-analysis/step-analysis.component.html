@@ -1,0 +1,62 @@
+@if (result()) {
+  <div class="analysis-details">
+    <div class="analysis-title">Step-by-step analysis</div>
+    <p class="analysis-hint">
+      💡 <strong>Hover</strong> (or <strong>tap</strong> on mobile) any
+      <span class="analysis-hint-sample">underlined text</span> to see more details.
+    </p>
+
+    <div class="analysis-body">
+
+      <!-- ── Common inputs ────────────────────────────────────────────── -->
+      @if (analysisSharedData(); as shared) {
+        <div class="f-shared">
+          <div class="f-eq f-type-badges">
+            <strong style="color: #ccaf5e">Base damage: </strong>
+            <span class="damage-type-badges">
+              @for (badge of shared.badges; track badge.cssClass) {
+                <span class="damage-type-badge" [class]="badge.cssClass">{{ badge.icon }} {{ badge.value | formatNumber }}</span>
+              }
+            </span>
+            = {{ shared.total | formatNumber }}
+          </div>
+        </div>
+      }
+
+      <!-- ── Three scenario columns ──────────────────────────────────── -->
+      <div class="f-cols">
+        @for (scenario of scenarioAnalyses(); track scenario.title) {
+          <div class="f-col">
+            <div class="f-col-title">{{ scenario.title }}</div>
+
+            <app-step-effective-damage
+              [data]="scenario.effectiveDamage" />
+
+            <app-step-effective-block-armor
+              [data]="scenario.effectiveBlockArmor" />
+
+            <app-step-block-reduced-damage
+              [data]="scenario.blockReducedDamage"
+              [hasRiskFactor]="scenario.effectiveDamage.hasRiskFactor" />
+
+            <app-step-resistance-multiplied-damage
+              [data]="scenario.resistanceMultipliedDamage"
+              [hasRiskFactor]="scenario.effectiveDamage.hasRiskFactor"
+              [isShielded]="!scenario.effectiveBlockArmor.isSkipped" />
+
+            <app-step-armor-reduced-damage
+              [data]="scenario.armorReducedDamage" />
+
+            <app-step-adjusted-total-damage
+              [data]="scenario.adjustedTotalDamage" />
+
+            <app-step-remaining-health
+              [data]="scenario.remainingHealth" />
+
+          </div>
+        }
+      </div>
+
+    </div>
+  </div>
+}

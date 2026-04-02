@@ -1,0 +1,69 @@
+@use '../../../../styles/variables' as *;
+
+// ── Step-by-step analysis ────────────────────────────────────────────────────
+
+.analysis-details {
+  background: #26231a;
+  border: 1px solid $color-gold-darker;
+  border-radius: $radius-lg;
+  margin-top: 1.2rem;
+  margin-bottom: 1.4rem;
+  overflow: visible;
+}
+
+.analysis-title {
+  padding: 0.7rem 1.2rem;
+  font-size: 0.75rem;
+  color: $color-gold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  user-select: none;
+}
+
+.analysis-body {
+  padding: 1rem 1.2rem 1.2rem;
+  border-top: 1px solid $color-gold-darker;
+}
+
+.analysis-hint {
+  font-size: 0.75rem;
+  color: #a89060;
+  margin: 0;
+  padding: 0.5rem 1.2rem;
+  border-bottom: 1px solid #3a3020;
+  background: #1e1c14;
+}
+
+.analysis-hint-sample { text-decoration: underline; text-decoration-style: dotted; text-decoration-color: rgba(232, 216, 160, 0.4); text-underline-offset: 2px; }
+
+.f-shared { margin-bottom: 1rem; padding-bottom: 0.9rem; border-bottom: 1px solid $color-gold-faint; }
+.f-shared-label { font-size: 0.7rem; color: $color-gold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.35rem; }
+
+.f-eq { font-size: 0.79rem; color: #d0c090; font-family: 'Courier New', monospace; line-height: 1.5; strong { color: #e8d8a0; } }
+.f-type-badges { margin-bottom: 0.3rem; }
+
+.f-cols { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; }
+
+.f-col {
+  background: $color-bg-section;
+  border: 1px solid $color-gold-faint;
+  border-radius: $radius-md;
+  overflow: visible;
+}
+
+.f-col-title {
+  background: $color-bg-btn;
+  color: $color-gold;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0.42rem 0.8rem;
+  border-bottom: 1px solid $color-gold-darker;
+}
+
+// ── Responsive ───────────────────────────────────────────────────────────────
+
+@media (max-width: $bp-mobile) {
+  .f-cols { grid-template-columns: 1fr; }
+  .analysis-body { padding: 0.6rem 0.6rem 0.8rem; }
+}

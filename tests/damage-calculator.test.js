@@ -1,14 +1,12 @@
 /**
  * Zero-dependency Node.js test runner for damage-calculator.js.
  *
- * Reads the same test-cases JSON used by the Java DamageCalculatorTest and
- * verifies that the JS port produces identical results (within ±0.001).
+ * Reads test-cases.json and verifies results within ±0.001 tolerance.
  *
- * Usage:  node --experimental-vm-modules ui/damage-calculator.test.js
- *    or:  node ui/damage-calculator.test.js          (Node 22+)
+ * Usage:  node tests/damage-calculator.test.js
  */
 
-import { calculate } from '../src/damage-calculator.js';
+import { calculate } from '../dist-test/damage-calculator.js';
 import { readFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -21,9 +19,9 @@ const TOLERANCE = 0.001;
 let passed = 0;
 let failed = 0;
 
-function approxEqual(a, b, label) {
-    if (Math.abs(a - b) > TOLERANCE) {
-        return `  FAIL ${label}: expected ${b}, got ${a} (diff ${Math.abs(a - b).toFixed(6)})`;
+function approxEqual(actual, expected, label) {
+    if (Math.abs(actual - expected) > TOLERANCE) {
+        return `  FAIL ${label}: expected ${expected}, got ${actual} (diff ${Math.abs(actual - expected).toFixed(6)})`;
     }
     return null;
 }
@@ -33,7 +31,7 @@ for (const testCase of cases) {
 
     // Build inputs in the same shape the UI sends
     const inputs = {
-        baseDamage:          testCase.mob.baseDamage,
+        damageTypes:        testCase.mob.damageTypes,
         starLevel:          testCase.mob.starLevel,
         extraDamagePercent: testCase.mob.extraDamagePercent ?? 0,
         difficulty:         testCase.difficulty,
@@ -41,13 +39,12 @@ for (const testCase of cases) {
         blockingSkill:      testCase.player.blockingSkill,
         blockArmor:         testCase.player.blockArmor,
         armor:              testCase.player.armor,
+        parryMultiplier:    testCase.player.parryMultiplier,
     };
 
-    // Resolve parry multiplier — prefer explicit, fall back to parryBonus enum
-    if (testCase.player.parryMultiplier != null) {
-        inputs.parryMultiplier = testCase.player.parryMultiplier;
-    } else {
-        inputs.parryBonus = testCase.player.parryBonus;
+    // Resistance modifiers (optional)
+    if (testCase.player.resistanceModifiers != null) {
+        inputs.resistanceModifiers = testCase.player.resistanceModifiers;
     }
 
     let data;
@@ -65,22 +62,52 @@ for (const testCase of cases) {
     const result = !testCase.useShield ? data.noShield : testCase.isParry ? data.parry : data.block;
     const expected = testCase.expected;
 
-    // Assertions
+    // Standard assertions
     const checks = [
         approxEqual(data.baseDamage,             expected.baseDamage,           'baseDamage'),
-        approxEqual(data.effectiveDamage,         expected.effectiveDamage,      'effectiveDamage'),
-        approxEqual(result.blockReducedDamage,    expected.blockReducedDamage,   'blockReducedDamage'),
-        approxEqual(result.finalReducedDamage,       expected.finalReducedDamage,      'finalReducedDamage'),
-        approxEqual(result.remainingHealth,           expected.remainingHealth,         'remainingHealth'),
+        approxEqual(data.effectiveDamage,        expected.effectiveDamage,      'effectiveDamage'),
+        approxEqual(result.blockReducedDamage,   expected.blockReducedDamage,   'blockReducedDamage'),
+        approxEqual(result.armorReducedDamage,   expected.armorReducedDamage,   'armorReducedDamage'),
+        approxEqual(result.remainingHealth,      expected.remainingHealth,      'remainingHealth'),
     ];
 
     // Stagger (string comparison)
     if (result.stagger !== expected.stagger) {
         checks.push(`  FAIL stagger: expected ${expected.stagger}, got ${result.stagger}`);
     }
-    // minHealthForNoStagger (exact int)
-    if (result.minHealthForNoStagger !== expected.minHealthForNoStagger) {
-        checks.push(`  FAIL minHealthForNoStagger: expected ${expected.minHealthForNoStagger}, got ${result.minHealthForNoStagger}`);
+    // minHealthForNoBlockStagger (exact int)
+    if (result.minHealthForNoBlockStagger !== expected.minHealthForNoBlockStagger) {
+        checks.push(`  FAIL minHealthForNoBlockStagger: expected ${expected.minHealthForNoBlockStagger}, got ${result.minHealthForNoBlockStagger}`);
+    }
+    // minHealthToAvoidStagger (exact int)
+    if (result.minHealthToAvoidStagger !== expected.minHealthToAvoidStagger) {
+        checks.push(`  FAIL minHealthToAvoidStagger: expected ${expected.minHealthToAvoidStagger}, got ${result.minHealthToAvoidStagger}`);
+    }
+
+    // Optional: instantDamage assertion (new multi-type tests)
+    if (expected.instantDamage != null) {
+        checks.push(approxEqual(result.instantDamage, expected.instantDamage, 'instantDamage'));
+    }
+
+    // Optional: resistanceMultipliedDamage assertion
+    if (expected.resistanceMultipliedDamage != null) {
+        checks.push(approxEqual(result.resistanceMultipliedDamage, expected.resistanceMultipliedDamage, 'resistanceMultipliedDamage'));
+    }
+
+    // Optional: dotBreakdown assertions
+    if (expected.dotBreakdown != null) {
+        for (const dotType of ['fire', 'spirit', 'poison']) {
+            if (expected.dotBreakdown[dotType] != null) {
+                const expectedDot = expected.dotBreakdown[dotType];
+                const actualDot = result.dotBreakdown[dotType];
+                if (expectedDot.total != null) {
+                    checks.push(approxEqual(actualDot.total, expectedDot.total, `dotBreakdown.${dotType}.total`));
+                }
+                if (expectedDot.tickCount != null && actualDot.ticks.length !== expectedDot.tickCount) {
+                    checks.push(`  FAIL dotBreakdown.${dotType}.tickCount: expected ${expectedDot.tickCount}, got ${actualDot.ticks.length}`);
+                }
+            }
+        }
     }
 
     const failures = checks.filter(Boolean);

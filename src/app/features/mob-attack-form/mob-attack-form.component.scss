@@ -1,0 +1,95 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/forms' as *;
+
+.mob-preset-influence-group {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid $color-gold-faint;
+}
+
+.preset-row {
+  margin-bottom: 0.8rem;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+// ── Damage type inputs ──────────────────────────────────────────────────────
+
+.damage-type-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+}
+
+.damage-type-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.damage-type-select {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.damage-type-value {
+  flex: 0 0 80px;
+  width: 80px;
+  min-width: 0;
+  height: 30px;
+}
+
+.damage-type-remove { @include remove-row-btn; }
+
+.add-damage-type-btn { @include add-row-btn; }
+
+// ── Extra damage ────────────────────────────────────────────────────────────
+
+.extra-damage-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+}
+
+.extra-damage-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.extra-damage-value {
+  flex: 1;
+  min-width: 0;
+}
+
+.extra-damage-percent-symbol {
+  flex-shrink: 0;
+  color: $color-text-muted;
+  font-size: 0.85rem;
+}
+
+.extra-damage-remove { @include remove-row-btn; }
+
+.add-extra-damage-btn { @include add-row-btn; }
+
+// ── Responsive ───────────────────────────────────────────────────────────────
+
+@media (max-width: $bp-mobile) {
+  .extra-damage-row { flex-wrap: wrap; }
+}
+
+@media (max-width: $bp-xsmall) {
+  // Combat Difficulty toggle: 2 rows (3 + 2) on extra-small screens
+  // #difficultyGroup is the app-toggle-group host; .toggle-group is the inner div
+  #difficultyGroup .toggle-group {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+
+  #difficultyGroup .toggle-btn {
+    flex: 1 1 33%;
+    &:nth-child(n+4) span { border-top: 1px solid $color-gold-darker; }
+  }
+}

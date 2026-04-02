@@ -1,0 +1,167 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/forms' as *;
+
+.shield-preset-influence-group {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid $color-gold-faint;
+}
+
+.preset-row {
+  margin-bottom: 0.8rem;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+// ── Resistance type inputs ──────────────────────────────────────────────────
+
+.resistance-type-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+}
+
+.resistance-type-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.resistance-type-select {
+  flex: 0 0 auto;
+  width: 115px;
+  min-width: 0;
+}
+
+.resistance-preset-select {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.resistance-percent-value {
+  flex: 0 0 60px;
+  width: 60px;
+  min-width: 0;
+  height: 30px;
+}
+
+.resistance-percent-symbol {
+  flex-shrink: 0;
+  color: $color-text-muted;
+  font-size: 0.85rem;
+}
+
+.resistance-type-remove { @include remove-row-btn; }
+
+.add-resistance-type-btn { @include add-row-btn; }
+
+// ── Field row ────────────────────────────────────────────────────────────────
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
+
+  .field { margin-bottom: 0; }
+}
+
+// ── Armor + Resistance group ─────────────────────────────────────────────────
+
+.armor-resistance-group {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid $color-gold-faint;
+}
+
+.armor-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.armor-field {
+  flex: 1;
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.armor-builder-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  font-size: 1.1rem;
+  color: $color-text-muted;
+  text-decoration: none;
+  border: 1px solid $color-gold-darker;
+  border-radius: $radius-md;
+  background: $color-bg-input;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+
+  &:hover {
+    color: $color-gold;
+    border-color: $color-gold;
+    background: $color-bg-btn;
+  }
+}
+
+// ── Shield preset row ───────────────────────────────────────────────────────
+
+.shield-preset-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+
+  // Shield quality toggle — keep at natural width instead of stretching
+  app-toggle-group {
+    flex: 0 0 auto;
+    width: fit-content;
+  }
+
+  // Shield preset dropdown stretches to fill remaining flex space
+  app-preset-dropdown {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+// ── Parry multiplier ────────────────────────────────────────────────────────
+
+.parry-multiplier-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  select {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
+.custom-parry-field {
+  flex: 0 0 7.5rem;
+
+  input {
+    min-width: 0;
+  }
+}
+
+// ── Responsive ───────────────────────────────────────────────────────────────
+
+@media (max-width: $bp-mobile) {
+  .parry-multiplier-row { flex-wrap: wrap; }
+  .custom-parry-field { flex: 1 1 100%; }
+  .resistance-type-row { flex-wrap: wrap; }
+}
+
+@media (max-width: $bp-xsmall) {
+  // Shield quality toggle buttons
+  .shield-preset-row .toggle-btn span { padding: 0.25rem 0.4rem; font-size: 0.72rem; }
+}
