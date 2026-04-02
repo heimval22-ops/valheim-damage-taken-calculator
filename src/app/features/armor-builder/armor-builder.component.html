@@ -234,12 +234,10 @@
   }
 
   <!-- ── Set Bonus & Resistances ── -->
-  @if (activeSetName()) {
+  @if (activeSetBonus()) {
     <div class="set-bonus-banner">
       <span class="set-bonus-name">{{ activeSetName() }} — Set Bonus Active</span>
-      @if (activeSetBonus()) {
-        <span class="set-bonus-detail">{{ activeSetBonus() }}</span>
-      }
+      <span class="set-bonus-detail">{{ activeSetBonus() }}</span>
     </div>
   }
 

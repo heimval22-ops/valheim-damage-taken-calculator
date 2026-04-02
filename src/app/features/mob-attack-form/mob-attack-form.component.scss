@@ -1,4 +1,5 @@
 @use '../../../styles/variables' as *;
+@use '../../../styles/forms' as *;
 
 .mob-preset-influence-group {
   margin-bottom: 1rem;
@@ -39,41 +40,9 @@
   height: 30px;
 }
 
-.damage-type-remove {
-  background: transparent;
-  border: 1px solid $color-gold-darker;
-  color: $color-danger;
-  cursor: pointer;
-  font-size: 0.85rem;
-  padding: 0.2rem 0.5rem;
-  border-radius: $radius-sm;
-  flex-shrink: 0;
-  transition: color 0.15s, border-color 0.15s;
+.damage-type-remove { @include remove-row-btn; }
 
-  &:hover {
-    color: $color-danger-hover;
-    border-color: $color-danger-hover;
-  }
-}
-
-.add-damage-type-btn {
-  background: rgba(84, 72, 40, 0.25);
-  border: 1px dashed #8a7040;
-  color: #b8a060;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 0.75rem;
-  padding: 0.35rem 0.7rem;
-  border-radius: $radius-md;
-  margin-top: 0.3rem;
-  transition: color 0.15s, border-color 0.15s, background 0.15s;
-
-  &:hover {
-    color: $color-gold;
-    border-color: $color-gold;
-    background: rgba(84, 72, 40, 0.4);
-  }
-}
+.add-damage-type-btn { @include add-row-btn; }
 
 // ── Extra damage ────────────────────────────────────────────────────────────
 
@@ -101,47 +70,14 @@
   font-size: 0.85rem;
 }
 
-.extra-damage-remove {
-  background: transparent;
-  border: 1px solid $color-gold-darker;
-  color: $color-danger;
-  cursor: pointer;
-  font-size: 0.85rem;
-  padding: 0.2rem 0.5rem;
-  border-radius: $radius-sm;
-  flex-shrink: 0;
-  transition: color 0.15s, border-color 0.15s;
+.extra-damage-remove { @include remove-row-btn; }
 
-  &:hover {
-    color: $color-danger-hover;
-    border-color: $color-danger-hover;
-  }
-}
-
-.add-extra-damage-btn {
-  background: rgba(84, 72, 40, 0.25);
-  border: 1px dashed #8a7040;
-  color: #b8a060;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 0.75rem;
-  padding: 0.35rem 0.7rem;
-  border-radius: $radius-md;
-  margin-top: 0.3rem;
-  transition: color 0.15s, border-color 0.15s, background 0.15s;
-
-  &:hover {
-    color: $color-gold;
-    border-color: $color-gold;
-    background: rgba(84, 72, 40, 0.4);
-  }
-}
+.add-extra-damage-btn { @include add-row-btn; }
 
 // ── Responsive ───────────────────────────────────────────────────────────────
 
 @media (max-width: $bp-mobile) {
   .extra-damage-row { flex-wrap: wrap; }
-  .custom-extra-damage-field { flex: 1 1 100%; }
 }
 
 @media (max-width: $bp-xsmall) {

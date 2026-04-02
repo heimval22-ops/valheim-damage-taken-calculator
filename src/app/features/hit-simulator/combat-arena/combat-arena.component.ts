@@ -37,7 +37,7 @@ export class CombatArenaComponent implements OnInit, OnDestroy {
   readonly errorMessage = signal<string | null>(null);
   readonly lastDotBreakdown = signal<DotBreakdown | null>(null);
 
-  // Task 3: Base animation slowdown factor — all durations multiplied by 1.35 for a more cinematic feel
+  // Base animation slowdown factor — all durations multiplied by 1.35 for a more cinematic feel
   readonly animationDurationFactor = computed<number>(() => 1.35 / this.animationSpeed());
 
   // Arena animation state
@@ -82,8 +82,7 @@ export class CombatArenaComponent implements OnInit, OnDestroy {
     });
   }
 
-
-  // Task 1: Disable hit buttons during arena animation, DoT animation, or death
+  // Disable hit buttons during arena animation, DoT animation, or death
   get isHitButtonsDisabled(): boolean {
     const state = this.simulatorState();
     return state.isDead || state.isDotAnimating || this.arenaIsAttacking();
@@ -213,7 +212,7 @@ export class CombatArenaComponent implements OnInit, OnDestroy {
     const isStaggeredOnBlock = scenarioResult.staggeredOnBlock;
     const isDead = (this.simulatorState().currentHealth - instantDamage) <= 0;
 
-    // Task 2: Pass isStaggeredOnBlock to the service for the hit log
+    // Pass isStaggeredOnBlock to the service for the hit log
     this.hitSimulatorService.applyInstantDamage(instantDamage, scenarioKey, isStaggered, isStaggeredOnBlock, rng);
 
     // Trigger arena animation

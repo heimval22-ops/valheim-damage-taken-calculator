@@ -6,6 +6,7 @@ import {
   SIM_SCENARIO_KEYS, SIM_SCENARIO_LABELS, DAMAGE_DISPLAY_THRESHOLD, DOT_TYPE_CONFIGS,
 } from '../../../core/constants';
 import { formatNumber } from '../../../shared/pipes/format-number.pipe';
+import { TooltipDirective } from '../../../shared/directives/tooltip.directive';
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
@@ -54,6 +55,7 @@ export interface ScenarioDisplay {
 
 @Component({
   selector: 'app-results-table',
+  imports: [TooltipDirective],
   templateUrl: './results-table.component.html',
   styleUrls: ['./results-table.component.scss'],
 })

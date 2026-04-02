@@ -68,7 +68,7 @@
     {{ data().maxHealth | formatNumber }} − {{ data().adjustedTotal | formatNumber }} =
     <span class="tip-wrap f-hover-wrap" tabindex="0">
       <strong [class]="data().isDead ? 'f-hover-result f-main-result f-dead' : 'f-hover-result f-main-result'">
-        @if (data().isDead) { 💀 }{{ data().remainingHealth | formatNumber }}
+        {{ data().remainingHealth | formatNumber }}@if (data().isDead) { 💀}
       </strong>
       <span class="tip-text">
         remainingHealth = maxHealth − adjustedTotalDamage<br>

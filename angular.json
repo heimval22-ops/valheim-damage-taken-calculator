@@ -5,7 +5,6 @@
     "packageManager": "npm",
     "analytics": "c8d717ad-0847-470b-bb0f-bc2e5cb9426f"
   },
-  "newProjectRoot": "projects",
   "projects": {
     "hit-analyzer": {
       "projectType": "application",

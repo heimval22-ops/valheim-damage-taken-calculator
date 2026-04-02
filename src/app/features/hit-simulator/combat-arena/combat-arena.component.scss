@@ -94,8 +94,8 @@
   &.sim-dot-spirit   { background-color: #803090; }
 }
 
-.sim-hp-readout { font-size: 0.92rem; color: $color-text-primary; font-family: 'Courier New', monospace; }
-.sim-hp-sep, .sim-hp-label { color: #786450; }
+.sim-health-readout { font-size: 0.92rem; color: $color-text-primary; font-family: 'Courier New', monospace; }
+.sim-health-sep, .sim-health-label { color: #786450; }
 
 .sim-error { background: #481c1c; border: 1px solid #a03030; color: #e08080; padding: 0.45rem 0.8rem; border-radius: $radius-md; margin-bottom: 0.7rem; font-size: 0.82rem; }
 

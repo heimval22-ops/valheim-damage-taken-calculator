@@ -1,6 +1,4 @@
-import { DamageMap } from '../constants';
-import { DifficultyKey } from '../constants';
-import { SimScenarioKey } from '../constants/scenarios';
+import { DamageMap, DifficultyKey, SimScenarioKey } from '../constants';
 
 export type { DifficultyKey };
 
@@ -78,5 +76,4 @@ export interface CalculationResult {
   block: ScenarioResult;
   parry: ScenarioResult;
 }
-
 

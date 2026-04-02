@@ -61,3 +61,40 @@ button[type="submit"] {
   button[type="submit"] { touch-action: manipulation; }
 }
 
+// ── Shared add/remove row button mixins ─────────────────────────────────────
+
+@mixin add-row-btn {
+  background: rgba(84, 72, 40, 0.25);
+  border: 1px dashed #8a7040;
+  color: #b8a060;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.75rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: $radius-md;
+  margin-top: 0.3rem;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+
+  &:hover {
+    color: $color-gold;
+    border-color: $color-gold;
+    background: rgba(84, 72, 40, 0.4);
+  }
+}
+
+@mixin remove-row-btn {
+  background: transparent;
+  border: 1px solid $color-gold-darker;
+  color: $color-danger;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: $radius-sm;
+  flex-shrink: 0;
+  transition: color 0.15s, border-color 0.15s;
+
+  &:hover {
+    color: $color-danger-hover;
+    border-color: $color-danger-hover;
+  }
+}

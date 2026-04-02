@@ -50,4 +50,3 @@ export const DOT_TYPE_CONFIGS: readonly DotTypeConfig[] = [
   },
 ];
 
-

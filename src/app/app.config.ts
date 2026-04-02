@@ -11,7 +11,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(
       routes,
       withViewTransitions({
-        onViewTransitionCreated: ({ transition, from, to }) => {
+        onViewTransitionCreated: ({ transition, to }) => {
           const targetUrl = to.firstChild?.url.map(segment => segment.path).join('/') ?? '';
           const isNavigatingForward = targetUrl.includes('armor-builder');
           const directionClass = isNavigatingForward ? 'navigating-forward' : 'navigating-back';

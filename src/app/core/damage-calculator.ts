@@ -382,7 +382,7 @@ function calculateScenario(
   }
 
   // Min health to avoid guard break (block stagger 1st check alone).
-  // "Not staggered" requires staggerDamage < threshold (strict), so minHP = floor(damage/0.4) + 1.
+  // "Not staggered" requires staggerDamage < threshold (strict), so minHealth = floor(damage/0.4) + 1.
   const minHealthForNoBlockStagger = blockStaggerDamage > 0 ? Math.floor(blockStaggerDamage / 0.4) + 1 : 0;
   // Min health to avoid stagger:
   //   no shield → avoid armor-phase stagger

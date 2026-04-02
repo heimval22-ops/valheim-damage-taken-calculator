@@ -1,6 +1,5 @@
-import { DamageTypeName } from '../constants';
+import { DamageTypeName, SimScenarioKey } from '../constants';
 import { DifficultyKey } from './calculation.model';
-import { SimScenarioKey } from '../constants/scenarios';
 
 export type { SimScenarioKey };
 export type ParryMultiplierMode = 'preset' | 'custom';

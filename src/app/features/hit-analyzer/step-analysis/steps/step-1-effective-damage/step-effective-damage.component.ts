@@ -1,10 +1,11 @@
 import { Component, input } from '@angular/core';
 import { FormatNumberPipe } from '../../../../../shared/pipes/format-number.pipe';
+import { TooltipDirective } from '../../../../../shared/directives/tooltip.directive';
 import { EffectiveDamageStepAnalysis } from '../../step-analysis.models';
 
 @Component({
   selector: 'app-step-effective-damage',
-  imports: [FormatNumberPipe],
+  imports: [FormatNumberPipe, TooltipDirective],
   templateUrl: './step-effective-damage.component.html',
   styleUrl: '../_step-shared.scss',
 })

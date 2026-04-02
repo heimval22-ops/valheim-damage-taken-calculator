@@ -600,6 +600,3 @@ export class ArmorBuilderComponent {
 
 
 
-
-
-

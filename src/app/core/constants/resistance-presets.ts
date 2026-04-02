@@ -14,3 +14,5 @@ export const RESISTANCE_PRESETS: readonly ResistancePreset[] = [
   { label: 'Immune',             percent: 0   },
 ] as const;
 
+
+

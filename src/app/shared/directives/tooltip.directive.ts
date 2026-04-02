@@ -12,7 +12,7 @@ import {
  * Mirrors the logic from the original mobile.js module.
  */
 @Directive({
-  selector: '[appTooltip]',
+  selector: '[appTooltip], .tip-wrap',
   host: { class: 'tip-wrap' },
 })
 export class TooltipDirective implements OnDestroy {

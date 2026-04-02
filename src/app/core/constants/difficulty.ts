@@ -28,4 +28,3 @@ export const DIFFICULTY_DAMAGE_BONUS_PERCENT: Record<DifficultyKey, number> = {
 };
 
 
-

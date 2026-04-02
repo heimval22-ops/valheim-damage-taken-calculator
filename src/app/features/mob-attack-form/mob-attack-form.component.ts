@@ -88,8 +88,8 @@ export class MobAttackFormComponent {
           iconSrc: normalizedIconSrc,
           items: mob.attacks.map(attack => {
             const typeEntries = DAMAGE_TYPE_NAMES
-              .filter(typeName => (attack as any)[typeName] > 0)
-              .map(typeName => `${(attack as any)[typeName]} ${typeName}`);
+              .filter(typeName => (attack[typeName] ?? 0) > 0)
+              .map(typeName => `${attack[typeName]} ${typeName}`);
             const typeSummary = typeEntries.join(' + ');
             return {
               id: attack.attack_type,
@@ -192,8 +192,8 @@ export class MobAttackFormComponent {
     if (!preset) return;
 
     const damageTypes: DamageTypeEntry[] = DAMAGE_TYPE_NAMES
-      .filter(typeName => (preset as any)[typeName] > 0)
-      .map(typeName => ({ type: typeName, value: (preset as any)[typeName] as number }));
+      .filter(typeName => (preset[typeName] ?? 0) > 0)
+      .map(typeName => ({ type: typeName, value: preset[typeName] as number }));
 
     // Rebuild the FormArray from preset damage types
     while (this.damageTypesArray.length > 0) this.damageTypesArray.removeAt(0);

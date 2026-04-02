@@ -1,11 +1,12 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
 import { FormatNumberPipe } from '../../../../../shared/pipes/format-number.pipe';
+import { TooltipDirective } from '../../../../../shared/directives/tooltip.directive';
 import { BlockReducedDamageStepAnalysis } from '../../step-analysis.models';
 
 @Component({
   selector: 'app-step-block-reduced-damage',
-  imports: [DecimalPipe, FormatNumberPipe],
+  imports: [DecimalPipe, FormatNumberPipe, TooltipDirective],
   templateUrl: './step-block-reduced-damage.component.html',
   styleUrl: '../_step-shared.scss',
 })

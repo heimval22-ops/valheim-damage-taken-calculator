@@ -2,7 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { FormState } from './models';
 import { DIFFICULTY_KEYS } from './constants';
 
-const LS_KEY = 'valheim-form';
+const LOCAL_STORAGE_KEY = 'valheim-form';
 
 const DEFAULTS: FormState = {
   mobPreset: '_manual_log_swing_v',
@@ -39,7 +39,7 @@ export class FormStateService {
 
   reset(): void {
     this.stateSignal.set({ ...DEFAULTS });
-    localStorage.removeItem(LS_KEY);
+    localStorage.removeItem(LOCAL_STORAGE_KEY);
     this.resetVersionSignal.update(version => version + 1);
   }
 
@@ -56,7 +56,7 @@ export class FormStateService {
 
   private saveToStorage(): void {
     try {
-      localStorage.setItem(LS_KEY, JSON.stringify(this.stateSignal()));
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.stateSignal()));
     } catch {
       // localStorage not available — ignore
     }
@@ -64,7 +64,7 @@ export class FormStateService {
 
   private loadFromStorage(): FormState {
     try {
-      const saved = localStorage.getItem(LS_KEY);
+      const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (!saved) return { ...DEFAULTS };
       const parsed = JSON.parse(saved) as Partial<FormState>;
       return this.mergeWithDefaults(parsed);
