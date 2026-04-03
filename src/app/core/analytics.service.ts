@@ -1,6 +1,7 @@
 import { Injectable, isDevMode } from '@angular/core';
 
 import { DifficultyKey } from './models';
+import { environment } from '../../environments/environment';
 
 // ── Extend the Window type with the gtag global ────────────────────────────
 declare global {
@@ -54,11 +55,20 @@ export interface SimulatorHitEventParams {
 @Injectable({ providedIn: 'root' })
 export class AnalyticsService {
 
-  /** Low-level wrapper — skips silently if gtag is not available (e.g. blocked by an ad blocker). */
+  constructor() {
+    // Configure gtag with the environment-specific Measurement ID.
+    // Dev uses G-CDXPL7B4D6, production uses G-B08EZ7LY36 — swapped via fileReplacements.
+    try {
+      window.gtag('config', environment.ga4MeasurementId, { send_page_view: false });
+    } catch {
+      // gtag not yet loaded — silently ignore
+    }
+  }
+
+  /** Sends an event to GA4. Always logs to console in dev mode for easy verification. */
   private sendEvent(eventName: string, eventParams: Record<string, string | number | boolean> = {}): void {
     if (isDevMode()) {
       console.debug('[Analytics]', eventName, eventParams);
-      return;
     }
 
     try {
@@ -145,6 +155,8 @@ export class AnalyticsService {
     });
   }
 }
+
+
 
 
 
