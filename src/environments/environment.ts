@@ -1,5 +1,4 @@
 export const environment = {
   production: false,
-  ga4MeasurementId: 'G-CDXPL7B4D6',
+  ga4MeasurementId: 'G-DEJW8DYKQ9',
 };
-
