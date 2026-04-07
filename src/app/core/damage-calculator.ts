@@ -328,6 +328,7 @@ function calculateScenario(
   let currentDamageMap = cloneDamageMap(effectiveDamageMap);
   let staggeredOnBlock = false;
   let blockStaggerDamage = 0;
+  let successfulBlockDamageMap: DamageMap | null = null;
 
   // --- Block phase ---
   if (useShield) {
@@ -340,11 +341,12 @@ function calculateScenario(
     const actualBlocked = originalTotal - afterBlockTotal;
 
     blockStaggerDamage = getTotalStagger(afterBlockMap);
+    successfulBlockDamageMap = applyBlockDamage(currentDamageMap, actualBlocked);
 
     if (blockStaggerDamage >= staggerThreshold) {
       staggeredOnBlock = true;
     } else {
-      currentDamageMap = applyBlockDamage(currentDamageMap, actualBlocked);
+      currentDamageMap = successfulBlockDamageMap;
     }
   }
 
@@ -388,15 +390,27 @@ function calculateScenario(
   const minHealthForNoBlockStagger = blockStaggerDamage > 0 ? Math.floor(blockStaggerDamage / 0.4) + 1 : 0;
   // Min health to avoid stagger:
   //   no shield → avoid armor-phase stagger
-  //   shield + successful block → avoid combined (block + armor) stagger
-  //   shield + guard break → avoid block-phase stagger (same value as minHealthForNoBlockStagger)
+  //   shield → avoid combined (block + armor) stagger assuming a successful block.
+  //     Guard break guarantees stagger, so avoiding stagger requires first avoiding
+  //     the guard break. Combined stagger ≥ block stagger, so the combined-stagger
+  //     min HP is always ≥ the guard-break min HP. When guard break actually happened,
+  //     the armor stagger was computed from the unblocked path — we must instead compute
+  //     the hypothetical successful-block path's armor stagger.
   let minHealthToAvoidStagger: number;
   if (!useShield) {
     minHealthToAvoidStagger = armorStaggerDamage > 0 ? Math.floor(armorStaggerDamage / 0.4) + 1 : 0;
-  } else if (staggeredOnBlock) {
-    minHealthToAvoidStagger = minHealthForNoBlockStagger;
   } else {
-    minHealthToAvoidStagger = totalStaggerAccumulation > 0 ? Math.floor(totalStaggerAccumulation / 0.4) + 1 : 0;
+    let successfulBlockCombinedStagger: number;
+    if (staggeredOnBlock) {
+      // Hypothetical: compute armor stagger as if the block had succeeded
+      const hypotheticalPostResistance = applyResistanceModifiers(successfulBlockDamageMap!, player.resistanceModifiers);
+      const hypotheticalAfterArmor = applyArmorToDamageMap(hypotheticalPostResistance, player.armor);
+      const hypotheticalArmorStagger = getTotalStagger(hypotheticalAfterArmor);
+      successfulBlockCombinedStagger = blockStaggerDamage + hypotheticalArmorStagger;
+    } else {
+      successfulBlockCombinedStagger = totalStaggerAccumulation;
+    }
+    minHealthToAvoidStagger = successfulBlockCombinedStagger > 0 ? Math.floor(successfulBlockCombinedStagger / 0.4) + 1 : 0;
   }
 
   // --- DoT extraction ---

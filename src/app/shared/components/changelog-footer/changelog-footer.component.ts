@@ -69,6 +69,7 @@ export class ChangelogFooterComponent {
     {
       date: '2026-04-07',
       items: [
+        'Fix "Min health to avoid stagger" showing incorrect value when guard break occurs — now correctly accounts for combined (block + armor) stagger on the hypothetical successful-block path',
         'Add Range damage view to Hit Analyzer result table',
         'Fix multiplicative scaling for star level, difficulty, and extra damage modifiers (it was wrongly additive)',
       ],

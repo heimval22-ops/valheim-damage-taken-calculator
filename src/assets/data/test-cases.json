@@ -32,7 +32,7 @@
       "remainingHealth": 70.0,
       "stagger": "YES",
       "minHealthForNoBlockStagger": 101,
-      "minHealthToAvoidStagger": 101
+      "minHealthToAvoidStagger": 134
     }
   },
   {
@@ -50,7 +50,7 @@
       "remainingHealth": 27.0,
       "stagger": "YES",
       "minHealthForNoBlockStagger": 152,
-      "minHealthToAvoidStagger": 152
+      "minHealthToAvoidStagger": 206
     }
   },
   {
@@ -86,7 +86,7 @@
       "remainingHealth": -75.0,
       "stagger": "YES",
       "minHealthForNoBlockStagger": 424,
-      "minHealthToAvoidStagger": 424
+      "minHealthToAvoidStagger": 786
     }
   },
   {
@@ -599,6 +599,44 @@
       "minHealthForNoBlockStagger": 76,
       "minHealthToAvoidStagger": 126,
       "instantDamage": 20.0
+    }
+  },
+  {
+    "name": "Fuling Berserker parry / Hard / guard break at 160 HP — minHealthToAvoidStagger uses hypothetical successful-block path",
+    "mob":    { "damageTypes": { "Blunt": 130.0 }, "starLevel": 0 },
+    "player": { "maxHealth": 160.0, "blockingSkill": 17.0, "blockArmor": 90.0, "armor": 60.0, "parryMultiplier": 1.5 },
+    "difficulty": "HARD",
+    "useShield": true,
+    "isParry": true,
+    "expected": {
+      "baseDamage": 130.0,
+      "effectiveDamage": 195.0,
+      "blockReducedDamage": 195.0,
+      "armorReducedDamage": 135.0,
+      "remainingHealth": 25.0,
+      "stagger": "YES",
+      "minHealthForNoBlockStagger": 163,
+      "minHealthToAvoidStagger": 207,
+      "instantDamage": 135.0
+    }
+  },
+  {
+    "name": "Fuling Berserker parry / Hard / no guard break at 165 HP — combined stagger yields same minHealth as guard-break case",
+    "mob":    { "damageTypes": { "Blunt": 130.0 }, "starLevel": 0 },
+    "player": { "maxHealth": 165.0, "blockingSkill": 17.0, "blockArmor": 90.0, "armor": 60.0, "parryMultiplier": 1.5 },
+    "difficulty": "HARD",
+    "useShield": true,
+    "isParry": true,
+    "expected": {
+      "baseDamage": 130.0,
+      "effectiveDamage": 195.0,
+      "blockReducedDamage": 64.9,
+      "armorReducedDamage": 17.55,
+      "remainingHealth": 147.45,
+      "stagger": "YES",
+      "minHealthForNoBlockStagger": 163,
+      "minHealthToAvoidStagger": 207,
+      "instantDamage": 17.55
     }
   }
 ]
