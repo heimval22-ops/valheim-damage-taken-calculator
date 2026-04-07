@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 
 export interface ChangelogEntry {
   date: string;
-  branch: string;
-  description: string;
+  items: string[];
 }
 
 @Component({
@@ -11,14 +10,16 @@ export interface ChangelogEntry {
   template: `
     <footer class="changelog-footer">
       <h4 class="changelog-title">Changelog</h4>
-      <ul class="changelog-list">
-        @for (entry of changelogEntries; track entry.branch) {
-          <li class="changelog-entry">
-            <span class="changelog-date">{{ entry.date }}</span>
-            <span class="changelog-description">{{ entry.description }}</span>
-          </li>
-        }
-      </ul>
+      @for (entry of changelogEntries; track entry.date) {
+        <div class="changelog-group">
+          <span class="changelog-date">{{ entry.date }}</span>
+          <ul class="changelog-list">
+            @for (item of entry.items; track item) {
+              <li class="changelog-item">{{ item }}</li>
+            }
+          </ul>
+        </div>
+      }
     </footer>
   `,
   styles: [`
@@ -39,27 +40,26 @@ export interface ChangelogEntry {
       margin-bottom: 0.5rem;
     }
 
-    .changelog-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-    }
-
-    .changelog-entry {
-      font-size: 0.75rem;
-      color: $color-text-muted;
+    .changelog-group {
+      margin-bottom: 0.4rem;
     }
 
     .changelog-date {
       color: $color-gold-dark;
-      margin-right: 0.5rem;
       font-size: 0.7rem;
     }
 
-    .changelog-description {
+    .changelog-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.2rem 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .changelog-item {
+      font-size: 0.75rem;
       color: $color-text-muted;
     }
   `],
@@ -68,15 +68,13 @@ export class ChangelogFooterComponent {
   readonly changelogEntries: ChangelogEntry[] = [
     {
       date: '2026-04-07',
-      branch: 'feature/risk-view',
-      description: 'Add Range damage view to Hit Analyzer result table',
-    },
-    {
-      date: '2026-04-07',
-      branch: 'fix/multiplicative-damage-scaling',
-      description: 'Fix multiplicative scaling for star level, difficulty, and extra damage modifiers (it was wrongly additive)',
+      items: [
+        'Add Range damage view to Hit Analyzer result table',
+        'Fix multiplicative scaling for star level, difficulty, and extra damage modifiers (it was wrongly additive)',
+      ],
     },
   ];
 }
+
 
 
