@@ -1,13 +1,13 @@
 <div class="f-step">
   <div class="f-step-label">1 — @if (data().hasRiskFactor) {Scaled Effective Damage} @else {Effective Damage}</div>
   <div class="f-eq">
-    {{ data().baseDamage | formatNumber }} × (1 + {{ data().difficultyBonus }} + {{ data().starLevelBonus }} + ({{ data().extraDamagePercent | formatNumber }} ÷ 100))
+    {{ data().baseDamage | formatNumber }} × {{ data().starLevelFactor | formatNumber }} × {{ data().difficultyDamageRate | formatNumber }} × {{ data().extraDamageFactor | formatNumber }}
     = {{ data().baseDamage | formatNumber }} × {{ data().totalMultiplier | formatNumber }} =
     <span class="tip-wrap f-hover-wrap" tabindex="0">
       <strong class="f-hover-result" [class.f-main-result]="!data().hasRiskFactor">{{ data().effectiveDamage | formatNumber }}</strong>
       <span class="tip-text">
-        effectiveDamage = baseDamage × (1 + difficultyBonus + starLevel × 0.5 + extraDamagePercent ÷ 100)<br>
-        {{ data().baseDamage | formatNumber }} × (1 + {{ data().difficultyBonus }} + {{ data().starLevelBonus }} + ({{ data().extraDamagePercent | formatNumber }} ÷ 100)) = {{ data().baseDamage | formatNumber }} × {{ data().totalMultiplier | formatNumber }} = {{ data().effectiveDamage | formatNumber }}
+        effectiveDamage = baseDamage × starLevelFactor × difficultyRate × extraDamageFactor<br>
+        {{ data().baseDamage | formatNumber }} × {{ data().starLevelFactor | formatNumber }} × {{ data().difficultyDamageRate | formatNumber }} × {{ data().extraDamageFactor | formatNumber }} = {{ data().baseDamage | formatNumber }} × {{ data().totalMultiplier | formatNumber }} = {{ data().effectiveDamage | formatNumber }}
       </span>
     </span>
   </div>

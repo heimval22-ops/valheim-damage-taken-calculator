@@ -13,8 +13,8 @@ import { AnalyticsService } from '../../core/analytics.service';
 import { DamageTypeName, FormState, DamageTypeEntry, DifficultyKey } from '../../core/models';
 import {
   DAMAGE_TYPE_NAMES, DAMAGE_TYPE_ICONS, INSTANT_DAMAGE_TYPE_NAMES, DOT_DAMAGE_TYPE_NAMES,
-  DIFFICULTY_KEYS, DIFFICULTY_LABELS, DIFFICULTY_DAMAGE_BONUS_PERCENT,
-  STAR_LEVELS, STAR_LEVEL_LABELS, STAR_LEVEL_DAMAGE_BONUS_PERCENT, StarLevel,
+  DIFFICULTY_KEYS, DIFFICULTY_LABELS, DIFFICULTY_ENEMY_DAMAGE_RATE,
+  STAR_LEVELS, STAR_LEVEL_LABELS, StarLevel,
 } from '../../core/constants';
 import { ToggleGroupComponent, ToggleOption } from '../../shared/components/toggle-group/toggle-group.component';
 import { PresetDropdownComponent, PresetGroup, PresetSubGroup } from '../../shared/components/preset-dropdown/preset-dropdown.component';
@@ -64,15 +64,21 @@ export class MobAttackFormComponent {
 
   readonly difficultyBonusLabels: Record<DifficultyKey, string> = Object.fromEntries(
     DIFFICULTY_KEYS.map(key => {
-      const percent = DIFFICULTY_DAMAGE_BONUS_PERCENT[key];
-      const label = percent < 0
-        ? `${Math.abs(percent)}% less damage (flat)`
-        : `${percent}% additional damage bonus`;
+      const rate = DIFFICULTY_ENEMY_DAMAGE_RATE[key];
+      const label = rate < 1.0
+        ? `${Math.round((1 - rate) * 100)}% less damage`
+        : rate > 1.0
+          ? `${Math.round((rate - 1) * 100)}% more damage`
+          : 'baseline damage';
       return [key, label];
     })
   ) as Record<DifficultyKey, string>;
 
-  readonly starLevelBonusLabels = STAR_LEVEL_DAMAGE_BONUS_PERCENT;
+  readonly starLevelFactorLabels: Record<StarLevel, string> = {
+    0: 'baseline damage',
+    1: '50% more damage',
+    2: '100% more damage',
+  };
 
   readonly hasExtraDamage = signal(false);
 

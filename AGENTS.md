@@ -75,8 +75,11 @@ npm run test:calc
 Every calculation produces **three scenarios in one call**: No Shield, Block, Parry (see `damage-calculator.ts → calculate()`).
 
 ```
-effectiveDamage = baseDamage × (1 + difficultyBonus + starLevel × 0.5 + extraDamagePercent / 100)
-                     ← bonuses are ADDITIVE, not multiplicative
+effectiveDamage = baseDamage × starLevelFactor × difficultyDamageRate × extraDamageFactor
+                     ← factors are MULTIPLICATIVE, not additive
+                     starLevelFactor   = 1 + starLevel × 0.5      (1.0 / 1.5 / 2.0)
+                     difficultyDamageRate = m_enemyDamageRate      (0.5 / 0.75 / 1.0 / 1.5 / 2.0)
+                     extraDamageFactor = 1 + extraDamagePercent / 100
 ```
 
 Armor reduction formula (used for both block and body armor phases):
@@ -115,7 +118,7 @@ When in doubt, prefer a longer descriptive name over a shorter ambiguous one.
 
 **`damage-calculator.ts`** is a static-function-only module — all exports are pure functions, no class instantiation.
 
-**Combat Difficulty** values: `VERY_EASY`, `EASY`, `NORMAL`, `HARD`, `VERY_HARD` — stored as keys in the `DIFFICULTY` frozen object. Enemy damage rates: 50% / 75% / 100% / 150% / 200%.
+**Combat Difficulty** values: `VERY_EASY`, `EASY`, `NORMAL`, `HARD`, `VERY_HARD` — stored as keys in the `DIFFICULTY_ENEMY_DAMAGE_RATE` frozen object. Enemy damage rates: ×0.50 / ×0.75 / ×1.00 / ×1.50 / ×2.00.
 
 **Parry multiplier** can be supplied two ways:
 - `parryMultiplier` — direct numeric value (preferred by the UI)

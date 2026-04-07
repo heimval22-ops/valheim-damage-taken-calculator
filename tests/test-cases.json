@@ -44,13 +44,13 @@
     "isParry": true,
     "expected": {
       "baseDamage": 60.0,
-      "effectiveDamage": 120.0,
-      "blockReducedDamage": 47.841,
-      "armorReducedDamage": 13.623,
-      "remainingHealth": 106.377,
+      "effectiveDamage": 135.0,
+      "blockReducedDamage": 135.0,
+      "armorReducedDamage": 93.0,
+      "remainingHealth": 27.0,
       "stagger": "YES",
-      "minHealthForNoBlockStagger": 120,
-      "minHealthToAvoidStagger": 154
+      "minHealthForNoBlockStagger": 152,
+      "minHealthToAvoidStagger": 152
     }
   },
   {
@@ -62,13 +62,13 @@
     "isParry": false,
     "expected": {
       "baseDamage": 50.0,
-      "effectiveDamage": 150.0,
-      "blockReducedDamage": 150.0,
-      "armorReducedDamage": 130.0,
-      "remainingHealth": -50.0,
+      "effectiveDamage": 200.0,
+      "blockReducedDamage": 200.0,
+      "armorReducedDamage": 180.0,
+      "remainingHealth": -100.0,
       "stagger": "YES",
       "minHealthForNoBlockStagger": 0,
-      "minHealthToAvoidStagger": 326
+      "minHealthToAvoidStagger": 451
     }
   },
   {
@@ -80,13 +80,13 @@
     "isParry": false,
     "expected": {
       "baseDamage": 60.0,
-      "effectiveDamage": 150.0,
-      "blockReducedDamage": 150.0,
-      "armorReducedDamage": 125.0,
-      "remainingHealth": -45.0,
+      "effectiveDamage": 180.0,
+      "blockReducedDamage": 180.0,
+      "armorReducedDamage": 155.0,
+      "remainingHealth": -75.0,
       "stagger": "YES",
-      "minHealthForNoBlockStagger": 349,
-      "minHealthToAvoidStagger": 349
+      "minHealthForNoBlockStagger": 424,
+      "minHealthToAvoidStagger": 424
     }
   },
   {
@@ -342,16 +342,16 @@
     "isParry": false,
     "expected": {
       "baseDamage": 90.0,
-      "effectiveDamage": 180.0,
-      "blockReducedDamage": 149.9,
-      "armorReducedDamage": 104.9,
-      "remainingHealth": 5.1,
+      "effectiveDamage": 202.5,
+      "blockReducedDamage": 172.4,
+      "armorReducedDamage": 127.4,
+      "remainingHealth": -17.4,
       "stagger": "YES",
-      "minHealthForNoBlockStagger": 84,
-      "minHealthToAvoidStagger": 142,
-      "instantDamage": 23.311,
+      "minHealthForNoBlockStagger": 96,
+      "minHealthToAvoidStagger": 167,
+      "instantDamage": 28.311,
       "dotBreakdown": {
-        "poison": { "total": 81.589, "tickCount": 21 }
+        "poison": { "total": 99.089, "tickCount": 23 }
       }
     }
   },
