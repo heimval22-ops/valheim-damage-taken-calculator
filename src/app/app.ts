@@ -4,7 +4,7 @@ import { FormStateService } from './core/form-state.service';
 import { DamageCalculatorService } from './core/damage-calculator.service';
 import { HitSimulatorService } from './core/hit-simulator.service';
 import { AnalyticsService } from './core/analytics.service';
-import { CalculationResult, FormState } from './core/models';
+import { CalculationResult, FormState, RiskViewResult } from './core/models';
 import { getPercentileRng } from './core/damage-calculator';
 
 import { MobAttackFormComponent } from './features/mob-attack-form/mob-attack-form.component';
@@ -38,6 +38,7 @@ export class App implements OnInit {
   readonly isDevMode = isDevMode();
   readonly activeTab = signal<ActiveTab>('simulator');
   readonly calculationResult = signal<CalculationResult | null>(null);
+  readonly riskViewResult = signal<RiskViewResult | null>(null);
   readonly calculationFormState = signal<FormState | null>(null);
   readonly calculationError = signal<string | null>(null);
   readonly riskFactor = signal<number>(this.formStateService.state().riskFactor);
@@ -83,22 +84,22 @@ export class App implements OnInit {
     }
 
     try {
-      const result = this.damageCalculatorService.calculate(
-        {
-          damageTypes,
-          starLevel: formState.starLevel,
-          difficulty: formState.difficulty,
-          extraDamagePercent: formState.extraDamagePercent,
-          maxHealth: formState.maxHealth,
-          blockingSkill: formState.blockingSkill,
-          blockArmor: formState.blockArmor,
-          armor: formState.armor,
-          parryMultiplier: formState.parryMultiplier,
-          resistanceModifiers,
-        },
-        { rng: rngOption },
-      );
+      const calculationInputs = {
+        damageTypes,
+        starLevel: formState.starLevel,
+        difficulty: formState.difficulty,
+        extraDamagePercent: formState.extraDamagePercent,
+        maxHealth: formState.maxHealth,
+        blockingSkill: formState.blockingSkill,
+        blockArmor: formState.blockArmor,
+        armor: formState.armor,
+        parryMultiplier: formState.parryMultiplier,
+        resistanceModifiers,
+      };
+      const result = this.damageCalculatorService.calculate(calculationInputs, { rng: rngOption });
+      const riskView = this.damageCalculatorService.calculateRiskView(calculationInputs);
       this.calculationResult.set(result);
+      this.riskViewResult.set(riskView);
       this.calculationFormState.set(formState);
       this.hitSimulatorService.syncMaxHealth(formState.maxHealth);
       this.analyticsService.trackHitCalculated({
@@ -112,12 +113,14 @@ export class App implements OnInit {
     } catch (error) {
       this.calculationError.set((error as Error).message);
       this.calculationResult.set(null);
+      this.riskViewResult.set(null);
     }
   }
 
   onReset(): void {
     this.formStateService.reset();
     this.calculationResult.set(null);
+    this.riskViewResult.set(null);
     this.calculationError.set(null);
     this.calculationFormState.set(null);
     this.riskFactor.set(0);

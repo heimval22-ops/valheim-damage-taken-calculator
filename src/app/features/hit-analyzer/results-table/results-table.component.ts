@@ -1,5 +1,5 @@
-import { Component, input, computed } from '@angular/core';
-import { CalculationResult, ScenarioResult, FormState, DamageTypeName, DotBreakdown } from '../../../core/models';
+import { Component, input, computed, signal } from '@angular/core';
+import { CalculationResult, ScenarioResult, FormState, DamageTypeName, DotBreakdown, RiskViewResult, RiskScenarioResult } from '../../../core/models';
 import {
   INSTANT_DAMAGE_TYPE_NAMES, DAMAGE_TYPE_ICONS,
   DIFFICULTY_LABELS, DIFFICULTY_ENEMY_DAMAGE_RATE,
@@ -17,6 +17,8 @@ const DOT_TYPE_DEFINITIONS = DOT_TYPE_CONFIGS.map(config => ({
 }));
 
 // ── View models ──────────────────────────────────────────────────────────────
+
+export type ViewMode = 'maxDamage' | 'riskView';
 
 export interface DamageDisplayLine {
   text: string;
@@ -51,6 +53,20 @@ export interface ScenarioDisplay {
   minHealthStaggerCssClass: string;
 }
 
+export interface RiskScenarioDisplay {
+  instantDamageText: string;
+  dotDamageText: string;
+  hasDotDamage: boolean;
+  remainingHealthBeforeDoTText: string;
+  isRemainingHealthBeforeDoTLethal: boolean;
+  remainingHealthText: string;
+  isRemainingHealthLethal: boolean;
+  staggerPercentText: string;
+  staggerPercentCssClass: string;
+  blockBypassPercentText: string;
+  blockBypassPercentCssClass: string;
+}
+
 // ── Component ────────────────────────────────────────────────────────────────
 
 @Component({
@@ -63,6 +79,13 @@ export class ResultsTableComponent {
   readonly result    = input<CalculationResult | null>(null);
   readonly formState = input<FormState | null>(null);
   readonly riskFactor = input<number>(0);
+  readonly riskViewResult = input<RiskViewResult | null>(null);
+
+  readonly viewMode = signal<ViewMode>('maxDamage');
+
+  toggleViewMode(mode: ViewMode): void {
+    this.viewMode.set(mode);
+  }
 
   readonly columnHeaders = computed<string[]>(() => {
     const calculationResult = this.result();
@@ -331,6 +354,85 @@ export class ResultsTableComponent {
       minHealthStaggerText,
       minHealthStaggerCssClass,
     };
+  }
+
+  // ── Risk view display ───────────────────────────────────────────────────
+
+  readonly riskScenarioDisplayValues = computed<RiskScenarioDisplay[]>(() => {
+    const riskView = this.riskViewResult();
+    if (!riskView) return [];
+    return [
+      this.buildRiskScenarioDisplay(riskView.noShield, true),
+      this.buildRiskScenarioDisplay(riskView.block, false),
+      this.buildRiskScenarioDisplay(riskView.parry, false),
+    ];
+  });
+
+  readonly hasRiskDoT = computed<boolean>(() => {
+    const riskView = this.riskViewResult();
+    if (!riskView) return false;
+    return riskView.noShield.dotDamageMax > 0.001
+      || riskView.block.dotDamageMax > 0.001
+      || riskView.parry.dotDamageMax > 0.001;
+  });
+
+  private buildRiskScenarioDisplay(
+    riskScenario: RiskScenarioResult,
+    isNoShield: boolean,
+  ): RiskScenarioDisplay {
+    const instantDamageText = this.formatRange(riskScenario.instantDamageMin, riskScenario.instantDamageMax);
+    const dotDamageText = this.formatRange(riskScenario.dotDamageMin, riskScenario.dotDamageMax);
+    const hasDotDamage = riskScenario.dotDamageMax > 0.001;
+
+    const remainingHealthBeforeDoTText = this.formatRange(
+      riskScenario.remainingHealthBeforeDoTMin, riskScenario.remainingHealthBeforeDoTMax,
+    );
+    const isRemainingHealthBeforeDoTLethal = riskScenario.remainingHealthBeforeDoTMax <= 0;
+
+    const remainingHealthText = this.formatRange(
+      riskScenario.remainingHealthMin, riskScenario.remainingHealthMax,
+    );
+    const isRemainingHealthLethal = riskScenario.remainingHealthMax <= 0;
+
+    const staggerPercentText = `${formatNumber(riskScenario.staggerPercent)}%`;
+    const staggerPercentCssClass = this.getPercentCssClass(riskScenario.staggerPercent);
+
+    let blockBypassPercentText: string;
+    let blockBypassPercentCssClass: string;
+    if (isNoShield) {
+      blockBypassPercentText = 'N/A';
+      blockBypassPercentCssClass = 'stagger-no';
+    } else {
+      blockBypassPercentText = `${formatNumber(riskScenario.blockBypassPercent)}%`;
+      blockBypassPercentCssClass = this.getPercentCssClass(riskScenario.blockBypassPercent);
+    }
+
+    return {
+      instantDamageText,
+      dotDamageText,
+      hasDotDamage,
+      remainingHealthBeforeDoTText,
+      isRemainingHealthBeforeDoTLethal,
+      remainingHealthText,
+      isRemainingHealthLethal,
+      staggerPercentText,
+      staggerPercentCssClass,
+      blockBypassPercentText,
+      blockBypassPercentCssClass,
+    };
+  }
+
+  private formatRange(minValue: number, maxValue: number): string {
+    if (Math.abs(minValue - maxValue) < 0.01) {
+      return formatNumber(maxValue);
+    }
+    return `${formatNumber(minValue)} – ${formatNumber(maxValue)}`;
+  }
+
+  private getPercentCssClass(percent: number): string {
+    if (percent >= 100) return 'risk-percent-high';
+    if (percent > 0) return 'risk-percent-mid';
+    return 'risk-percent-low';
   }
 }
 
