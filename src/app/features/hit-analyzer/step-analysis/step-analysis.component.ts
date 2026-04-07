@@ -7,7 +7,7 @@ import {
   calculateArmorReduction, calculateBlockPower, calculateBlockingSkillFactor, calculateStaggerThreshold,
 } from '../../../core/damage-calculator';
 import {
-  DAMAGE_TYPE_NAMES, DAMAGE_TYPE_ICONS, DAMAGE_TYPE_CSS_CLASSES, DIFFICULTY_DAMAGE_BONUS_PERCENT,
+  DAMAGE_TYPE_NAMES, DAMAGE_TYPE_ICONS, DAMAGE_TYPE_CSS_CLASSES, DIFFICULTY_ENEMY_DAMAGE_RATE,
   STAGGER_DAMAGE_TYPE_NAMES, DOT_TYPE_CONFIGS, INSTANT_DAMAGE_TYPE_NAMES, DOT_DAMAGE_TYPE_NAMES,
   DAMAGE_DISPLAY_THRESHOLD, SIM_SCENARIO_LABELS,
 } from '../../../core/constants';
@@ -102,10 +102,11 @@ export class StepAnalysisComponent {
     const rngValue  = hasRiskFactor ? getPercentileRng(rngBasePercentile) : 0;
     const rngFactor = hasRiskFactor ? Math.sqrt(rngValue) : 0;
 
-    const difficultyBonus    = (DIFFICULTY_DAMAGE_BONUS_PERCENT[formState.difficulty] ?? 0) / 100;
-    const starLevelBonus     = formState.starLevel * 0.5;
+    const difficultyDamageRate = DIFFICULTY_ENEMY_DAMAGE_RATE[formState.difficulty] ?? 1.0;
+    const starLevelFactor    = 1 + formState.starLevel * 0.5;
     const extraDamagePercent = formState.extraDamagePercent ?? 0;
-    const totalMultiplier    = 1 + difficultyBonus + starLevelBonus + extraDamagePercent / 100;
+    const extraDamageFactor  = 1 + extraDamagePercent / 100;
+    const totalMultiplier    = starLevelFactor * difficultyDamageRate * extraDamageFactor;
     const staggerThreshold   = calculateStaggerThreshold(formState.maxHealth);
     const parryMultiplier    = formState.parryMultiplier;
     const skillFactor        = calculateBlockingSkillFactor(formState.blockingSkill);
@@ -118,8 +119,9 @@ export class StepAnalysisComponent {
 
     const effectiveDamageStep: EffectiveDamageStepAnalysis = {
       baseDamage,
-      difficultyBonus,
-      starLevelBonus,
+      starLevelFactor,
+      difficultyDamageRate,
+      extraDamageFactor,
       extraDamagePercent,
       totalMultiplier,
       effectiveDamage,

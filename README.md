@@ -13,7 +13,7 @@ Runs entirely in the browser as a static site — no backend required.
 - **Multi-type damage** — Per-type breakdown (Blunt, Slash, Pierce, Fire, Frost, Lightning, Poison, Spirit) with color-coded badges
 - **Resistance modifiers** — Configurable per damage type with presets (Immune → Very Weak)
 - **Stagger detection** — Shows whether the player is staggered on block or on armor
-- **Combat Difficulty & star scaling** — Very Easy / Easy / Normal / Hard / Very Hard (50%–200% enemy damage) and 0–2 star mob bonuses
+- **Combat Difficulty & star scaling** — Very Easy / Easy / Normal / Hard / Very Hard (×0.5–×2.0 enemy damage rate) and 0–2 star mob levels, applied multiplicatively
 - **Hit Simulator** — Animated combat arena with DoT drain, adjustable speed, and hit logging
 - **Armor Builder** — Compose armor sets from game pieces and meads to calculate total armor
 - **Mob & shield presets** — Biome-grouped mob attacks and shield presets with quality levels
@@ -25,7 +25,7 @@ Runs entirely in the browser as a static site — no backend required.
 
 | Step | What happens |
 |------|-------------|
-| **1** | Base damage is scaled by difficulty, star & extra damage bonuses → **Effective Damage** |
+| **1** | Base damage is scaled by star level, difficulty rate & extra damage factor (multiplicative) → **Effective Damage** |
 | **2** | Block armor is scaled by blocking skill & parry multiplier → **Effective Block Armor** |
 | **3** | Effective damage is reduced by effective block armor → **Block-Reduced Damage** |
 | **4** | Resistance modifiers scale damage up or down → **Resistance-Multiplied Damage** |

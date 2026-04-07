@@ -2,7 +2,7 @@ import { Component, input, computed } from '@angular/core';
 import { CalculationResult, ScenarioResult, FormState, DamageTypeName, DotBreakdown } from '../../../core/models';
 import {
   INSTANT_DAMAGE_TYPE_NAMES, DAMAGE_TYPE_ICONS,
-  DIFFICULTY_LABELS, DIFFICULTY_DAMAGE_BONUS_PERCENT,
+  DIFFICULTY_LABELS, DIFFICULTY_ENEMY_DAMAGE_RATE,
   SIM_SCENARIO_KEYS, SIM_SCENARIO_LABELS, DAMAGE_DISPLAY_THRESHOLD, DOT_TYPE_CONFIGS,
 } from '../../../core/constants';
 import { formatNumber } from '../../../shared/pipes/format-number.pipe';
@@ -81,26 +81,36 @@ export class ResultsTableComponent {
     const formState = this.formState();
     if (!calculationResult || !formState) return null;
 
-    const difficultyBonus = DIFFICULTY_DAMAGE_BONUS_PERCENT[formState.difficulty] ?? 0;
-    const starLevelBonus = formState.starLevel * 50;
+    const difficultyDamageRate = DIFFICULTY_ENEMY_DAMAGE_RATE[formState.difficulty] ?? 1.0;
+    const starLevelFactor = 1 + formState.starLevel * 0.5;
     const extraDamagePercent = formState.extraDamagePercent ?? 0;
-    const totalBonus = difficultyBonus + starLevelBonus + extraDamagePercent;
+    const extraDamageFactor = 1 + extraDamagePercent / 100;
+    const totalMultiplier = starLevelFactor * difficultyDamageRate * extraDamageFactor;
 
     const difficultyLabel = DIFFICULTY_LABELS[formState.difficulty] ?? 'Normal';
 
     const parts: string[] = [];
-    if (difficultyBonus !== 0) parts.push(`${difficultyLabel} ${difficultyBonus > 0 ? '+' : ''}${difficultyBonus}%`);
-    if (starLevelBonus)        parts.push(`${formState.starLevel}★ +${starLevelBonus}%`);
-    if (extraDamagePercent)    parts.push(`Extra +${extraDamagePercent}%`);
+    if (difficultyDamageRate !== 1.0) {
+      const difficultyPercent = Math.round(Math.abs(difficultyDamageRate - 1) * 100);
+      parts.push(`${difficultyLabel} ${difficultyDamageRate < 1 ? `${difficultyPercent}% less` : `${difficultyPercent}% more`}`);
+    }
+    if (starLevelFactor !== 1.0) {
+      const starPercent = Math.round((starLevelFactor - 1) * 100);
+      parts.push(`${formState.starLevel}★ ${starPercent}% more`);
+    }
+    if (extraDamageFactor !== 1.0) {
+      parts.push(`Extra +${extraDamagePercent}%`);
+    }
 
     if (parts.length === 0) {
       return { label: 'No damage modifier', highlight: null };
     }
 
-    const sign = totalBonus >= 0 ? '+' : '';
+    const totalPercent = Math.round((totalMultiplier - 1) * 100);
+    const totalSign = totalPercent >= 0 ? '+' : '';
     return {
       label: 'Damage modifier: ',
-      highlight: `${parts.join(' | ')} (${sign}${totalBonus}% total)`,
+      highlight: `${parts.join(' | ')} (${totalSign}${totalPercent}% total, ×${formatNumber(totalMultiplier)})`,
     };
   });
 

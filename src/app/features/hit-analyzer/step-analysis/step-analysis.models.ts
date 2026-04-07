@@ -63,8 +63,9 @@ export interface StaggerTermEntry {
 
 export interface EffectiveDamageStepAnalysis {
   baseDamage: number;
-  difficultyBonus: number;
-  starLevelBonus: number;
+  starLevelFactor: number;
+  difficultyDamageRate: number;
+  extraDamageFactor: number;
   extraDamagePercent: number;
   totalMultiplier: number;
   effectiveDamage: number;

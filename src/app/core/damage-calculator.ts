@@ -3,7 +3,7 @@
  * No external dependencies — pure TypeScript module.
  *
  * Supports per-type damage maps: { Blunt: 40, Fire: 20 }
- * Pipeline: difficulty scaling → block/parry → resistance modifiers → body armor → DoT extraction
+ * Pipeline: multiplicative scaling (star level × difficulty × extra) → block/parry → resistance modifiers → body armor → DoT extraction
  */
 
 import {
@@ -11,7 +11,7 @@ import {
   INSTANT_DAMAGE_TYPE_NAMES,
   DOT_DAMAGE_TYPE_NAMES,
   STAGGER_DAMAGE_TYPE_NAMES,
-  DIFFICULTY_DAMAGE_BONUS_PERCENT,
+  DIFFICULTY_ENEMY_DAMAGE_RATE,
   FIRE_DOT,
   SPIRIT_DOT,
   POISON_DOT,
@@ -101,17 +101,17 @@ function validateParryMultiplier(parryMultiplier: number): void {
   }
 }
 
-/* ── Effective damage (per-type scaling) ── */
+/* ── Effective damage (per-type scaling — multiplicative) ── */
 
 function applyEffectiveScaling(
   damageMap: DamageMap,
   starLevel: number,
   extraDamagePercent: number,
-  difficultyBonusPercent: number,
+  difficultyDamageRate: number,
 ): DamageMap {
-  const starBonus = starLevel * 0.50;
-  const extraBonus = extraDamagePercent / 100.0;
-  const multiplier = 1.0 + difficultyBonusPercent / 100.0 + starBonus + extraBonus;
+  const starLevelFactor = 1.0 + starLevel * 0.50;
+  const extraDamageFactor = 1.0 + extraDamagePercent / 100.0;
+  const multiplier = starLevelFactor * difficultyDamageRate * extraDamageFactor;
   const scaled = cloneDamageMap(damageMap);
   for (const typeName of DAMAGE_TYPE_NAMES) {
     scaled[typeName] *= multiplier;
@@ -476,10 +476,10 @@ export function calculate(
   { rng = null }: CalculationOptions = {},
 ): CalculationResult {
   const difficultyKey = String(inputs.difficulty) as DifficultyKey;
-  if (!(difficultyKey in DIFFICULTY_DAMAGE_BONUS_PERCENT)) {
+  if (!(difficultyKey in DIFFICULTY_ENEMY_DAMAGE_RATE)) {
     throw new Error(`Unknown difficulty: ${difficultyKey}`);
   }
-  const difficultyBonusPercent = DIFFICULTY_DAMAGE_BONUS_PERCENT[difficultyKey];
+  const difficultyDamageRate = DIFFICULTY_ENEMY_DAMAGE_RATE[difficultyKey];
 
   const baseDamageMap = resolveDamageTypes(inputs);
   const baseDamageTotal = sumAllTypes(baseDamageMap);
@@ -490,7 +490,7 @@ export function calculate(
   validateExtraDamagePercent(extraDamagePercent);
 
   const effectiveDamageMap = applyEffectiveScaling(
-    baseDamageMap, starLevel, extraDamagePercent, difficultyBonusPercent,
+    baseDamageMap, starLevel, extraDamagePercent, difficultyDamageRate,
   );
   const effectiveDamageTotal = sumAllTypes(effectiveDamageMap);
 

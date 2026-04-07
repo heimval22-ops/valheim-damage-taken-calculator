@@ -16,15 +16,16 @@ export const DIFFICULTY_LABELS: Record<DifficultyKey, string> = {
 };
 
 /**
- * Damage bonus as an integer percentage offset.
- * e.g. VERY_EASY = -50 means 50 % less incoming damage.
+ * Enemy damage rate multiplier per difficulty level.
+ * Applied multiplicatively with star level and extra damage factors.
+ * e.g. HARD = 1.50 means enemies deal 150 % of their base damage.
  */
-export const DIFFICULTY_DAMAGE_BONUS_PERCENT: Record<DifficultyKey, number> = {
-  VERY_EASY: -50,
-  EASY:      -25,
-  NORMAL:      0,
-  HARD:       50,
-  VERY_HARD: 100,
+export const DIFFICULTY_ENEMY_DAMAGE_RATE: Record<DifficultyKey, number> = {
+  VERY_EASY: 0.50,
+  EASY:      0.75,
+  NORMAL:    1.00,
+  HARD:      1.50,
+  VERY_HARD: 2.00,
 };
 
 
