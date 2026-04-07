@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { calculate, calculateRiskView, sampleRng, getPercentileRng } from './damage-calculator';
-import { CalculationInputs, CalculationOptions, CalculationResult, RiskViewResult } from './models';
+import { calculate, calculateRangeDamage, sampleRng, getPercentileRng } from './damage-calculator';
+import { CalculationInputs, CalculationOptions, CalculationResult, RangeDamageResult } from './models';
 
 @Injectable({ providedIn: 'root' })
 export class DamageCalculatorService {
@@ -9,8 +9,8 @@ export class DamageCalculatorService {
     return calculate(inputs, options);
   }
 
-  calculateRiskView(inputs: CalculationInputs): RiskViewResult {
-    return calculateRiskView(inputs);
+  calculateRangeDamage(inputs: CalculationInputs): RangeDamageResult {
+    return calculateRangeDamage(inputs);
   }
 
   sampleRng(): number {

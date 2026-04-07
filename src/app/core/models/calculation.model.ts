@@ -77,11 +77,15 @@ export interface CalculationResult {
   parry: ScenarioResult;
 }
 
-export interface RiskScenarioResult {
+export interface RangeDamageScenarioResult {
   instantDamageMin: number;
   instantDamageMax: number;
+  instantMapMin: DamageMap;
+  instantMapMax: DamageMap;
   dotDamageMin: number;
   dotDamageMax: number;
+  dotBreakdownMin: DotBreakdown;
+  dotBreakdownMax: DotBreakdown;
   remainingHealthBeforeDoTMin: number;
   remainingHealthBeforeDoTMax: number;
   remainingHealthMin: number;
@@ -90,8 +94,8 @@ export interface RiskScenarioResult {
   blockBypassPercent: number;
 }
 
-export interface RiskViewResult {
-  noShield: RiskScenarioResult;
-  block: RiskScenarioResult;
-  parry: RiskScenarioResult;
+export interface RangeDamageResult {
+  noShield: RangeDamageScenarioResult;
+  block: RangeDamageScenarioResult;
+  parry: RangeDamageScenarioResult;
 }

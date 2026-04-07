@@ -28,8 +28,8 @@ import {
   DotTick,
   DotBreakdown,
   ResistanceModifiers,
-  RiskViewResult,
-  RiskScenarioResult,
+  RangeDamageResult,
+  RangeDamageScenarioResult,
 } from './models';
 
 
@@ -571,7 +571,7 @@ function findThresholdRng(
   return (low + high) / 2;
 }
 
-function computeRiskScenarioPercent(
+function computeRangeDamageScenarioPercent(
   inputs: CalculationInputs,
   scenarioKey: ScenarioKey,
   predicate: (scenario: ScenarioResult) => boolean,
@@ -595,18 +595,18 @@ function sumDotTotals(dotBreakdown: DotBreakdown): number {
   return total;
 }
 
-function buildRiskScenario(
+function buildRangeDamageScenario(
   inputs: CalculationInputs,
   scenarioAtMin: ScenarioResult,
   scenarioAtMax: ScenarioResult,
   scenarioKey: ScenarioKey,
-): RiskScenarioResult {
+): RangeDamageScenarioResult {
   const isStaggeredAtMin = scenarioAtMin.stagger === 'YES';
   const isStaggeredAtMax = scenarioAtMax.stagger === 'YES';
   const isBlockBypassedAtMin = scenarioAtMin.staggeredOnBlock;
   const isBlockBypassedAtMax = scenarioAtMax.staggeredOnBlock;
 
-  const staggerPercent = computeRiskScenarioPercent(
+  const staggerPercent = computeRangeDamageScenarioPercent(
     inputs, scenarioKey,
     (scenario) => scenario.stagger === 'YES',
     isStaggeredAtMin, isStaggeredAtMax,
@@ -614,7 +614,7 @@ function buildRiskScenario(
 
   const blockBypassPercent = scenarioKey === 'noShield'
     ? 0
-    : computeRiskScenarioPercent(
+    : computeRangeDamageScenarioPercent(
         inputs, scenarioKey,
         (scenario) => scenario.staggeredOnBlock,
         isBlockBypassedAtMin, isBlockBypassedAtMax,
@@ -626,8 +626,12 @@ function buildRiskScenario(
   return {
     instantDamageMin: scenarioAtMin.instantDamage,
     instantDamageMax: scenarioAtMax.instantDamage,
+    instantMapMin: scenarioAtMin.instantMap,
+    instantMapMax: scenarioAtMax.instantMap,
     dotDamageMin,
     dotDamageMax,
+    dotBreakdownMin: scenarioAtMin.dotBreakdown,
+    dotBreakdownMax: scenarioAtMax.dotBreakdown,
     remainingHealthBeforeDoTMin: scenarioAtMax.remainingHealthBeforeDoT,
     remainingHealthBeforeDoTMax: scenarioAtMin.remainingHealthBeforeDoT,
     remainingHealthMin: scenarioAtMax.remainingHealth,
@@ -638,16 +642,16 @@ function buildRiskScenario(
 }
 
 /**
- * Computes risk-view data: damage ranges and stagger/block-bypass probabilities
+ * Computes range-damage data: damage ranges and stagger/block-bypass probabilities
  * across the full RNG range [0.75, 1.0].
  */
-export function calculateRiskView(inputs: CalculationInputs): RiskViewResult {
+export function calculateRangeDamage(inputs: CalculationInputs): RangeDamageResult {
   const resultAtMin = calculate(inputs, { rng: RNG_MIN });
   const resultAtMax = calculate(inputs, { rng: RNG_MAX });
 
   return {
-    noShield: buildRiskScenario(inputs, resultAtMin.noShield, resultAtMax.noShield, 'noShield'),
-    block:    buildRiskScenario(inputs, resultAtMin.block,    resultAtMax.block,    'block'),
-    parry:    buildRiskScenario(inputs, resultAtMin.parry,    resultAtMax.parry,    'parry'),
+    noShield: buildRangeDamageScenario(inputs, resultAtMin.noShield, resultAtMax.noShield, 'noShield'),
+    block:    buildRangeDamageScenario(inputs, resultAtMin.block,    resultAtMax.block,    'block'),
+    parry:    buildRangeDamageScenario(inputs, resultAtMin.parry,    resultAtMax.parry,    'parry'),
   };
 }
