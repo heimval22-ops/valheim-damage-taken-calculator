@@ -156,3 +156,8 @@ Tests are data-driven via `tests/test-cases.json`. To add a new scenario, add a 
 ## Git Workflow
 
 **Never push without explicit permission.** Commits stay local until the user explicitly asks to push. Do not run `git push` on your own.
+
+**Branch naming** — all new branches must use one of these prefixes:
+- `feature/` — new functionality or UI changes (e.g. `feature/range-view-toggle`)
+- `bugfix/` — bug fixes (e.g. `bugfix/multiplicative-damage-scaling`)
+
