@@ -37,30 +37,25 @@
   color: $color-gold-dark;
   border: 1px solid $color-gold-darker;
   padding: 0.65rem 1.4rem;
+  min-width: 10rem;
   font-size: 0.95rem;
   font-family: inherit;
   letter-spacing: 3px;
   text-transform: uppercase;
   cursor: pointer;
   border-radius: $radius-md;
-  transition: background 0.15s, color 0.15s;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
 
   &:hover {
     background: $color-bg-btn;
     color: $color-gold;
   }
-}
 
-.copied-feedback {
-  color: #80c080;
-  font-size: 0.82rem;
-  letter-spacing: 1px;
-  animation: copied-fade-in 0.15s ease-out;
-}
-
-@keyframes copied-fade-in {
-  from { opacity: 0; transform: translateY(-2px); }
-  to   { opacity: 1; transform: translateY(0); }
+  &.is-copied {
+    color: #80c080;
+    border-color: #406040;
+    background: #1e2a1e;
+  }
 }
 
 // ── Reset button ─────────────────────────────────────────────────────────────
@@ -77,7 +72,6 @@
   cursor: pointer;
   border-radius: $radius-md;
   transition: background 0.15s;
-  margin-bottom: 0.7rem;
   &:hover { background: #362222; }
 }
 
