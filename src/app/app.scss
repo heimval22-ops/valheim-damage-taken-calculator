@@ -23,8 +23,44 @@
 }
 
 .form-reset-row {
-  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.6rem;
   margin-bottom: 0.6rem;
+}
+
+// ── Share link button ─────────────────────────────────────────────────────
+
+.share-link-btn {
+  background: $color-bg-section;
+  color: $color-gold-dark;
+  border: 1px solid $color-gold-darker;
+  padding: 0.65rem 1.4rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: $radius-md;
+  transition: background 0.15s, color 0.15s;
+
+  &:hover {
+    background: $color-bg-btn;
+    color: $color-gold;
+  }
+}
+
+.copied-feedback {
+  color: #80c080;
+  font-size: 0.82rem;
+  letter-spacing: 1px;
+  animation: copied-fade-in 0.15s ease-out;
+}
+
+@keyframes copied-fade-in {
+  from { opacity: 0; transform: translateY(-2px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 // ── Reset button ─────────────────────────────────────────────────────────────
@@ -171,6 +207,15 @@
 
 @media (max-width: $bp-mobile) {
   .form-grid { grid-template-columns: 1fr; }
+
+  .form-reset-row { flex-wrap: wrap; }
+
+  .share-link-btn {
+    flex: 1 1 auto;
+    padding: 0.85rem 1rem;
+    font-size: 0.85rem;
+    touch-action: manipulation;
+  }
 
   .calc-summary { padding: 0.6rem 0.8rem; }
 
