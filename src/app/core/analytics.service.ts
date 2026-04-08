@@ -154,6 +154,20 @@ export class AnalyticsService {
       scenario_key: params.scenarioKey,
     });
   }
+
+  /**
+   * Track when the user copies a shareable calculation link to clipboard.
+   */
+  trackShareLinkCopied(): void {
+    this.sendEvent('share_link_copied');
+  }
+
+  /**
+   * Track when a user arrives via a shared calculation link (?s=… parameter).
+   */
+  trackShareLinkLoaded(): void {
+    this.sendEvent('share_link_loaded');
+  }
 }
 
 

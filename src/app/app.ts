@@ -4,6 +4,7 @@ import { FormStateService } from './core/form-state.service';
 import { DamageCalculatorService } from './core/damage-calculator.service';
 import { HitSimulatorService } from './core/hit-simulator.service';
 import { AnalyticsService } from './core/analytics.service';
+import { ShareLinkService } from './core/share-link.service';
 import { CalculationResult, FormState, RangeDamageResult } from './core/models';
 import { getPercentileRng } from './core/damage-calculator';
 
@@ -36,6 +37,7 @@ export class App implements OnInit {
   private readonly damageCalculatorService = inject(DamageCalculatorService);
   private readonly hitSimulatorService = inject(HitSimulatorService);
   private readonly analyticsService = inject(AnalyticsService);
+  private readonly shareLinkService = inject(ShareLinkService);
 
   readonly isDevMode = isDevMode();
   readonly activeTab = signal<ActiveTab>('simulator');
@@ -44,6 +46,7 @@ export class App implements OnInit {
   readonly calculationFormState = signal<FormState | null>(null);
   readonly calculationError = signal<string | null>(null);
   readonly riskFactor = signal<number>(this.formStateService.state().riskFactor);
+  readonly isShareLinkCopied = signal(false);
   private previousDifficulty = this.formStateService.state().difficulty;
 
   constructor() {
@@ -58,7 +61,28 @@ export class App implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadFromShareLink();
     this.hitSimulatorService.init(this.formStateService.state().maxHealth);
+  }
+
+  private loadFromShareLink(): void {
+    const searchParams = new URLSearchParams(window.location.search);
+    const shareParam = searchParams.get('s');
+    if (!shareParam) return;
+
+    const parsed = this.shareLinkService.parseShareParam(shareParam);
+    if (!parsed) return;
+
+    this.formStateService.load(parsed.formState);
+    this.riskFactor.set(parsed.riskFactor);
+
+    // Strip the query string so refreshing doesn't fight with localStorage saves
+    window.history.replaceState({}, '', window.location.pathname);
+
+    // Auto-hit and switch to the Hit Analyzer tab so the recipient sees results immediately
+    this.onHit();
+    this.switchTab('hit-analyzer');
+    this.analyticsService.trackShareLinkLoaded();
   }
 
   switchTab(tab: ActiveTab): void {
@@ -133,5 +157,17 @@ export class App implements OnInit {
     const riskFactorValue = Number.isFinite(value) && value >= 0 && value <= 100 ? value : 0;
     this.riskFactor.set(riskFactorValue);
     this.formStateService.patch({ riskFactor: riskFactorValue });
+  }
+
+  async onCopyShareLink(): Promise<void> {
+    const formState = this.formStateService.snapshot();
+    const shareUrl = this.shareLinkService.buildShareUrl(formState, this.riskFactor());
+    const wasCopied = await this.shareLinkService.copyToClipboard(shareUrl);
+
+    if (wasCopied) {
+      this.isShareLinkCopied.set(true);
+      this.analyticsService.trackShareLinkCopied();
+      setTimeout(() => this.isShareLinkCopied.set(false), 1500);
+    }
   }
 }

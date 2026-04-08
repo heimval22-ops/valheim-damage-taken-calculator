@@ -11,6 +11,9 @@
   <app-player-defense-form />
 </div>
 <div class="form-reset-row">
+  <button type="button" class="share-link-btn" [class.is-copied]="isShareLinkCopied()" (click)="onCopyShareLink()">
+    @if (isShareLinkCopied()) { ✓ Copied! } @else { 🔗 Copy }
+  </button>
   <button type="button" id="resetBtn" (click)="onReset()">Reset</button>
 </div>
 <!-- ── Tab Navigation ── -->

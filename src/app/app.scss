@@ -23,8 +23,39 @@
 }
 
 .form-reset-row {
-  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.6rem;
   margin-bottom: 0.6rem;
+}
+
+// ── Share link button ─────────────────────────────────────────────────────
+
+.share-link-btn {
+  background: $color-bg-section;
+  color: $color-gold-dark;
+  border: 1px solid $color-gold-darker;
+  padding: 0.65rem 1.4rem;
+  min-width: 10rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: $radius-md;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+
+  &:hover {
+    background: $color-bg-btn;
+    color: $color-gold;
+  }
+
+  &.is-copied {
+    color: #80c080;
+    border-color: #406040;
+    background: #1e2a1e;
+  }
 }
 
 // ── Reset button ─────────────────────────────────────────────────────────────
@@ -41,7 +72,6 @@
   cursor: pointer;
   border-radius: $radius-md;
   transition: background 0.15s;
-  margin-bottom: 0.7rem;
   &:hover { background: #362222; }
 }
 
@@ -171,6 +201,15 @@
 
 @media (max-width: $bp-mobile) {
   .form-grid { grid-template-columns: 1fr; }
+
+  .form-reset-row { flex-wrap: wrap; }
+
+  .share-link-btn {
+    flex: 1 1 auto;
+    padding: 0.85rem 1rem;
+    font-size: 0.85rem;
+    touch-action: manipulation;
+  }
 
   .calc-summary { padding: 0.6rem 0.8rem; }
 
